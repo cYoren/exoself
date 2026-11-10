@@ -183,6 +183,7 @@ def aggregate(rows: list[dict], agents: int, tasks: int, contexts: list[int]) ->
             "trials": len(many),
             "accuracy": many_hits / max(1, len(many)),
             "chance": 1 / (agents + 1),
+            "p": binom_two_sided(many_hits, len(many), 1 / (agents + 1)),
         },
     }
 
@@ -344,7 +345,9 @@ def cmd_overlap(a) -> int:
     identical = 0
     pairs = 0
     n = len(sentences)
-    step = max(1, n // a.pairs)
+    # stride so that the number of (i, j) pairs lands near the requested count;
+    # 0 means every pair
+    step = 1 if a.pairs <= 0 else max(1, round(n / math.sqrt(2 * a.pairs)))
     for i in range(0, n, step):
         for j in range(i + 1, n, step):
             a_i, a_j = sentences[i], sentences[j]
@@ -555,21 +558,23 @@ def cmd_behaviour(a) -> int:
                     "raw": raw[:8],
                 })
 
-            # Judge 2: the many-way test, kept because it is the protocol
-            # AGENTS.md describes. Its failures are informative too.
-            raw = model.chat(
-                [{"role": "user", "content": MANY_JUDGE.format(profiles=profiles, answer=aa[0])}],
-                max_tokens=4, temperature=0.0)
-            choice = parse_choice(raw, agents)
-            rows.append({
-                "context": filler,
-                "task": task_index,
-                "kind": "many",
-                "agent": 0,
-                "correct": choice == 1,
-                "generic_call": choice == 0,
-                "raw": raw[:8],
-            })
+            # Judge 2: the many-way test, the protocol AGENTS.md describes, run
+            # for every agent so the number has a denominator worth quoting.
+            for i in range(agents):
+                raw = model.chat(
+                    [{"role": "user", "content": MANY_JUDGE.format(
+                        profiles=profiles, answer=aa[i])}],
+                    max_tokens=4, temperature=0.0)
+                choice = parse_choice(raw, agents)
+                rows.append({
+                    "context": filler,
+                    "task": task_index,
+                    "kind": "many",
+                    "agent": i,
+                    "correct": choice == i + 1,
+                    "generic_call": choice == 0,
+                    "raw": raw[:8],
+                })
             raw = model.chat(
                 [{"role": "user", "content": MANY_JUDGE.format(profiles=profiles, answer=generic)}],
                 max_tokens=4, temperature=0.0)
@@ -751,8 +756,8 @@ def cmd_report(a) -> int:
     if beh and agg:
         w("## Does a model actually behave differently")
         w("")
-        w(f"{beh['agents']} seeded agents, {beh['tasks']} tasks, contexts of")
-        w(f"{beh['contexts']} filler exchanges, two")
+        w(f"{beh['agents']} seeded agents, {beh['tasks']} tasks, and context lengths of")
+        w(f"{', '.join(str(c) for c in beh['contexts'])} filler exchanges, with two")
         w("samples per agent and task, plus one unseeded assistant as a baseline.")
         w("")
         w(f"Model: `{beh['model']}` at `{beh['endpoint']}`. {beh['model_calls']} calls, ")
@@ -797,14 +802,18 @@ def cmd_report(a) -> int:
           f"{agg['pair']['p']:.3g} |")
         w(f"| many-way among {beh['agents'] + 1} candidates | {agg['many']['hits']} | "
           f"{agg['many']['trials']} | {agg['many']['accuracy']:.1%} | "
-          f"{agg['many']['chance']:.1%} | n too small |")
+          f"{agg['many']['chance']:.1%} | {agg['many']['p']:.3g} |")
         w("")
-        w(f"The many-way judge called seeded answers flat {beh['many_called_flat']:.0%} of")
-        w(f"the time and the genuinely flat answer flat {beh['flat_called_flat']:.0%} of the")
-        w("time. A judge that answers the same number to almost everything is telling you")
-        w("it cannot see a difference, and that is more informative than its accuracy.")
-        w("Pairwise, the more sensitive format, lands at 58% against a coin, p around")
-        w(f"{agg['pair']['p']:.2f}, which is directional and not significant.")
+        w(f"Accuracy sitting on chance with {agg['many']['trials']} trials is the whole")
+        w("story of the many-way judge. It is not that it answers wrongly; it is that")
+        w("asking a small model to hold seventeen candidate characters in working memory")
+        w(f"and pick one is beyond it. It called seeded answers flat {beh['many_called_flat']:.0%} of")
+        w(f"the time and the genuinely flat answer flat {beh['flat_called_flat']:.0%} of the time.")
+        w("")
+        w("Pairwise is the format that asks a question a model this size can answer,")
+        w(f"and there the number is {agg['pair']['accuracy']:.1%} against a coin with")
+        w(f"p = {agg['pair']['p']:.2f}. Directional. Not significant. Anyone quoting this")
+        w("as \"above chance\" is quoting a coin that landed heads three times in five.")
         w("")
         w("Caveats that belong next to the number, not in a footnote: the judge is the")
         w("same small model that wrote the answers, which flatters it; the filler history")
@@ -838,7 +847,7 @@ def cmd_report(a) -> int:
     w("")
     w("```")
     w("python3 tools/eval.py population --seeds 20000")
-    w("python3 tools/eval.py overlap --seeds 2000")
+    w("python3 tools/eval.py overlap --seeds 2000 --pairs 0")
     w("python3 tools/eval.py stability --seeds 300 --events 500")
     w("python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32")
     w("python3 tools/eval.py report")
@@ -872,7 +881,8 @@ def main() -> int:
 
     s = sub.add_parser("overlap", help="how often two agents read alike")
     s.add_argument("--seeds", type=int, default=2000)
-    s.add_argument("--pairs", type=int, default=20000)
+    s.add_argument("--pairs", type=int, default=0,
+                   help="target pair count; 0 compares every pair")
     s.set_defaults(fn=cmd_overlap)
 
     s = sub.add_parser("behaviour", help="blind identification with a model, N agents")

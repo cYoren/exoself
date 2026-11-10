@@ -131,13 +131,14 @@ Read these before building on this.
 2. **"More like people" is measured now, and the answer is narrow.** See
    [`eval/REPORT.md`](eval/REPORT.md). With a local three billion parameter
    model, sixteen seeded agents were no more like themselves than like a
-   stranger on ordinary short tasks, 10% nearest-neighbour against a 6% chance,
-   p = 0.22. On a task that asks how they like to work, the same test separates
-   them cleanly, 56% against the same 6% chance, p = 2e-13. A blind pairwise
-   judge that is the same small model lands at 58%, p = 0.08, which is
-   directional and not significant. So: a temperament reaches the output when
-   manner is what is being measured, and does not otherwise. That is a smaller
-   claim than the project's name and it is the one the data supports.
+   stranger on ordinary short tasks: 10.4% and 4.2% nearest-neighbour against a
+   6.25% chance, p = 0.22 and 0.77. On a task that asks how they like to work,
+   the same test separates them cleanly: 70.8% against the same 6.25%, p =
+   2e-13. A blind pairwise judge that is the same small model lands at 57.6%,
+   p = 0.08, directional and not significant; asked to pick among seventeen
+   candidates it is exactly at chance. So: a temperament reaches the output
+   when manner is what is being measured, and does not otherwise. That is a
+   smaller claim than the project's name and it is the one the data supports.
 3. **The randomness cannot be policed locally.** An operator can delete the
    certificate and draw again. The spec defines a beacon-bound mode that makes
    the draw auditable, but grinding is still possible without a public log.
@@ -149,9 +150,12 @@ Read these before building on this.
    shape of wanting.
 6. **The trait space is one author's judgment.** The loadings are not fitted
    to any dataset. The content is English and culturally narrow.
-7. **Host integration is untested.** The `soul` renderer emits a generic
-   Markdown persona file. It has not been verified inside Hermes, OpenClaw or
-   any other host.
+7. **Host integration is verified in one host, protocol-level elsewhere.** The
+   MCP server was driven end to end inside pi (`pi mcp list` reports
+   `connected, 4 tools`) and by `tools/mcp_selftest.py`, which speaks the wire
+   protocol with no SDK. Hermes and OpenClaw have not been run against it here;
+   they get the same stdio JSON-RPC, so a failure there is their config, not the
+   temperament.
 
 The most defensible use today is not "a more human assistant". It is
 population diversity: many agents working on the same problem with decorrelated
@@ -162,8 +166,10 @@ styles of attack.
 1. ~~Distinguishability and stability eval.~~ Done, and it cut the claim down:
    `eval/REPORT.md`. The open part is a judge from a different family, longer
    tasks, and a bigger model.
-2. Second implementation in another language, passing `spec/vectors.json`.
-3. Verified host adapters.
+2. ~~Second implementation in another language.~~ Done: `rust/`, byte-identical
+   to the reference over 120 seeds.
+3. Verified host adapters. One host done (pi), the protocol covered by a
+   selftest; the rest is other people's config.
 4. Public commitment log for level 1 attestation.
 5. A semantic development proposal that survives the constraints in
    `AGENTS.md`.

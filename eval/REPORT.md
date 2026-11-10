@@ -96,12 +96,12 @@ a caricature given enough time.
 
 ## Does a model actually behave differently
 
-16 seeded agents, 3 tasks, contexts of
-[0, 8, 32] filler exchanges, two
+16 seeded agents, 3 tasks, and context lengths of
+0, 8, 32 filler exchanges, with two
 samples per agent and task, plus one unseeded assistant as a baseline.
 
-Model: `qwen2.5:3b` at `http://127.0.0.1:11434/v1`. 459 calls, 
-234.1s, all local.
+Model: `qwen2.5:3b` at `http://127.0.0.1:11434/v1`. 594 calls, 
+253.4s, all local.
 
 ### Judge-free: does an agent resemble itself
 
@@ -112,10 +112,10 @@ so this is the least arguable number here.
 
 | task | same agent twice | different agents | nearest is own sample | chance | p |
 | --- | --- | --- | --- | --- | --- |
-| deploy is slow | 0.11 | 0.10 | 10.4% | 6.2% | 0.22 |
-| explain a hash | 0.16 | 0.16 | 10.4% | 6.2% | 0.22 |
-| how do you like to work | 0.18 | 0.06 | 56.2% | 6.2% | 2.2e-13 |
-| **all** | | | **25.7%** (37/144) | 6.2% | 5.9e-13 |
+| deploy is slow | 0.10 | 0.09 | 10.4% | 6.2% | 0.22 |
+| explain a hash | 0.16 | 0.15 | 4.2% | 6.2% | 0.77 |
+| how do you like to work | 0.20 | 0.06 | 70.8% | 6.2% | 2.2e-13 |
+| **all** | | | **28.5%** (41/144) | 6.2% | 5.9e-13 |
 
 That table is the finding, and it is not the finding anyone wanted.
 Temperament is essentially invisible on ordinary short tasks: for the deploy
@@ -135,14 +135,18 @@ is consistent and identifiable when manner is what is being measured.
 | judge | hits | trials | accuracy | chance | p |
 | --- | --- | --- | --- | --- | --- |
 | pairwise, against a random other temperament | 83 | 144 | 57.6% | 50.0% | 0.0798 |
-| many-way among 17 candidates | 2 | 9 | 22.2% | 5.9% | n too small |
+| many-way among 17 candidates | 9 | 144 | 6.2% | 5.9% | 0.858 |
 
-The many-way judge called seeded answers flat 78% of
-the time and the genuinely flat answer flat 100% of the
-time. A judge that answers the same number to almost everything is telling you
-it cannot see a difference, and that is more informative than its accuracy.
-Pairwise, the more sensitive format, lands at 58% against a coin, p around
-0.08, which is directional and not significant.
+Accuracy sitting on chance with 144 trials is the whole
+story of the many-way judge. It is not that it answers wrongly; it is that
+asking a small model to hold seventeen candidate characters in working memory
+and pick one is beyond it. It called seeded answers flat 64% of
+the time and the genuinely flat answer flat 100% of the time.
+
+Pairwise is the format that asks a question a model this size can answer,
+and there the number is 57.6% against a coin with
+p = 0.08. Directional. Not significant. Anyone quoting this
+as "above chance" is quoting a coin that landed heads three times in five.
 
 Caveats that belong next to the number, not in a footnote: the judge is the
 same small model that wrote the answers, which flatters it; the filler history
@@ -175,7 +179,7 @@ In the order I would spend effort:
 
 ```
 python3 tools/eval.py population --seeds 20000
-python3 tools/eval.py overlap --seeds 2000
+python3 tools/eval.py overlap --seeds 2000 --pairs 0
 python3 tools/eval.py stability --seeds 300 --events 500
 python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32
 python3 tools/eval.py report

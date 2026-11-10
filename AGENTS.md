@@ -128,9 +128,10 @@ a spec version bump.
 
 1. **Evaluation.** Built: `tools/eval.py`, results in `eval/REPORT.md`. The
    first run says the temperament is invisible on ordinary short tasks with a
-   local 3B model (10% nearest-neighbour against 6% chance, p = 0.22) and clear
-   on a working-style question (56%, p = 2e-13), with a pairwise judge at 58%,
-   p = 0.08 using the same model that wrote the answers. What is still open,
+   local 3B model (10.4% and 4.2% nearest-neighbour against 6.25% chance,
+   p = 0.22 and 0.77) and clear on a working-style question (70.8%, p = 2e-13),
+   with a pairwise judge at 57.6%, p = 0.08, and a seventeen-way judge exactly
+   at chance. The judge is the same model that wrote the answers. What is still open,
    and what a contributor should do next: a judge from a different family and a
    bigger model, tasks with room for manner (reviews, refusals, disagreements),
    and the same protocol over a real multi-turn conversation rather than
