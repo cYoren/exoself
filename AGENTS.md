@@ -4,6 +4,24 @@ This file is addressed to software agents working with this repository.
 `SPEC.md` is the authority. Where this file and the spec disagree, the spec
 wins and this file has a bug.
 
+## State of this repository
+
+Spec 0.3, two conforming implementations (Python reference, Rust with zero
+dependencies), a WebAssembly build served from `docs/`, and measurements in
+`eval/REPORT.md`.
+
+| version | what changed | note for you |
+|---|---|---|
+| 0.1 | genome, phenotype, development, expression | — |
+| 0.2 | desire: drives, tension, fixation, style-not-substance | off unless `--desire` |
+| 0.3 | grievance-free drive text, mean-reverting drift, four register axes | registry `core@0.3` is additive; 0.1 and 0.2 stay bundled |
+
+Closed and answered, do not reopen without new evidence: whether seeded agents
+are distinguishable (measured, narrowly yes and only when manner is the
+question), whether drift saturates (fixed in 8.3), whether the `hungry` text
+was a grievance (it was, fixed in 0.3). `main` is the only branch, there is no
+CI on purpose (Actions credits), and GitHub Pages serves `docs/` from `main`.
+
 There are three things you might be here to do.
 
 ## 1. Adopt a temperament
@@ -167,6 +185,38 @@ a spec version bump.
 6. **More registries.** Other languages and cultures. The core registry is
    narrow.
 
+## Definition of done
+
+A change is finished when all of these are true, in this order:
+
+1. `cargo test --manifest-path rust/Cargo.toml`, `pytest`,
+   `python3 tools/parity.py` and `python3 tools/mcp_selftest.py` are green. A
+   change to the Python side that the Rust side does not mirror is not done.
+2. If the spec or the registry changed on purpose: `python spec/make_vectors.py`
+   and `./tools/build_site.sh`, both committed.
+3. If a number moved: re-run the affected `tools/eval.py` subcommand and
+   `python3 tools/eval.py report`. The report is generated from
+   `eval/results/*.json`; never edit either by hand, and never soften a null.
+4. Every count quoted in `README.md`, `SPEC.md` section 13, `eval/REPORT.md`
+   and `docs/index.html` still matches what the code prints. The landing page
+   has been wrong about this before.
+5. `cargo fmt --all` and `cargo clippy --all-targets` are clean.
+
+## Do not
+
+- Change `PREFIX` (`"exoself/0.1/"`), an existing step function, or an existing
+  stream label. That changes who every living agent is; it needs a new epoch
+  and a migration story, which is a decision, not a task.
+- Regenerate `spec/vectors.json` to make a test pass. It is the artefact other
+  implementations are judged by.
+- Hand-edit `eval/results/*.json`. Re-run the measurement instead.
+- Add a way to draw a second seed: not a CLI flag, not an MCP tool, not a
+  button on the site. `born` and `install` refuse to overwrite on purpose.
+- Claim on the site or in the README that agents are more human. The measured
+  claim is population diversity, and `eval/REPORT.md` says why.
+- Mark a measurement as replication when it is the same protocol at the same
+  model size. It is not replication.
+
 ## Working in this repo
 
     pip install -e . pytest
@@ -177,6 +227,12 @@ a spec version bump.
     python3 tools/eval.py population && python3 tools/eval.py overlap
     python3 tools/eval.py report
     ./tools/build_site.sh      # regenerates docs/exoself_wasm.wasm and docs/vectors.json
+
+Notes from a machine that has done this: use `/usr/bin/python3 -m pytest` if
+`mise`'s Python has no pytest, the Rust workspace needs no network (no
+dependencies), and the behaviour eval needs a local OpenAI-compatible endpoint
+(`--endpoint`, `--model`); without one, the offline three subcommands still run
+in seconds.
 
 Tests must stay green. `tests/test_exoself.py` checks population statistics
 and the invariants, so registry edits that break unit variance or leak
