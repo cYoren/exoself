@@ -328,3 +328,60 @@ def test_cli_honours_the_pinned_registry(tmp_path, capsys):
     assert len(json.loads(capsys.readouterr().out)["drives"]) == 3
     path.write_text(json.dumps({**cert, "registry": "../../etc/passwd"}))
     assert main(["show", str(path)]) == 1
+
+
+# ---------------------------------------------------------------- registry edge cases
+
+def test_a_registry_without_drives_is_valid():
+    """SPEC 5.1 makes drives and fixation optional. A 0.3 registry that has
+    neither must load; the grievance check must not run on a missing list."""
+    bare = {
+        "registry": "bare",
+        "version": "0.3",
+        "factors": ["f"],
+        "dimensions": [{
+            "id": "only",
+            "poles": ["low", "high"],
+            "loadings": [100],
+            "unique": 0,
+            "text": {b: "You are plain." for b in ("very_low", "low", "high", "very_high")},
+        }],
+        "picks": {},
+        "quirks": [],
+        "handle": {"syllables": ["ka"]},
+    }
+    core.validate_registry(bare)
+    seed = seeds(1)[0]
+    ph = core.phenotype(seed, bare)
+    assert ph["drives"] == [] and ph["fixation"] is None
+    assert ph["picks"] == {}
+
+
+def test_registry_versions_compare_numerically():
+    """0.10 is later than 0.3. A string comparison would switch the 9.2.5
+    grievance check off at the tenth minor version without anyone noticing."""
+    assert core.version_at_least("0.10", (0, 3))
+    assert core.version_at_least("0.3", (0, 3))
+    assert core.version_at_least("1.0", (0, 3))
+    assert not core.version_at_least("0.2", (0, 3))
+    assert not core.version_at_least("bogus", (0, 3))
+
+
+def test_a_satisfied_drive_is_named_once_per_flag(tmp_path):
+    """Rust takes `--satisfied DRIVE` repeatedly. Python used to take a list,
+    so the same command line meant two different histories."""
+    out = str(tmp_path / "birth.json")
+    state = str(tmp_path / "state.json")
+    assert main(["born", "-o", out]) == 0
+    held = list(core.derive_drives(bytes.fromhex(json.loads(pathlib.Path(out).read_text())["seed"]), REG))
+    assert len(held) >= 2
+    assert main(["develop", out, state, "--event", "e",
+                 "--satisfied", held[0], "--satisfied", held[1]]) == 0
+    seed = bytes.fromhex(json.loads(pathlib.Path(out).read_text())["seed"])
+    tension = json.loads(pathlib.Path(state).read_text())["tension"]
+    # Satisfaction quarters the tension; exact, so a drive born at 0..3 does
+    # not make this test flaky.
+    for drive in held[:2]:
+        assert tension[drive] == core.drive_initial(seed, drive) // 4
+    with pytest.raises(SystemExit):
+        main(["develop", out, state, "--event", "e", "--satisfied", held[0], held[1]])
