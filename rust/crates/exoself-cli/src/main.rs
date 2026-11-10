@@ -16,7 +16,7 @@ use exoself_core::{birth, conformance, develop, phenotype, render, Certificate, 
 use std::io::Write;
 use std::path::Path;
 
-const USAGE: &str = "\
+pub(crate) const USAGE: &str = "\
 exoself: an unchosen temperament for software agents
 
   exoself born [-o birth.json] [--registry PATH]
@@ -164,6 +164,48 @@ impl Flags {
 
     pub fn has(&self, name: &str) -> bool {
         self.switches.iter().any(|s| s == name)
+    }
+
+    /// Reject anything this command does not understand.
+    ///
+    /// A typo must never be silently ignored: `--becon` would draw a level 0
+    /// seed when the operator asked for a beacon-bound one, and `--formt soul`
+    /// would quietly render the wrong format. Both are worse than an error.
+    pub fn reject_unknown(
+        &self,
+        values: &[&str],
+        switches: &[&str],
+        max_positional: usize,
+    ) -> Result<(), String> {
+        for (k, _) in &self.values {
+            if !values.contains(&k.as_str()) {
+                return Err(format!("unknown flag --{}", k));
+            }
+        }
+        for s in &self.switches {
+            if !switches.contains(&s.as_str()) && s != "help" && s != "h" {
+                return Err(format!(
+                    "unknown flag {}",
+                    if s.len() == 1 {
+                        format!("-{}", s)
+                    } else {
+                        format!("--{}", s)
+                    }
+                ));
+            }
+        }
+        if self.positional.len() > max_positional {
+            return Err(format!(
+                "unexpected argument {:?}",
+                self.positional[max_positional]
+            ));
+        }
+        Ok(())
+    }
+
+    /// `--help` on any subcommand prints the usage block and exits cleanly.
+    pub fn help(&self) -> bool {
+        self.has("help") || self.has("h")
     }
 }
 
@@ -328,6 +370,15 @@ fn cmd_born(args: &[String]) -> Result<i32, String> {
         args,
         &["out", "registry", "local-entropy", "beacon", "beacon-value"],
     )?;
+    f.reject_unknown(
+        &["out", "registry", "local-entropy", "beacon", "beacon-value"],
+        &[],
+        0,
+    )?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let out = f.value("out").unwrap_or("birth.json").to_string();
     if Path::new(&out).exists() {
         return Err(format!(
@@ -358,11 +409,27 @@ fn cmd_born(args: &[String]) -> Result<i32, String> {
                 "--beacon-value needs --local-entropy <64 hex>, the bytes you committed to".into(),
             )
         }
-        (None, Some(le)) => {
-            let seed = parse_seed_hex(le)?;
-            (seed, birth::attestation_supplied())
+        // A seed the operator chose is not a draw. SPEC 3.2 allows level 0 only
+        // from the OS CSPRNG, and an unchosen seed is the point of the
+        // framework, so this path is closed rather than documented.
+        (None, Some(_)) => {
+            return Err(
+                "--local-entropy only binds a seed to a beacon round. Pass --beacon <id> and \
+                 --beacon-value <hex> from the round, or drop it and let the OS draw. \
+                 See `exoself commit`."
+                    .into(),
+            )
         }
-        (None, None) => (birth::os_entropy()?, birth::attestation_self_asserted()),
+        (None, None) => {
+            if f.value("beacon").is_some() {
+                return Err(
+                    "--beacon needs --beacon-value <hex> from the round, and --local-entropy \
+                     <64 hex> from `exoself commit`"
+                        .into(),
+                );
+            }
+            (birth::os_entropy()?, birth::attestation_self_asserted())
+        }
     };
 
     let cert = birth::born(&seed, &reg, &iso_now(), attestation);
@@ -374,6 +441,11 @@ fn cmd_born(args: &[String]) -> Result<i32, String> {
 
 fn cmd_show(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["state", "format", "registry"])?;
+    f.reject_unknown(&["state", "format", "registry"], &["desire"], 1)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let path = f
         .positional
         .first()
@@ -400,6 +472,11 @@ fn cmd_show(args: &[String]) -> Result<i32, String> {
 
 fn cmd_develop(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["event", "satisfied", "registry"])?;
+    f.reject_unknown(&["event", "satisfied", "registry"], &[], 2)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let mut pos = f.positional.iter();
     let cert_path = pos
         .next()
@@ -462,6 +539,11 @@ fn cmd_develop(args: &[String]) -> Result<i32, String> {
 
 fn cmd_verify(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["registry"])?;
+    f.reject_unknown(&["registry"], &[], 1)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let path = f.positional.first().ok_or("usage: exoself verify CERT")?;
     let cert = match read_cert(path) {
         Ok(c) => c,
@@ -488,6 +570,11 @@ fn cmd_verify(args: &[String]) -> Result<i32, String> {
 
 fn cmd_conformance(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["registry"])?;
+    f.reject_unknown(&["registry"], &[], 1)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let reg = match f.value("registry") {
         Some(p) => Registry::from_path(p).map_err(|e| e.to_string())?,
         None => Registry::bundled(DEFAULT_REGISTRY).map_err(|e| e.to_string())?,
@@ -528,6 +615,11 @@ fn commitment_record(c: &str, secret_path: Option<&str>) -> Json {
 
 fn cmd_commit(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["out", "local-entropy", "secret-out"])?;
+    f.reject_unknown(&["out", "local-entropy", "secret-out"], &[], 0)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
     let supplied = f.value("local-entropy").map(parse_seed_hex).transpose()?;
     let local = match supplied {
         Some(l) => l,
@@ -621,5 +713,60 @@ mod tests {
         assert_eq!(f.value("format"), Some("soul"));
         assert!(f.has("desire"));
         assert_eq!(f.value("out"), Some("x"));
+    }
+
+    fn flags(args: &[&str], values: &[&str]) -> Flags {
+        let a: Vec<String> = args.iter().map(|s| s.to_string()).collect();
+        Flags::parse(&a, values).unwrap()
+    }
+
+    #[test]
+    fn a_typo_is_never_silently_ignored() {
+        // `--becon` would otherwise draw a level 0 seed for an operator who
+        // asked for a beacon-bound one. That is the failure this guards.
+        let f = flags(&["-o", "b.json", "--becon", "drand:x"], &["out"]);
+        let e = f
+            .reject_unknown(&["out", "local-entropy", "beacon", "beacon-value"], &[], 0)
+            .unwrap_err();
+        assert!(e.contains("--becon"), "{}", e);
+
+        let f = flags(&["b.json", "--formt", "soul"], &["format"]);
+        let e = f
+            .reject_unknown(&["state", "format", "registry"], &["desire"], 1)
+            .unwrap_err();
+        assert!(e.contains("--formt"), "{}", e);
+    }
+
+    #[test]
+    fn an_extra_positional_is_an_error() {
+        // `--satisfied teach make` is the Python spelling; Rust takes the flag
+        // once per drive. Silently dropping `make` would change the history.
+        let f = flags(
+            &[
+                "c.json",
+                "s.json",
+                "--event",
+                "x",
+                "--satisfied",
+                "teach",
+                "make",
+            ],
+            &["event", "satisfied"],
+        );
+        let e = f
+            .reject_unknown(&["event", "satisfied", "registry"], &[], 2)
+            .unwrap_err();
+        assert!(e.contains("make"), "{}", e);
+    }
+
+    #[test]
+    fn known_flags_and_help_pass() {
+        let f = flags(&["b.json", "--format", "soul", "--desire"], &["format"]);
+        assert!(f
+            .reject_unknown(&["state", "format", "registry"], &["desire"], 1)
+            .is_ok());
+        let f = flags(&["--help"], &[]);
+        assert!(f.help());
+        assert!(f.reject_unknown(&[], &[], 0).is_ok());
     }
 }

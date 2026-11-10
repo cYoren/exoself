@@ -313,6 +313,11 @@ fn respond_error(out: &mut impl Write, id: Json, code: i64, message: &str) -> Re
 
 pub fn cmd_mcp(args: &[String]) -> Result<i32, String> {
     let f = crate::Flags::parse(args, &["cert", "state"])?;
+    f.reject_unknown(&["cert", "state"], &["desire"], 0)?;
+    if f.help() {
+        print!("{}", crate::USAGE);
+        return Ok(0);
+    }
     let cert_path = f
         .value("cert")
         .map(|s| s.to_string())
