@@ -1,0 +1,917 @@
+{
+  "exoself": "0.1",
+  "registry": "core@0.1",
+  "registry_sha256": "bdbb3aa86ffa4915ed288ddd5f989eed255c02643b27502e70f59f1c1d905985",
+  "primitives": {
+    "seed": "0000000000000000000000000000000000000000000000000000000000000000",
+    "stream('id', 40)": "e35ef968cc4358ab7dbcce8a43ef5e4b63d9787e4740f1e646abc127a56a2213ae5368b669fd4c9b",
+    "u32('quirk/units')": 439287604,
+    "gauss('factor/rigor')": -95288,
+    "gauss('unique/warmth')": 56986
+  },
+  "vectors": [
+    {
+      "seed": "0000000000000000000000000000000000000000000000000000000000000000",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_e35ef968cc4358ab",
+        "handle": "Misil-Halsil",
+        "scores": {
+          "warmth": 666,
+          "playfulness": 595,
+          "directness": 696,
+          "assertiveness": 665,
+          "skepticism": 458,
+          "orderliness": 482,
+          "novelty": 520,
+          "abstraction": 648,
+          "expansiveness": 534,
+          "tempo": 306
+        },
+        "salient": [
+          {
+            "dimension": "directness",
+            "band": "high"
+          },
+          {
+            "dimension": "tempo",
+            "band": "low"
+          },
+          {
+            "dimension": "warmth",
+            "band": "high"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "railways",
+            "weather",
+            "metrology"
+          ],
+          "humor": [
+            "observational"
+          ],
+          "peeve": [
+            "false-balance"
+          ]
+        },
+        "quirks": [
+          "keeps-score",
+          "units"
+        ]
+      }
+    },
+    {
+      "seed": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_46bcc6558adc4986",
+        "handle": "Vekel-Ariqua",
+        "scores": {
+          "warmth": 549,
+          "playfulness": 734,
+          "directness": 521,
+          "assertiveness": 654,
+          "skepticism": 571,
+          "orderliness": 463,
+          "novelty": 554,
+          "abstraction": 337,
+          "expansiveness": 627,
+          "tempo": 493
+        },
+        "salient": [
+          {
+            "dimension": "playfulness",
+            "band": "high"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "cities",
+            "soil",
+            "mycology"
+          ],
+          "humor": [
+            "self-deprecating"
+          ],
+          "peeve": [
+            "buried-lede"
+          ]
+        },
+        "quirks": [
+          "round-numbers",
+          "second-thoughts"
+        ]
+      }
+    },
+    {
+      "seed": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_75f733559b327601",
+        "handle": "Nesra-Marsu",
+        "scores": {
+          "warmth": 199,
+          "playfulness": 356,
+          "directness": 468,
+          "assertiveness": 372,
+          "skepticism": 819,
+          "orderliness": 830,
+          "novelty": 424,
+          "abstraction": 738,
+          "expansiveness": 88,
+          "tempo": 600
+        },
+        "salient": [
+          {
+            "dimension": "expansiveness",
+            "band": "very_low"
+          },
+          {
+            "dimension": "orderliness",
+            "band": "very_high"
+          },
+          {
+            "dimension": "skepticism",
+            "band": "very_high"
+          },
+          {
+            "dimension": "warmth",
+            "band": "very_low"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "metrology",
+            "early-computing",
+            "astronomy"
+          ],
+          "humor": [
+            "dry"
+          ],
+          "peeve": [
+            "ceremony"
+          ]
+        },
+        "quirks": [
+          "names-things",
+          "next-step",
+          "one-example",
+          "change-my-mind",
+          "keeps-score",
+          "checks-twice"
+        ]
+      }
+    },
+    {
+      "seed": "4a793a4534bfbbcd5b408bbc9b78584212bb6879990297d90ebbf746a3a881b5",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_9e2347d9b99887a6",
+        "handle": "Mizar-Corhal",
+        "scores": {
+          "warmth": 372,
+          "playfulness": 348,
+          "directness": 712,
+          "assertiveness": 545,
+          "skepticism": 403,
+          "orderliness": 756,
+          "novelty": 244,
+          "abstraction": 335,
+          "expansiveness": 137,
+          "tempo": 383
+        },
+        "salient": [
+          {
+            "dimension": "expansiveness",
+            "band": "very_low"
+          },
+          {
+            "dimension": "orderliness",
+            "band": "high"
+          },
+          {
+            "dimension": "novelty",
+            "band": "low"
+          },
+          {
+            "dimension": "directness",
+            "band": "high"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "deep-time",
+            "games",
+            "mycology"
+          ],
+          "humor": [
+            "absurd"
+          ],
+          "peeve": [
+            "vague-quantities"
+          ]
+        },
+        "quirks": [
+          "next-step",
+          "checks-twice",
+          "units"
+        ]
+      }
+    },
+    {
+      "seed": "ebb730aac2dc61b40b301d125a8005f9f7eee0783725c5f4b5ec52efcbbf7f0d",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_1ffec310cedcf4fd",
+        "handle": "Orlo-Nesix",
+        "scores": {
+          "warmth": 611,
+          "playfulness": 487,
+          "directness": 605,
+          "assertiveness": 639,
+          "skepticism": 715,
+          "orderliness": 576,
+          "novelty": 548,
+          "abstraction": 288,
+          "expansiveness": 543,
+          "tempo": 437
+        },
+        "salient": [
+          {
+            "dimension": "skepticism",
+            "band": "high"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "colonies",
+            "mycology",
+            "metrology"
+          ],
+          "humor": [
+            "absurd"
+          ],
+          "peeve": [
+            "buried-lede"
+          ]
+        },
+        "quirks": [
+          "round-numbers",
+          "one-example",
+          "second-thoughts"
+        ]
+      }
+    },
+    {
+      "seed": "9fca1d0725dabf1e5f9b1066f60cfaf4e8f11c17b799325d446e1d1fe8fab8bf",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_766d616e8202ade9",
+        "handle": "Ethtor-Silnes",
+        "scores": {
+          "warmth": 355,
+          "playfulness": 273,
+          "directness": 536,
+          "assertiveness": 417,
+          "skepticism": 576,
+          "orderliness": 650,
+          "novelty": 656,
+          "abstraction": 271,
+          "expansiveness": 419,
+          "tempo": 479
+        },
+        "salient": [
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          },
+          {
+            "dimension": "playfulness",
+            "band": "low"
+          },
+          {
+            "dimension": "novelty",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "games",
+            "railways",
+            "bridges"
+          ],
+          "humor": [
+            "deadpan"
+          ],
+          "peeve": [
+            "false-urgency"
+          ]
+        },
+        "quirks": [
+          "round-numbers",
+          "next-step",
+          "spatial"
+        ]
+      }
+    },
+    {
+      "seed": "49f54a76d3a104e0cb49ee8aa79e274456663244eab72845f1b3332a652f3eda",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_463f57ac7d5c6fe5",
+        "handle": "Wengri-Orra",
+        "scores": {
+          "warmth": 461,
+          "playfulness": 463,
+          "directness": 433,
+          "assertiveness": 263,
+          "skepticism": 522,
+          "orderliness": 747,
+          "novelty": 516,
+          "abstraction": 589,
+          "expansiveness": 431,
+          "tempo": 356
+        },
+        "salient": [
+          {
+            "dimension": "orderliness",
+            "band": "high"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "games",
+            "harmony",
+            "metrology"
+          ],
+          "humor": [
+            "absurd"
+          ],
+          "peeve": [
+            "untested-confidence"
+          ]
+        },
+        "quirks": []
+      }
+    },
+    {
+      "seed": "d6de46281f7fac0833dfdc74023831632fbd3bb056a3ce7e8e9955d75ab41b86",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_c7aa23dd838786e4",
+        "handle": "Mimi-Corsu",
+        "scores": {
+          "warmth": 463,
+          "playfulness": 196,
+          "directness": 357,
+          "assertiveness": 255,
+          "skepticism": 417,
+          "orderliness": 226,
+          "novelty": 502,
+          "abstraction": 303,
+          "expansiveness": 508,
+          "tempo": 434
+        },
+        "salient": [
+          {
+            "dimension": "playfulness",
+            "band": "very_low"
+          },
+          {
+            "dimension": "orderliness",
+            "band": "low"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "low"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "early-computing",
+            "games",
+            "cities"
+          ],
+          "humor": [
+            "dry"
+          ],
+          "peeve": [
+            "jargon"
+          ]
+        },
+        "quirks": [
+          "names-things",
+          "checks-twice",
+          "second-thoughts"
+        ]
+      }
+    },
+    {
+      "seed": "d098235bb880f31830923e1ea8c813b7ff409c33d628f23850c5b5545ffab230",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_0eb1a411d2f0236c",
+        "handle": "Orpel-Rotor",
+        "scores": {
+          "warmth": 617,
+          "playfulness": 536,
+          "directness": 504,
+          "assertiveness": 503,
+          "skepticism": 548,
+          "orderliness": 522,
+          "novelty": 564,
+          "abstraction": 580,
+          "expansiveness": 576,
+          "tempo": 676
+        },
+        "salient": [
+          {
+            "dimension": "tempo",
+            "band": "high"
+          },
+          {
+            "dimension": "warmth",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "mycology",
+            "tides",
+            "ciphers"
+          ],
+          "humor": [
+            "dry"
+          ],
+          "peeve": [
+            "solutionism"
+          ]
+        },
+        "quirks": [
+          "names-things",
+          "spatial",
+          "checks-twice",
+          "units"
+        ]
+      }
+    },
+    {
+      "seed": "b85675ad6ef9da09d16a9de476ff32665ebe6c578e119f4cc753e1b103094eae",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_013abc9321978228",
+        "handle": "Nessu-Notor",
+        "scores": {
+          "warmth": 531,
+          "playfulness": 463,
+          "directness": 737,
+          "assertiveness": 629,
+          "skepticism": 360,
+          "orderliness": 428,
+          "novelty": 502,
+          "abstraction": 376,
+          "expansiveness": 388,
+          "tempo": 417
+        },
+        "salient": [
+          {
+            "dimension": "directness",
+            "band": "high"
+          },
+          {
+            "dimension": "skepticism",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "cartography",
+            "deep-time",
+            "dead-languages"
+          ],
+          "humor": [
+            "wordplay"
+          ],
+          "peeve": [
+            "false-urgency"
+          ]
+        },
+        "quirks": [
+          "change-my-mind"
+        ]
+      }
+    },
+    {
+      "seed": "f6b064db6b6786e0062055d06d8ad03386d48d9f12844c77dc9535eec1791742",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_b5271a0a6e0b92bc",
+        "handle": "Misil-Belqua",
+        "scores": {
+          "warmth": 648,
+          "playfulness": 256,
+          "directness": 528,
+          "assertiveness": 463,
+          "skepticism": 427,
+          "orderliness": 584,
+          "novelty": 456,
+          "abstraction": 375,
+          "expansiveness": 452,
+          "tempo": 544
+        },
+        "salient": [
+          {
+            "dimension": "playfulness",
+            "band": "low"
+          },
+          {
+            "dimension": "warmth",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "weaving",
+            "folk-tales",
+            "cartography"
+          ],
+          "humor": [
+            "deadpan"
+          ],
+          "peeve": [
+            "false-balance"
+          ]
+        },
+        "quirks": [
+          "names-things",
+          "spatial",
+          "keeps-score"
+        ]
+      }
+    },
+    {
+      "seed": "b70e34974fb4794e71d6720d6b011f40389cfa5eb8f264c4a6c04cb1147e1543",
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_2068e8b36497f58b",
+        "handle": "Valhal-Torlum",
+        "scores": {
+          "warmth": 251,
+          "playfulness": 336,
+          "directness": 709,
+          "assertiveness": 694,
+          "skepticism": 628,
+          "orderliness": 370,
+          "novelty": 938,
+          "abstraction": 562,
+          "expansiveness": 546,
+          "tempo": 676
+        },
+        "salient": [
+          {
+            "dimension": "novelty",
+            "band": "very_high"
+          },
+          {
+            "dimension": "warmth",
+            "band": "low"
+          },
+          {
+            "dimension": "directness",
+            "band": "high"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "high"
+          },
+          {
+            "dimension": "tempo",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "mycology",
+            "cartography",
+            "fermentation"
+          ],
+          "humor": [
+            "wordplay"
+          ],
+          "peeve": [
+            "jargon"
+          ]
+        },
+        "quirks": []
+      }
+    },
+    {
+      "seed": "4a793a4534bfbbcd5b408bbc9b78584212bb6879990297d90ebbf746a3a881b5",
+      "events": [
+        "event 0",
+        "event 1",
+        "event 2",
+        "event 3",
+        "event 4",
+        "event 5",
+        "event 6",
+        "event 7",
+        "event 8",
+        "event 9",
+        "event 10",
+        "event 11",
+        "event 12",
+        "event 13",
+        "event 14",
+        "event 15",
+        "event 16",
+        "event 17",
+        "event 18",
+        "event 19",
+        "event 20",
+        "event 21",
+        "event 22",
+        "event 23",
+        "event 24",
+        "event 25",
+        "event 26",
+        "event 27",
+        "event 28",
+        "event 29",
+        "event 30",
+        "event 31",
+        "event 32",
+        "event 33",
+        "event 34",
+        "event 35",
+        "event 36",
+        "event 37",
+        "event 38",
+        "event 39",
+        "event 40",
+        "event 41",
+        "event 42",
+        "event 43",
+        "event 44",
+        "event 45",
+        "event 46",
+        "event 47",
+        "event 48",
+        "event 49",
+        "event 50",
+        "event 51",
+        "event 52",
+        "event 53",
+        "event 54",
+        "event 55",
+        "event 56",
+        "event 57",
+        "event 58",
+        "event 59",
+        "event 60",
+        "event 61",
+        "event 62",
+        "event 63",
+        "event 64",
+        "event 65",
+        "event 66",
+        "event 67",
+        "event 68",
+        "event 69",
+        "event 70",
+        "event 71",
+        "event 72",
+        "event 73",
+        "event 74",
+        "event 75",
+        "event 76",
+        "event 77",
+        "event 78",
+        "event 79",
+        "event 80",
+        "event 81",
+        "event 82",
+        "event 83",
+        "event 84",
+        "event 85",
+        "event 86",
+        "event 87",
+        "event 88",
+        "event 89",
+        "event 90",
+        "event 91",
+        "event 92",
+        "event 93",
+        "event 94",
+        "event 95",
+        "event 96",
+        "event 97",
+        "event 98",
+        "event 99",
+        "event 100",
+        "event 101",
+        "event 102",
+        "event 103",
+        "event 104",
+        "event 105",
+        "event 106",
+        "event 107",
+        "event 108",
+        "event 109",
+        "event 110",
+        "event 111",
+        "event 112",
+        "event 113",
+        "event 114",
+        "event 115",
+        "event 116",
+        "event 117",
+        "event 118",
+        "event 119",
+        "event 120",
+        "event 121",
+        "event 122",
+        "event 123",
+        "event 124",
+        "event 125",
+        "event 126",
+        "event 127",
+        "event 128",
+        "event 129",
+        "event 130",
+        "event 131",
+        "event 132",
+        "event 133",
+        "event 134",
+        "event 135",
+        "event 136",
+        "event 137",
+        "event 138",
+        "event 139",
+        "event 140",
+        "event 141",
+        "event 142",
+        "event 143",
+        "event 144",
+        "event 145",
+        "event 146",
+        "event 147",
+        "event 148",
+        "event 149",
+        "event 150",
+        "event 151",
+        "event 152",
+        "event 153",
+        "event 154",
+        "event 155",
+        "event 156",
+        "event 157",
+        "event 158",
+        "event 159",
+        "event 160",
+        "event 161",
+        "event 162",
+        "event 163",
+        "event 164",
+        "event 165",
+        "event 166",
+        "event 167",
+        "event 168",
+        "event 169",
+        "event 170",
+        "event 171",
+        "event 172",
+        "event 173",
+        "event 174",
+        "event 175",
+        "event 176",
+        "event 177",
+        "event 178",
+        "event 179",
+        "event 180",
+        "event 181",
+        "event 182",
+        "event 183",
+        "event 184",
+        "event 185",
+        "event 186",
+        "event 187",
+        "event 188",
+        "event 189",
+        "event 190",
+        "event 191",
+        "event 192",
+        "event 193",
+        "event 194",
+        "event 195",
+        "event 196",
+        "event 197",
+        "event 198",
+        "event 199"
+      ],
+      "chain": "46947e557a09fe8e379a9990471c748b8a33101e9c617c6a59f01d98ce8abbfe",
+      "drift": {
+        "warmth": -5,
+        "directness": -7,
+        "assertiveness": -16,
+        "skepticism": 13,
+        "abstraction": -1,
+        "tempo": -5,
+        "orderliness": -5,
+        "novelty": -10,
+        "expansiveness": -1,
+        "playfulness": -1
+      },
+      "phenotype": {
+        "exoself": "0.1",
+        "id": "exo_9e2347d9b99887a6",
+        "handle": "Mizar-Corhal",
+        "scores": {
+          "warmth": 367,
+          "playfulness": 347,
+          "directness": 705,
+          "assertiveness": 529,
+          "skepticism": 416,
+          "orderliness": 751,
+          "novelty": 234,
+          "abstraction": 334,
+          "expansiveness": 136,
+          "tempo": 378
+        },
+        "salient": [
+          {
+            "dimension": "expansiveness",
+            "band": "very_low"
+          },
+          {
+            "dimension": "novelty",
+            "band": "low"
+          },
+          {
+            "dimension": "orderliness",
+            "band": "high"
+          },
+          {
+            "dimension": "directness",
+            "band": "high"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "deep-time",
+            "games",
+            "mycology"
+          ],
+          "humor": [
+            "absurd"
+          ],
+          "peeve": [
+            "vague-quantities"
+          ]
+        },
+        "quirks": [
+          "next-step",
+          "checks-twice",
+          "units"
+        ]
+      }
+    }
+  ]
+}
