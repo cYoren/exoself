@@ -5,3 +5,6 @@ build/
 dist/
 birth.json
 state.json
+
+# Rust
+rust/target/
