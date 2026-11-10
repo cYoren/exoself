@@ -22,7 +22,7 @@ import os
 import sys
 
 from . import core, render
-from .cli import Fail, _read, state_lock
+from .cli import Fail, _read, _write_atomic, state_lock
 
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_VERSION = "0.3.0"
@@ -189,8 +189,7 @@ class Server:
         state = self.state or core.new_state(seed, self.reg)
         nxt = core.develop(seed, state, summary.encode("utf-8"), self.reg, satisfied)
         if self.state_path:
-            from .install import _write_atomic, _dump
-            _write_atomic(self.state_path, _dump(nxt))
+            _write_atomic(self.state_path, nxt)
         self.state = nxt
         return nxt
 

@@ -32,17 +32,6 @@ def hint_after_birth() -> str:
             "Then check it: exoself show birth.json --format soul")
 
 
-def _write_atomic(path: str, text: str) -> None:
-    tmp = f"{path}.tmp.{os.getpid()}"
-    with open(tmp, "w", encoding="utf-8") as f:
-        f.write(text)
-    os.replace(tmp, path)
-
-
-def _dump(data) -> str:
-    return json.dumps(data, indent=2) + "\n"
-
-
 def strip_blocks(text: str) -> str:
     """Remove every managed region, wherever it starts and however it was left.
 
@@ -105,7 +94,7 @@ def mcp_entry(cert: str, state: str, desire: bool) -> dict:
 
 
 def cmd_install(a) -> int:
-    from .cli import Fail, _read, _write_new
+    from .cli import Fail, _read, _write_atomic, _write_new
 
     directory = os.path.abspath(a.dir)
     os.makedirs(directory, exist_ok=True)
@@ -132,7 +121,7 @@ def cmd_install(a) -> int:
 
     seed = bytes.fromhex(cert["seed"])
     if not os.path.exists(state_path):
-        _write_atomic(state_path, _dump(core.new_state(seed, reg)))
+        _write_atomic(state_path, core.new_state(seed, reg))
     state = _read(state_path)
     if state.get("id") != cert["id"]:
         raise Fail(f"{state_path} belongs to a different agent than {cert_path}")
@@ -176,7 +165,7 @@ def cmd_install(a) -> int:
         merged = merge_mcp_config(
             existing_cfg, mcp_entry(cert_path, state_path, desire))
         os.makedirs(os.path.dirname(target) or ".", exist_ok=True)
-        _write_atomic(target, _dump(merged))
+        _write_atomic(target, merged)
         mcp_note = f"mcpServers.exoself written to {target}"
 
     print(f"{pheno['handle']} ({cert['id']})")
