@@ -28,9 +28,13 @@ Order matters: the CLI depends on the core, so the core goes first.
 `exoself-wasm` is `publish = false` on purpose: it is the page's build
 artefact, not a library.
 
-Check the package without publishing:
+Check the core package without publishing, and check that the tarball actually
+compiles (it will not if anything is `include_str!`ed from outside the crate):
 
-    cargo package --manifest-path rust/Cargo.toml -p exoself-core --no-verify
+    cargo publish --manifest-path rust/Cargo.toml -p exoself-core --dry-run
+
+The CLI cannot be dry-run until the core is on the registry, because it depends
+on the published version. That is why the order above is not negotiable.
 
 ## PyPI
 

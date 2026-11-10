@@ -605,7 +605,7 @@ fn cmd_conformance(args: &[String]) -> Result<i32, String> {
     };
     let vectors = match f.positional.first() {
         Some(p) => std::fs::read_to_string(p).map_err(|e| format!("{}: {}", p, e))?,
-        None => include_str!("../../../../spec/vectors.json").to_string(),
+        None => exoself_core::conformance::bundled_vectors().to_string(),
     };
     let report = conformance::run(&vectors, &reg, true)?;
     for failure in &report.failures {

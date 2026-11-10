@@ -72,6 +72,14 @@ pub fn replay(
     Ok(state)
 }
 
+/// The conformance vectors this build was compiled against.
+///
+/// A copy of `spec/vectors.json` lives beside the crate so that a published
+/// crate is self-contained; `tests/test_exoself.py` fails if the two differ.
+pub fn bundled_vectors() -> &'static str {
+    include_str!("../spec/vectors.json")
+}
+
 /// Run the vectors. `check_primitives` additionally verifies the primitive
 /// checkpoints, which is what you want when porting or debugging.
 pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result<Report, String> {
@@ -248,7 +256,7 @@ mod tests {
     use super::*;
     use crate::registry::DEFAULT_REGISTRY;
 
-    const VECTORS: &str = include_str!("../../../../spec/vectors.json");
+    const VECTORS: &str = include_str!("../spec/vectors.json");
 
     #[test]
     fn reproduces_every_vector_and_primitive() {

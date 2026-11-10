@@ -4,7 +4,12 @@
 //! bytes, hashed as those exact bytes, then parsed: the hash is what a birth
 //! certificate pins, so the bytes matter and not their meaning.
 //!
-//! The bundled registries are `include_str!`ed straight out of the reference
+//! The bundled registries are `include_str!`ed from `registry/` beside this
+//! crate. They are copies of `src/exoself/registry/`, which is the canonical
+//! location for the Python package; `tests/test_exoself.py` fails if the two
+//! ever differ. They have to be copies because `cargo publish` packages only
+//! the crate directory, and an `include_str!` that reaches outside it produces
+//! a crate that does not compile for anyone else. The original
 //! implementation's package directory. There is one copy of `core-0.1.json` and
 //! `core-0.2.json` in this repository, on purpose: two copies drift, and a
 //! registry that drifts changes who everyone is.
@@ -16,9 +21,9 @@ use std::path::Path;
 
 pub const DEFAULT_REGISTRY: &str = "core@0.3";
 
-const CORE_0_1: &str = include_str!("../../../../src/exoself/registry/core-0.1.json");
-const CORE_0_2: &str = include_str!("../../../../src/exoself/registry/core-0.2.json");
-const CORE_0_3: &str = include_str!("../../../../src/exoself/registry/core-0.3.json");
+const CORE_0_1: &str = include_str!("../registry/core-0.1.json");
+const CORE_0_2: &str = include_str!("../registry/core-0.2.json");
+const CORE_0_3: &str = include_str!("../registry/core-0.3.json");
 
 #[derive(Debug, Clone)]
 pub struct Bands {
