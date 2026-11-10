@@ -40,12 +40,14 @@
       <form id="derive-form" class="derive">
         <label for="seed" class="visually-hidden">seed</label>
         <input id="seed" type="text" spellcheck="false" autocomplete="off"
-               placeholder="or paste a 64 character seed" size="46">
+               placeholder="or reconstruct an agent from a seed you were given" size="46">
         <button type="submit">derive</button>
       </form>
     </div>
     <p class="hint" id="hint">Drawn with <span class="mono">crypto.getRandomValues</span> in your
-    browser. Nothing leaves this page.</p>
+    browser. Nothing leaves this page. This page draws once and keeps it: drawing
+    again is the reroll that <span class="mono">exoself born</span> refuses, so the
+    button goes away. A seed you paste is someone else's agent, shown and not adopted.</p>
   </section>
 
   <section id="agent" hidden>

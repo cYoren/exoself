@@ -168,3 +168,10 @@ footer { border-top: 1px solid var(--line); padding: 2rem 0 4rem; }
 .toggle input { accent-color: var(--accent); }
 
 .seed-line { color: var(--muted); word-break: break-all; margin-top: 0.5rem; letter-spacing: 0.02em; }
+
+/* A drawn seed is spent: the button stays visible so the rule is visible. */
+#draw.spent,
+#draw:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
