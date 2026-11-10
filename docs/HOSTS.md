@@ -153,11 +153,17 @@ the id from the seed and compares the registry hash. It does not prove the seed
 was drawn fairly. Level 1 attestation does that, and it is a separate step:
 
 ```bash
-exoself commit -o commitment.json     # publish this, before the beacon round
+# before the beacon round. Writes two files: commitment.json, which is safe to
+# publish, and commitment.secret.json, mode 0600, which is not.
+exoself commit -o commitment.json
 # after the round, with its output B:
 exoself born --beacon drand:quicknet:1234 --beacon-value <hex> \
-             --local-entropy <hex from commitment.json>
+             --local-entropy <hex from commitment.secret.json>
 ```
+
+Publish `commitment.json` and nothing else. A commitment published next to its
+own pre-image proves nothing at all, which is why the two are separate files
+and why the second is created unreadable by anyone else.
 
 Without a public log of commitments this still cannot stop an operator who
 grinds many commitments and keeps the nicest one (SPEC 3.2 says so). Use the
