@@ -539,3 +539,15 @@ def test_the_site_does_not_offer_a_free_reroll():
     html = (ROOT / "docs" / "index.html").read_text()
     # One draw control, and no second one hiding in a link or a form.
     assert html.count('id="draw"') == 1
+
+
+def test_the_crate_copies_match_their_sources():
+    """`cargo publish` packages only the crate directory, so the registry and
+    the vectors are copied inside it. A copy that drifts is a published crate
+    that derives a different species from the one the repo tests."""
+    crate = ROOT / "rust" / "crates" / "exoself-core"
+    for name in ("core-0.1.json", "core-0.2.json", "core-0.3.json"):
+        assert (crate / "registry" / name).read_bytes() == \
+            (ROOT / "src" / "exoself" / "registry" / name).read_bytes(), name
+    assert (crate / "spec" / "vectors.json").read_bytes() == \
+        (ROOT / "spec" / "vectors.json").read_bytes()

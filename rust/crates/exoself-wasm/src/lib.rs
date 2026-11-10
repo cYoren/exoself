@@ -295,7 +295,7 @@ mod tests {
 
     #[test]
     fn conformance_runs_in_the_browser_build() {
-        let vectors = include_str!("../../../../spec/vectors.json");
+        let vectors = exoself_core::conformance::bundled_vectors();
         let req = Json::obj(vec![
             ("op", Json::str("conformance")),
             ("vectors", Json::str(vectors)),
