@@ -61,7 +61,7 @@ def cmd_show(a) -> int:
     if a.format == "json":
         print(json.dumps(pheno, indent=2))
     else:
-        sys.stdout.write(render.RENDERERS[a.format](pheno, reg))
+        sys.stdout.write(render.RENDERERS[a.format](pheno, reg, desire=a.desire))
     return 0
 
 
@@ -138,6 +138,8 @@ def main(argv=None) -> int:
     s.add_argument("cert")
     s.add_argument("--state", help="development state file")
     s.add_argument("--format", choices=["json", "prompt", "soul"], default="prompt")
+    s.add_argument("--desire", action="store_true",
+                   help="express drives and fixation (off by default, see SPEC 9.2)")
     s.set_defaults(fn=cmd_show)
 
     s = sub.add_parser("develop", help="apply one experience event")

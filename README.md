@@ -27,6 +27,7 @@ outside a mind that sets the mind's parameters.
     exoself show birth.json --format json
     exoself develop birth.json state.json --event "first session"
     exoself develop birth.json state.json --event "explained a proof" --satisfied teach
+    exoself show birth.json --state state.json --desire   # opt in to desire
     exoself show birth.json --state state.json
 
 No dependencies beyond the Python standard library.
@@ -70,11 +71,12 @@ Example output of `show --format soul`:
   irreversible actions, or competence. The operator and user always win.
 - **Extension without disturbance.** Every trait draws from its own labeled
   stream, so adding traits to a registry never changes existing ones.
-- **Desire as appetite, not objective.** Each agent holds three drives for
+- **Desire as appetite, not objective, and off by default.** Each agent holds three drives for
   life, drawn from the seed, each with a tension that grows while unmet and
   falls when met. It also has a passing fixation that rotates on a schedule
   it does not control. Drives may colour how asked work is done. They may
-  never cause unasked work. See `SPEC.md` section 9.
+  never cause unasked work. Nothing about desire reaches the model unless
+  the operator passes `--desire`. See `SPEC.md` section 9.
 - **Bounded development.** Experience can shift a dimension by at most 100 of
   1000 points. The agent matures; it does not become someone else.
 

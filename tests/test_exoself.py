@@ -80,7 +80,9 @@ def test_rendering_rules():
     for s in seeds(200):
         p = core.phenotype(s, REG)
         for fn in render.RENDERERS.values():
-            text = fn(p, REG)
+            quiet = fn(p, REG)
+            assert render.APPETITE not in quiet and "Lately you are taken" not in quiet
+            text = fn(p, REG, desire=True)
             body = text.replace(p["id"], "").replace(p["exoself"], "")
             assert not any(ch.isdigit() for ch in body), "numbers leaked into expression"
             assert render.PRECEDENCE in text and render.RESTRAINT in text
@@ -142,6 +144,9 @@ def test_cli_born_refuses_reroll(tmp_path, capsys):
     assert pathlib.Path(out).read_text() == first
     assert main(["verify", out]) == 0
     assert main(["show", out, "--format", "soul"]) == 0
+    assert "## Wants" not in capsys.readouterr().out
+    assert main(["show", out, "--format", "soul", "--desire"]) == 0
+    assert "## Wants" in capsys.readouterr().out
     state = str(tmp_path / "state.json")
     assert main(["develop", out, state, "--event", "first session"]) == 0
     held = json.loads(pathlib.Path(state).read_text())["tension"]
@@ -161,7 +166,7 @@ def test_registry_upgrade_keeps_everyone_who_they_were():
         for k in ("id", "handle", "scores", "salient", "picks", "quirks"):
             assert a[k] == b[k]
         assert a["drives"] == [] and a["fixation"] is None
-        assert "Wants" not in render.render_soul(a, old)
+        assert "Wants" not in render.render_soul(a, old, desire=True)
 
 
 def test_drives_are_held_for_life():
@@ -211,9 +216,12 @@ def test_wants_are_silent_when_sated():
     sated = core.phenotype(seed, REG, {"tension": {d: 0 for d in held}})
     hungry = core.phenotype(seed, REG, {"tension": {d: 1000 for d in held}})
     for d in held:
-        assert drives[d]["want"] not in render.render_prompt(sated, REG)
-        assert drives[d]["hungry"] not in render.render_prompt(sated, REG)
-        assert drives[d]["hungry"] in render.render_prompt(hungry, REG)
+        assert drives[d]["want"] not in render.render_prompt(sated, REG, desire=True)
+        assert drives[d]["hungry"] not in render.render_prompt(sated, REG, desire=True)
+        assert drives[d]["hungry"] in render.render_prompt(hungry, REG, desire=True)
+        # Off by default: even a starving agent says nothing unless enabled.
+        assert drives[d]["hungry"] not in render.render_prompt(hungry, REG)
+        assert drives[d]["hungry"] not in render.render_soul(hungry, REG)
 
 
 def test_fixation_rotates_and_never_repeats_back_to_back():
