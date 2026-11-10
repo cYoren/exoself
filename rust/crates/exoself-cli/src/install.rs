@@ -72,6 +72,108 @@ pub fn upsert_block(existing: &str, body: &str) -> String {
     out
 }
 
+/// The text inside the managed block. Shared by `install` and by the refresh
+/// that `develop` does after a session, so the brief cannot say two things.
+pub fn brief_body(
+    ph: &phenotype::Phenotype,
+    reg: &Registry,
+    state: &State,
+    cert_path: &Path,
+    state_path: &Path,
+    desire: bool,
+) -> String {
+    format!(
+        "{}\n\nAgent: {} ({}). Sessions recorded: {}. Certificate: {}. State: {}.\n\
+         Record each session with `exoself develop` or the exoself_record_session MCP tool.",
+        render::render_prompt(ph, reg, desire).trim_end(),
+        ph.handle,
+        ph.id,
+        state.events,
+        cert_path.display(),
+        state_path.display()
+    )
+}
+
+/// Whether a generated file was rendered with appetites on. The text is ours,
+/// so the marker in it is a reliable answer, and it means `develop` never has
+/// to be told the operator's choice a second time.
+fn had_desire(text: &str) -> bool {
+    text.contains("These are appetites, not goals")
+}
+
+/// Bring the generated files in an installed directory up to date after a
+/// session. Only files carrying our own marker are touched: a brief whose
+/// managed block we wrote, and a persona carrying the generated header.
+///
+/// Returns the paths that changed.
+pub fn refresh_generated(
+    cert_path: &Path,
+    state_path: &Path,
+    ph: &phenotype::Phenotype,
+    reg: &Registry,
+    state: &State,
+) -> Result<Vec<String>, String> {
+    // Absolute paths: `develop` is usually run from inside the project, so
+    // `.exoself/birth.json` has an empty parent above it.
+    let Ok(cert_path) = std::fs::canonicalize(cert_path) else {
+        return Ok(Vec::new());
+    };
+    let state_path = std::fs::canonicalize(state_path).unwrap_or_else(|_| state_path.to_path_buf());
+    let Some(state_dir) = cert_path.parent() else {
+        return Ok(Vec::new());
+    };
+    if state_dir.file_name().and_then(|n| n.to_str()) != Some(".exoself") {
+        // Not an installed layout; the operator keeps these files somewhere we
+        // were not told about, so leave them alone.
+        return Ok(Vec::new());
+    }
+    let Some(dir) = state_dir.parent() else {
+        return Ok(Vec::new());
+    };
+    let mut changed = Vec::new();
+    let entries = match std::fs::read_dir(dir) {
+        Ok(e) => e,
+        Err(_) => return Ok(Vec::new()),
+    };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path.extension().and_then(|e| e.to_str()) != Some("md") {
+            continue;
+        }
+        let Ok(existing) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let updated = if existing.contains(BEGIN_PREFIX) {
+            upsert_block(
+                &existing,
+                &brief_body(
+                    ph,
+                    reg,
+                    state,
+                    &cert_path,
+                    &state_path,
+                    had_desire(&existing),
+                ),
+            )
+        } else if existing.contains("generated, do not edit by hand") {
+            render::render_soul(ph, reg, had_desire(&existing))
+        } else {
+            continue;
+        };
+        if updated != existing {
+            std::fs::write(&path, updated).map_err(|e| format!("{}: {}", path.display(), e))?;
+            changed.push(
+                path.file_name()
+                    .and_then(|n| n.to_str())
+                    .unwrap_or_default()
+                    .to_string(),
+            );
+        }
+    }
+    changed.sort();
+    Ok(changed)
+}
+
 fn mcp_entry(exe: &Path, cert: &Path, state: &Path, desire: bool) -> Json {
     let mut args = vec![
         Json::str("mcp"),
@@ -197,16 +299,7 @@ pub fn cmd_install(args: &[String]) -> Result<i32, String> {
     // 2. The block in the project brief.
     let agent_file = dir.join(f.value("file").unwrap_or("AGENTS.md"));
     let existing = std::fs::read_to_string(&agent_file).unwrap_or_default();
-    let body = format!(
-        "{}\n\nAgent: {} ({}). Sessions recorded: {}. Certificate: {}. State: {}.\n\
-         Record each session with `exoself develop` or the exoself_record_session MCP tool.",
-        render::render_prompt(&ph, &reg, desire).trim_end(),
-        ph.handle,
-        ph.id,
-        state.events,
-        cert_path.display(),
-        state_path.display()
-    );
+    let body = brief_body(&ph, &reg, &state, &cert_path, &state_path, desire);
     let updated = upsert_block(&existing, &body);
     if updated != existing {
         std::fs::write(&agent_file, updated)
