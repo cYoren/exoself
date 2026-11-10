@@ -8,7 +8,9 @@ wins and this file has a bug.
 
 Spec 0.3, two conforming implementations (Python reference, Rust with zero
 dependencies), a WebAssembly build served from `docs/`, and measurements in
-`eval/REPORT.md`.
+`eval/REPORT.md`. Both implementations are published: `exoself` on PyPI and
+`exoself` + `exoself-core` on crates.io, at 0.3.0. A version bump is therefore
+a public act, not a tag on a private repo.
 
 | version | what changed | note for you |
 |---|---|---|
