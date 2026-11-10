@@ -201,7 +201,7 @@ def test_the_voice_layer_speaks_on_every_seed():
 def test_an_unmet_drive_is_not_a_grievance():
     """SPEC 9.2.5, enforced at load time rather than trusted."""
     assert core.grievance_words("Your sentences are short.") == []
-    assert core.grievance_words("It has been a while.") == ["has been"]
+    assert core.grievance_words("It has been a while.") == ["has been a while"]
     assert core.grievance_words("something owed, in a while") == ["in a while"]
     for item in REG["drives"]["items"]:
         assert core.grievance_words(item["hungry"]) == [], item["id"]

@@ -128,7 +128,7 @@ fn err<T>(msg: impl Into<String>) -> Result<T, RegistryError> {
 pub const GRIEVANCE: [&str; 13] = [
     "in a while",
     "lately",
-    "has been",
+    "has been a while",
     "have been",
     "have not",
     "miss it",

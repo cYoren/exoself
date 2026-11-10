@@ -125,6 +125,32 @@ pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result
                     checks.push((label.into(), want.to_string(), got.to_string()));
                 }
             }
+            // The grievance list is duplicated between the two
+            // implementations. This vector is what stops the copies drifting:
+            // both must return the same matches for the same text.
+            let primitive_keys: Vec<String> = match p {
+                Json::Object(pairs) => pairs.iter().map(|(k, _)| k.clone()).collect(),
+                _ => Vec::new(),
+            };
+            for key in &primitive_keys {
+                if let Some(text) = key
+                    .strip_prefix("grievance('")
+                    .and_then(|t| t.strip_suffix("')"))
+                {
+                    let got = crate::registry::grievance_words(text).join(",");
+                    let want = p
+                        .get(key)
+                        .and_then(|x| x.as_array())
+                        .map(|a| {
+                            a.iter()
+                                .filter_map(|x| x.as_str())
+                                .collect::<Vec<_>>()
+                                .join(",")
+                        })
+                        .unwrap_or_default();
+                    checks.push((key.clone(), want, got));
+                }
+            }
             if let Some(want) = p
                 .get("fixation at events 0, 100, 1000")
                 .and_then(|x| x.as_array())

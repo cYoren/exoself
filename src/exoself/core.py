@@ -122,7 +122,7 @@ def load_registry(path: str | None = None, name: str = DEFAULT_REGISTRY) -> tupl
 # `hungry` text may say the want is stronger; it may not say something is
 # lacking, that time has passed, or that the agent feels the deficit.
 GRIEVANCE = (
-    "in a while", "lately", "has been", "have been", "have not", "miss it",
+    "in a while", "lately", "has been a while", "have been", "have not", "miss it",
     "you miss", "the lack", "too much", "weighs on you", "hungry for",
     "bothers you that", "and you feel",
 )
