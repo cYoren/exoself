@@ -4,12 +4,16 @@ There are three kinds of host, and exoself covers all of them. Nothing here
 needs a plugin, an account or a network call: a certificate, a state file, and
 a process that reads JSON on stdin.
 
-Build once:
+Build once, with either implementation. Both have the same commands, the same
+flags and the same output, so a host cannot tell them apart:
 
 ```bash
 cargo build --release --manifest-path rust/Cargo.toml
 export PATH="$PWD/rust/target/release:$PATH"
 exoself version
+
+# or, with no Rust toolchain at all
+pip install exoself
 ```
 
 Then put one agent in a project directory:
@@ -121,6 +125,21 @@ rather than editing it:
 ```bash
 exoself show .exoself/birth.json --state .exoself/state.json --format soul > SOUL.md
 ```
+
+## Keeping the brief current
+
+`AGENTS.md` and `SOUL.md` are snapshots taken when `install` ran. They do not
+change by themselves: after a hundred sessions the block still says
+`Sessions recorded: 0` and shows the temperament as it was at birth, while a
+host reading MCP sees the current one. Re-run the same command to refresh them
+from the state file:
+
+```bash
+exoself install --dir .          # rewrites SOUL.md and the block, keeps the seed
+```
+
+A host that speaks MCP does not need this: `exoself_temperament` reads the
+state file every time it is called.
 
 ## Growing the agent
 

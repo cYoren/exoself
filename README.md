@@ -22,12 +22,15 @@ outside a mind that sets the mind's parameters.
 
 Two conforming implementations, same derivation, byte-identical output.
 
+Either implementation, same commands, same output. Pick one; do not run both
+into the same file, because the second `born` refuses.
+
     # Rust, no dependencies at all
-    cargo build --release --manifest-path rust/Cargo.toml
-    ./rust/target/release/exoself born -o birth.json
+    cargo install --path rust/crates/exoself-cli      # or: cargo build --release
 
     # Python, standard library only
-    pip install -e .
+    pip install exoself                               # or: pip install -e . from a clone
+
     exoself born -o birth.json           # draw a seed, once
     exoself show birth.json              # system prompt block
     exoself show birth.json --format soul > SOUL.md
@@ -68,8 +71,10 @@ Example output of `show --format soul`:
 | `src/exoself/registry/core-0.2.json` | the previous registry, bundled so old certificates keep working |
 | `src/exoself/core.py` | reference derivation, integer-only |
 | `src/exoself/render.py` | reference renderers |
+| `src/exoself/cli.py` | the same commands as the Rust binary, including `install` and `mcp` |
+| `src/exoself/install.py`, `src/exoself/mcp.py` | host wiring and the stdio server |
 | `rust/crates/exoself-core/` | second implementation, zero dependencies, reproduces every vector |
-| `rust/crates/exoself-cli/` | `born`, `show`, `develop`, `verify`, `conformance`, `install`, `mcp` |
+| `rust/crates/exoself-cli/` | the `exoself` binary: `born`, `show`, `develop`, `verify`, `conformance`, `commit`, `install`, `mcp`, `version` |
 | `rust/crates/exoself-wasm/` | the browser build behind the Pages site |
 | `docs/` | the landing page, and `docs/HOSTS.md` for wiring a harness |
 | `spec/vectors.json` | conformance vectors for ports |

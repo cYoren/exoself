@@ -200,7 +200,9 @@ A change is finished when all of these are true, in this order:
 4. Every count quoted in `README.md`, `SPEC.md` section 13, `eval/REPORT.md`
    and `docs/index.html` still matches what the code prints. The landing page
    has been wrong about this before.
-5. `cargo fmt --all` and `cargo clippy --all-targets` are clean.
+5. `cargo fmt --all --manifest-path rust/Cargo.toml --check` and
+   `cargo clippy --all-targets --manifest-path rust/Cargo.toml` are clean. The
+   workspace lives in `rust/`, so both need the manifest path.
 
 ## Do not
 
