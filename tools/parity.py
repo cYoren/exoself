@@ -59,6 +59,38 @@ def rust_show(exe: pathlib.Path, cert_path: pathlib.Path, fmt: str,
     return out.stdout
 
 
+def mcp_surface(cmd: list[str], cert: pathlib.Path, state: pathlib.Path,
+                env: dict | None = None) -> dict:
+    """Drive the MCP server the way a host does and collect what it says."""
+    proc = subprocess.Popen(cmd + ["mcp", "--cert", str(cert), "--state", str(state)],
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, env=env)
+
+    def rpc(msg: dict) -> dict:
+        proc.stdin.write((json.dumps(msg) + "\n").encode())
+        proc.stdin.flush()
+        return json.loads(proc.stdout.readline())
+
+    rpc({"jsonrpc": "2.0", "id": 1, "method": "initialize",
+         "params": {"protocolVersion": "2025-06-18", "capabilities": {},
+                    "clientInfo": {"name": "parity", "version": "0"}}})
+    out = {}
+    for i, (name, args) in enumerate([
+        ("exoself_temperament", {}),
+        ("exoself_temperament", {"format": "soul", "desire": True}),
+        ("exoself_status", {}),
+        ("exoself_record_session", {"summary": "the same session"}),
+        ("exoself_status", {}),
+    ], start=2):
+        r = rpc({"jsonrpc": "2.0", "id": i, "method": "tools/call",
+                 "params": {"name": name, "arguments": args}})
+        out[f"{name}{i}"] = r["result"]
+    out["tools"] = rpc({"jsonrpc": "2.0", "id": 99, "method": "tools/list"})["result"]
+    proc.stdin.close()
+    proc.wait(timeout=10)
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", type=int, default=120)
@@ -130,6 +162,27 @@ def main() -> int:
                 sys.stderr.write(f"MISMATCH state after replay, seed {i}\n")
                 return 1
             checked += 1
+
+        # The MCP surface, once: a host must not be able to tell the two apart.
+        seed = core.stream(bytes(32), "parity/mcp", 32)
+        cert = core.born(reg_hash, seed=seed)
+        cert_path = tmp / "mcp-birth.json"
+        cert_path.write_text(json.dumps(cert, indent=2) + "\n")
+        env = {"PYTHONPATH": str(ROOT / "src"), "PATH": "/usr/bin:/bin"}
+        py_cmd = [sys.executable, "-m", "exoself.cli"]
+        want = mcp_surface(py_cmd, cert_path, tmp / "mcp-py-state.json", env)
+        got = mcp_surface([str(exe)], cert_path, tmp / "mcp-rs-state.json")
+        for key in want:
+            if want[key] != got[key]:
+                sys.stderr.write(f"MISMATCH in MCP {key}\n"
+                                 f"--- python ---\n{json.dumps(want[key])[:600]}\n"
+                                 f"--- rust ---\n{json.dumps(got[key])[:600]}\n")
+                return 1
+            checked += 1
+        if (tmp / "mcp-py-state.json").read_text() != (tmp / "mcp-rs-state.json").read_text():
+            sys.stderr.write("MISMATCH: MCP state files differ\n")
+            return 1
+        checked += 1
 
     print(f"parity ok: {checked} comparisons over {a.seeds} seeds, "
           f"{a.events} events each")

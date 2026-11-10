@@ -6,12 +6,15 @@ so if this passes, a host that implements MCP correctly can drive the server.
 It deliberately uses no MCP SDK, only stdin/stdout, so it also documents the
 protocol shape for anyone wiring a host by hand.
 
-    python3 tools/mcp_selftest.py
+    python3 tools/mcp_selftest.py            # both implementations
+    python3 tools/mcp_selftest.py --rust     # just the Rust binary
+    python3 tools/mcp_selftest.py --python   # just the Python reference
 """
 
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -19,6 +22,7 @@ import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXE = ROOT / "rust" / "target" / "release" / "exoself"
+PY = [sys.executable, "-m", "exoself.cli"]
 
 
 def send(proc: subprocess.Popen, msg: dict) -> None:
@@ -41,22 +45,24 @@ def call(proc: subprocess.Popen, rid: int, method: str, params: dict | None = No
     return recv(proc)
 
 
-def main() -> int:
-    if not EXE.exists():
-        raise SystemExit(f"build it first: cargo build --release (no binary at {EXE})")
-
+def run(exe: list[str], label: str) -> None:
+    print(f"--- {label} ---")
+    env = dict(os.environ)
+    if exe is PY:
+        env["PYTHONPATH"] = str(ROOT / "src")
     with tempfile.TemporaryDirectory() as tmp:
         tmp = pathlib.Path(tmp)
-        born = subprocess.run([str(EXE), "born", "-o", str(tmp / "birth.json")],
-                              capture_output=True)
+        born = subprocess.run(exe + ["born", "-o", str(tmp / "birth.json")],
+                              capture_output=True, env=env)
         if born.returncode != 0:
             raise SystemExit(born.stderr.decode())
         print(born.stdout.decode().strip())
 
         proc = subprocess.Popen(
-            [str(EXE), "mcp", "--cert", str(tmp / "birth.json"),
-             "--state", str(tmp / "state.json")],
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            exe + ["mcp", "--cert", str(tmp / "birth.json"),
+                   "--state", str(tmp / "state.json")],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            env=env)
 
         init = call(proc, 1, "initialize", {
             "protocolVersion": "2025-06-18",
@@ -113,9 +119,9 @@ def main() -> int:
 
         # A session recorded by another host (or by `exoself develop` by hand)
         # must not be erased by this server's cached copy of the state.
-        subprocess.run([str(EXE), "develop", str(tmp / "birth.json"),
-                        str(tmp / "state.json"), "--event", "from another host"],
-                       check=True, capture_output=True)
+        subprocess.run(exe + ["develop", str(tmp / "birth.json"),
+                              str(tmp / "state.json"), "--event", "from another host"],
+                       check=True, capture_output=True, env=env)
         r = call(proc, 15, "tools/call", {
             "name": "exoself_record_session",
             "arguments": {"summary": "after another host wrote"}})
@@ -142,6 +148,17 @@ def main() -> int:
         proc.stdin.close()
         proc.wait(timeout=5)
 
+
+def main() -> int:
+    want = sys.argv[1:]
+    run_python = not want or "--python" in want
+    run_rust = not want or "--rust" in want
+    if run_rust:
+        if not EXE.exists():
+            raise SystemExit(f"build it first: cargo build --release (no binary at {EXE})")
+        run([str(EXE)], "rust")
+    if run_python:
+        run(PY, "python")
     print("\nmcp selftest passed")
     return 0
 
