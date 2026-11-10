@@ -438,3 +438,46 @@ def develop(seed: bytes, state: dict, event: bytes, reg: dict,
     return {"id": state["id"], "develop": state.get("develop", DEVELOP_WALK),
             "events": state["events"] + 1, "chain": chain.hex(),
             "drift": drift, "tension": tension}
+
+
+# --------------------------------------------------------------------------
+# Conformance primitives (SPEC section 11)
+# --------------------------------------------------------------------------
+
+def check_primitives(vectors: dict, reg: dict) -> tuple[int, list[str]]:
+    """Verify the `primitives` block, the way a port should before anything else.
+
+    The grievance list exists in both implementations; this is what stops the
+    two copies drifting.
+    """
+    p = vectors.get("primitives")
+    if not p:
+        return 0, []
+    failures = []
+    checked = 0
+    seed = bytes.fromhex(p["seed"])
+
+    def check(label: str, got, want) -> None:
+        nonlocal checked
+        checked += 1
+        if got != want:
+            failures.append(f"{label}: got {got!r}, want {want!r}")
+
+    if "stream('id', 40)" in p:
+        check("stream('id', 40)", stream(seed, "id", 40).hex(), p["stream('id', 40)"])
+    for key, label in p.items():
+        if key.startswith("u32('") and key.endswith("')"):
+            check(key, u32(seed, key[5:-2]), p[key])
+        elif key.startswith("gauss('") and key.endswith("')"):
+            check(key, gauss(seed, key[7:-2]), p[key])
+        elif key.startswith("drive_rate('") and key.endswith("')"):
+            check(key, drive_rate(seed, key[12:-2]), p[key])
+        elif key.startswith("drive_initial('") and key.endswith("')"):
+            check(key, drive_initial(seed, key[15:-2]), p[key])
+        elif key.startswith("grievance('") and key.endswith("')"):
+            check(key, grievance_words(key[11:-2]), p[key])
+    if "fixation at events 0, 100, 1000" in p:
+        # One check per event, so the count matches the other implementation.
+        for n, want in zip((0, 100, 1000), p["fixation at events 0, 100, 1000"]):
+            check(f"fixation at events {n}", fixation(seed, reg, n), want)
+    return checked, failures

@@ -148,7 +148,7 @@ def test_cli_born_refuses_reroll(tmp_path, capsys):
     out = str(tmp_path / "birth.json")
     assert main(["born", "-o", out]) == 0
     first = pathlib.Path(out).read_text()
-    assert main(["born", "-o", out]) == 1
+    assert main(["born", "-o", out]) == 2      # exit 2: operational error, as Rust
     assert pathlib.Path(out).read_text() == first
     assert main(["verify", out]) == 0
     assert main(["show", out, "--format", "soul"]) == 0
@@ -159,7 +159,7 @@ def test_cli_born_refuses_reroll(tmp_path, capsys):
     assert main(["develop", out, state, "--event", "first session"]) == 0
     held = json.loads(pathlib.Path(state).read_text())["tension"]
     assert main(["develop", out, state, "--event", "s", "--satisfied", next(iter(held))]) == 0
-    assert main(["develop", out, state, "--event", "s", "--satisfied", "power"]) == 1
+    assert main(["develop", out, state, "--event", "s", "--satisfied", "power"]) == 2
     assert main(["show", out, "--state", state, "--format", "json"]) == 0
     assert main(["conformance", str(ROOT / "spec" / "vectors.json")]) == 0
 
@@ -324,10 +324,10 @@ def test_cli_honours_the_pinned_registry(tmp_path, capsys):
     assert main(["show", str(path), "--format", "json"]) == 0
     assert json.loads(capsys.readouterr().out)["drives"] == []
     new = str(ROOT / "src/exoself/registry/core-0.2.json")
-    assert main(["--registry", new, "show", str(path), "--format", "json"]) == 0
+    assert main(["show", str(path), "--registry", new, "--format", "json"]) == 0
     assert len(json.loads(capsys.readouterr().out)["drives"]) == 3
     path.write_text(json.dumps({**cert, "registry": "../../etc/passwd"}))
-    assert main(["show", str(path)]) == 1
+    assert main(["show", str(path)]) == 2
 
 
 # ---------------------------------------------------------------- registry edge cases
@@ -425,7 +425,7 @@ def test_a_state_file_from_another_agent_is_refused(tmp_path, capsys):
     assert main(["born", "-o", a]) == 0
     assert main(["born", "-o", b]) == 0
     assert main(["develop", a, state, "--event", "x"]) == 0
-    assert main(["show", b, "--state", state]) == 1
+    assert main(["show", b, "--state", state]) == 2
     assert "different agent" in capsys.readouterr().err
     assert main(["show", a, "--state", state]) == 0
 
@@ -440,3 +440,90 @@ def test_forgetting_the_state_flag_says_so(tmp_path, capsys):
     assert "--state was not given" in capsys.readouterr().err
     assert main(["show", cert, "--state", state]) == 0
     assert capsys.readouterr().err == ""
+
+
+# ---------------------------------------------------------------- full CLI surface
+
+def test_the_python_cli_has_the_same_commands_as_the_rust_one():
+    """`pip install exoself` must be a complete path: a host wired with the
+    Python binary needs install and mcp, not just the derivation."""
+    import argparse
+    from exoself.cli import build_parser
+    parser = build_parser()
+    actions = [a for a in parser._actions if isinstance(a, argparse._SubParsersAction)]
+    names = set(actions[0].choices)
+    assert names == {"born", "show", "develop", "verify", "conformance",
+                     "commit", "install", "mcp", "version"}, names
+
+
+def test_install_writes_everything_a_host_needs(tmp_path):
+    import json as _json
+    d = str(tmp_path)
+    assert main(["install", "--dir", d, "--json-config", ".mcp.json", "--desire"]) == 0
+    for name in (".exoself/birth.json", ".exoself/state.json", "SOUL.md",
+                 "AGENTS.md", ".mcp.json"):
+        assert (tmp_path / name).exists(), name
+    entry = _json.loads((tmp_path / ".mcp.json").read_text())["mcpServers"]["exoself"]
+    assert "--desire" in entry["args"]
+    # Re-running must not draw a second seed.
+    cert = (tmp_path / ".exoself/birth.json").read_text()
+    assert main(["install", "--dir", d]) == 0
+    assert (tmp_path / ".exoself/birth.json").read_text() == cert
+    assert (tmp_path / "AGENTS.md").read_text().count("exoself:begin") == 1
+
+
+def test_install_keeps_other_mcp_servers_and_user_text(tmp_path):
+    import json as _json
+    d = str(tmp_path)
+    (tmp_path / ".mcp.json").write_text(_json.dumps(
+        {"mcpServers": {"other": {"command": "node"}}, "theme": "dark"}))
+    (tmp_path / "AGENTS.md").write_text("# Project\n\nRules.\n")
+    assert main(["install", "--dir", d, "--json-config", ".mcp.json"]) == 0
+    cfg = _json.loads((tmp_path / ".mcp.json").read_text())
+    assert set(cfg["mcpServers"]) == {"other", "exoself"}
+    assert cfg["theme"] == "dark"
+    brief = (tmp_path / "AGENTS.md").read_text()
+    assert brief.startswith("# Project\n\nRules.\n")
+    assert brief.count("exoself:begin") == 1
+
+
+def test_commit_writes_a_private_pre_image_and_refuses_to_replace_it(tmp_path):
+    import os
+    import stat
+    out = str(tmp_path / "commitment.json")
+    assert main(["commit", "-o", out]) == 0
+    secret = tmp_path / "commitment.secret.json"
+    assert secret.exists()
+    if os.name == "posix":
+        assert stat.S_IMODE(secret.stat().st_mode) == 0o600
+    body = json.loads(secret.read_text())
+    assert hashlib.sha256(bytes.fromhex(body["local_entropy"])).hexdigest() == body["commitment"]
+    assert main(["commit", "-o", out]) == 2      # never overwrite a commitment
+
+
+def test_a_level_one_birth_binds_to_the_beacon(tmp_path):
+    import os
+    out = str(tmp_path / "commitment.json")
+    assert main(["commit", "-o", out]) == 0
+    entropy = json.loads((tmp_path / "commitment.secret.json").read_text())["local_entropy"]
+    beacon = "ab" * 32
+    cert = str(tmp_path / "birth.json")
+    assert main(["born", "-o", cert, "--beacon", "drand:quicknet:1",
+                 "--beacon-value", beacon, "--local-entropy", entropy]) == 0
+    assert main(["verify", cert]) == 0
+    assert json.loads(pathlib.Path(cert).read_text())["attestation"]["level"] == 1
+    # A supplied seed without a beacon is not a draw; the path is closed.
+    assert main(["born", "-o", str(tmp_path / "x.json"),
+                 "--local-entropy", entropy]) == 2
+    assert not (tmp_path / "x.json").exists()
+
+
+def test_conformance_checks_the_primitives_too():
+    """SPEC 11 asks for the primitives as well as the phenotypes. The Rust
+    binary reported 25 checks and the Python one reported 14: same word,
+    different amount of checking."""
+    vectors = json.loads((ROOT / "spec" / "vectors.json").read_text())
+    checked, failures = core.check_primitives(vectors, REG)
+    assert failures == []
+    assert checked == 11, checked
+    assert checked + len(vectors["vectors"]) == 25
