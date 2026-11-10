@@ -377,8 +377,11 @@ def test_a_satisfied_drive_is_named_once_per_flag(tmp_path):
     assert len(held) >= 2
     assert main(["develop", out, state, "--event", "e",
                  "--satisfied", held[0], "--satisfied", held[1]]) == 0
+    seed = bytes.fromhex(json.loads(pathlib.Path(out).read_text())["seed"])
     tension = json.loads(pathlib.Path(state).read_text())["tension"]
-    assert tension[held[0]] < core.drive_initial(bytes.fromhex(json.loads(pathlib.Path(out).read_text())["seed"]), held[0])
-    assert tension[held[1]] < core.drive_initial(bytes.fromhex(json.loads(pathlib.Path(out).read_text())["seed"]), held[1])
+    # Satisfaction quarters the tension; exact, so a drive born at 0..3 does
+    # not make this test flaky.
+    for drive in held[:2]:
+        assert tension[drive] == core.drive_initial(seed, drive) // 4
     with pytest.raises(SystemExit):
         main(["develop", out, state, "--event", "e", "--satisfied", held[0], held[1]])
