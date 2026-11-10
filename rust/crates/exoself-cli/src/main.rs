@@ -238,6 +238,30 @@ fn civil_from_days(z: i64) -> (i64, u32, u32) {
     (if m <= 2 { y + 1 } else { y }, m, d)
 }
 
+/// Write a file that must not be readable by anyone else.
+fn write_secret(path: &str, json: &Json) -> Result<(), String> {
+    let mut opts = std::fs::OpenOptions::new();
+    opts.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        opts.mode(0o600);
+    }
+    let mut f = opts.open(path).map_err(|e| {
+        if e.kind() == std::io::ErrorKind::AlreadyExists {
+            format!(
+                "{} already exists. Refusing to overwrite a commitment.",
+                path
+            )
+        } else {
+            format!("{}: {}", path, e)
+        }
+    })?;
+    f.write_all(json.pretty().as_bytes())
+        .and_then(|_| f.write_all(b"\n"))
+        .map_err(|e| format!("{}: {}", path, e))
+}
+
 fn write_new(path: &str, json: &Json) -> Result<(), String> {
     // create_new fails if the file exists: a certificate is never overwritten.
     let mut f = std::fs::OpenOptions::new()
@@ -480,31 +504,64 @@ fn cmd_conformance(args: &[String]) -> Result<i32, String> {
     Ok(if report.ok() { 0 } else { 1 })
 }
 
+/// The half of a commitment that is safe to publish: the hash and nothing that
+/// produced it. Kept separate from the entropy on purpose, because a commitment
+/// published together with its pre-image proves nothing.
+fn commitment_record(c: &str, secret_path: Option<&str>) -> Json {
+    let next = match secret_path {
+        Some(p) => format!(
+            "publish this file. The entropy that opens it is in {} and is not for \
+             publication until the beacon round closes: exoself born --beacon <id> \
+             --beacon-value <hex> --local-entropy <hex>",
+            p
+        ),
+        None => "publish this file, then: exoself born --beacon <id> \
+                 --beacon-value <hex> --local-entropy <hex you supplied>"
+            .to_string(),
+    };
+    Json::obj(vec![
+        ("commitment", Json::str(c)),
+        ("committed_at", Json::str(iso_now())),
+        ("next", Json::str(next)),
+    ])
+}
+
 fn cmd_commit(args: &[String]) -> Result<i32, String> {
-    let f = Flags::parse(args, &["out", "local-entropy"])?;
-    let local = match f.value("local-entropy") {
-        Some(h) => parse_seed_hex(h)?,
+    let f = Flags::parse(args, &["out", "local-entropy", "secret-out"])?;
+    let supplied = f.value("local-entropy").map(parse_seed_hex).transpose()?;
+    let local = match supplied {
+        Some(l) => l,
         None => birth::os_entropy()?,
     };
     let c = birth::commitment(&local);
-    let out = Json::obj(vec![
-        ("commitment", Json::str(&c)),
-        ("local_entropy", Json::str(hex(&local))),
-        ("committed_at", Json::str(iso_now())),
-        (
-            "next",
-            Json::str(
-                "publish the commitment, then: exoself born --beacon <id> \
-                       --beacon-value <hex> --local-entropy <hex>",
+    let out = f.value("out").unwrap_or("commitment.json");
+
+    // A caller who passed its own entropy already has it, so there is nothing
+    // to keep. Otherwise the secret goes to its own file, mode 0600.
+    let secret_path = if supplied.is_some() {
+        None
+    } else {
+        let path = f
+            .value("secret-out")
+            .map(|p| p.to_string())
+            .unwrap_or_else(|| format!("{}.secret.json", out.trim_end_matches(".json")));
+        let secret = Json::obj(vec![
+            ("commitment", Json::str(&c)),
+            ("local_entropy", Json::str(hex(&local))),
+            (
+                "note",
+                Json::str("do not publish this file before the beacon round"),
             ),
-        ),
-    ]);
-    match f.value("out") {
-        Some(p) => {
-            write_new(p, &out)?;
-            println!("commitment {} written to {}", c, p);
-        }
-        None => println!("{}", out.pretty()),
+        ]);
+        write_secret(&path, &secret)?;
+        Some(path)
+    };
+
+    write_new(out, &commitment_record(&c, secret_path.as_deref()))?;
+    println!("commitment {} written to {}", c, out);
+    match &secret_path {
+        Some(p) => println!("entropy kept in {} (mode 0600, do not publish)", p),
+        None => println!("entropy was supplied by you, so nothing was written twice"),
     }
     Ok(0)
 }
@@ -512,6 +569,38 @@ fn cmd_commit(args: &[String]) -> Result<i32, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn a_commitment_never_carries_its_pre_image() {
+        let rec = commitment_record("abc123", Some("commitment.secret.json"));
+        let text = rec.pretty();
+        assert!(text.contains("abc123"));
+        assert!(!text.contains("local_entropy"));
+        assert!(!text.contains("pre-image"));
+        assert!(text.contains("commitment.secret.json"));
+        let supplied = commitment_record("abc123", None).pretty();
+        assert!(!supplied.contains("local_entropy"));
+        assert!(supplied.contains("you supplied"));
+    }
+
+    #[test]
+    fn the_secret_file_is_private() {
+        let dir = std::env::temp_dir().join(format!("exoself-secret-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("commitment.secret.json");
+        let p = path.to_str().unwrap();
+        write_secret(p, &Json::obj(vec![("local_entropy", Json::str("00"))])).unwrap();
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            let mode = std::fs::metadata(p).unwrap().permissions().mode() & 0o777;
+            assert_eq!(mode, 0o600, "secret file is readable by others");
+        }
+        // A second commitment must not overwrite the first secret.
+        assert!(write_secret(p, &Json::obj(vec![])).is_err());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 
     #[test]
     fn iso8601_matches_known_timestamps() {
