@@ -282,6 +282,17 @@ def cmd_develop(a) -> int:
     if not existed:
         print(f"note: {a.state} did not exist, so a new history was started",
               file=sys.stderr)
+    # The brief and the persona are snapshots of the agent. Without this they
+    # describe the agent as it was born, for as long as nobody re-runs install.
+    # A failure here must not lose the session that was just recorded.
+    from .install import refresh_generated
+    try:
+        ph = core.phenotype(seed, reg, state)
+        changed = refresh_generated(a.cert, a.state, ph, reg, state)
+        if changed:
+            print(f"note: refreshed {', '.join(changed)}", file=sys.stderr)
+    except (OSError, ValueError) as e:
+        print(f"note: could not refresh the generated files: {e}", file=sys.stderr)
     drift = ", ".join(f"{k}:{v:+d}" for k, v in state["drift"].items())
     tension = ", ".join(f"{k}:{v}" for k, v in state["tension"].items())
     print(f"event {state['events']} applied, drift [{drift}], tension [{tension}]")
