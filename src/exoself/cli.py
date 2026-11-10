@@ -100,7 +100,20 @@ def cmd_show(a) -> int:
     if problems:
         print("certificate rejected: " + "; ".join(problems), file=sys.stderr)
         return 1
-    state = _read(a.state) if a.state else None
+    state = None
+    if a.state:
+        state = _read(a.state)
+        if state.get("id") != cert["id"]:
+            print(f"{a.state} belongs to a different agent than {cert['id']}",
+                  file=sys.stderr)
+            return 1
+    else:
+        # The usual mistake: the state is right there and the flag was
+        # forgotten, so the agent is rendered as it was born.
+        sibling = os.path.join(os.path.dirname(os.path.abspath(a.cert)), "state.json")
+        if os.path.exists(sibling):
+            print(f"note: {sibling} exists but --state was not given; "
+                  "rendering the genome only", file=sys.stderr)
     pheno = core.phenotype(bytes.fromhex(cert["seed"]), reg, state)
     if a.format == "json":
         print(json.dumps(pheno, indent=2))
