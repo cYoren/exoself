@@ -5,6 +5,10 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
+rust-version = "1.70"
+readme = "../../../README.md"
+keywords = ["agent", "personality", "temperament", "deterministic", "sha256"]
+categories = ["algorithms", "development-tools"]
 
 [lib]
 name = "exoself_core"

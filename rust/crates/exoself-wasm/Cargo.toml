@@ -1,10 +1,17 @@
 [package]
 name = "exoself-wasm"
+description = "The browser build behind the exoself landing page"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+rust-version = "1.70"
+# Not for crates.io: this is the page's build artefact, not a library.
+publish = false
+
 [lib]
 crate-type = ["cdylib"]
 path = "src/lib.rs"
+
 [dependencies]
-exoself-core = { path = "../exoself-core" }
+exoself-core = { path = "../exoself-core", version = "0.3.0" }
