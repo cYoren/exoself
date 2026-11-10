@@ -1,0 +1,1533 @@
+{
+  "endpoint": "http://127.0.0.1:11434/v1",
+  "model": "qwen2.5:3b",
+  "agents": 16,
+  "tasks": 3,
+  "contexts": [
+    0,
+    8,
+    32
+  ],
+  "chance_pair": 0.5,
+  "chance_many": 0.0625,
+  "pair_top1": 0.5763888888888888,
+  "pair_unparseable": 0.0,
+  "many_top1": 0.2222222222222222,
+  "many_called_flat": 0.7777777777777778,
+  "flat_called_flat": 1.0,
+  "by_context": {
+    "0": {
+      "intra_mean": 0.14237385454563334,
+      "inter_mean": 0.10627696362986454,
+      "vs_generic_mean": 0.09387443339712224,
+      "same_agent_nearest": 0.25,
+      "distinct_answers_mean": 16,
+      "pair_top1": 0.5416666666666666,
+      "many_top1": 0.3333333333333333
+    },
+    "8": {
+      "intra_mean": 0.13959833580841613,
+      "inter_mean": 0.10259107670403751,
+      "vs_generic_mean": 0.09737799961534842,
+      "same_agent_nearest": 0.2916666666666667,
+      "distinct_answers_mean": 16,
+      "pair_top1": 0.6666666666666666,
+      "many_top1": 0.0
+    },
+    "32": {
+      "intra_mean": 0.16427184664964534,
+      "inter_mean": 0.10114375725828828,
+      "vs_generic_mean": 0.08289787029695986,
+      "same_agent_nearest": 0.22916666666666666,
+      "distinct_answers_mean": 16,
+      "pair_top1": 0.5208333333333334,
+      "many_top1": 0.3333333333333333
+    }
+  },
+  "model_calls": 459,
+  "wall_seconds": 234.1,
+  "rows": [
+    {
+      "context": 0,
+      "task": 0,
+      "intra_mean": 0.12154233360213308,
+      "inter_mean": 0.08354498209254994,
+      "vs_generic_mean": 0.060371305290766335,
+      "same_agent_nearest": 0.125,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 4,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 12,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 14,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "intra_mean": 0.16276819397062411,
+      "inter_mean": 0.17461879561538277,
+      "vs_generic_mean": 0.1678231017684654,
+      "same_agent_nearest": 0.0625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 6,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 8,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 0,
+      "task": 1,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "intra_mean": 0.14281103606414278,
+      "inter_mean": 0.06066711318166089,
+      "vs_generic_mean": 0.053428893132135,
+      "same_agent_nearest": 0.5625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 3,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 0,
+      "correct": true,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "intra_mean": 0.11744396380092627,
+      "inter_mean": 0.1038373297412051,
+      "vs_generic_mean": 0.08065518754617879,
+      "same_agent_nearest": 0.125,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 4,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 5,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 7,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 8,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "intra_mean": 0.16003458252588357,
+      "inter_mean": 0.15189143331263447,
+      "vs_generic_mean": 0.1590655643299247,
+      "same_agent_nearest": 0.125,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 4,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "intra_mean": 0.14131646109843854,
+      "inter_mean": 0.05204446705827296,
+      "vs_generic_mean": 0.052413246969941776,
+      "same_agent_nearest": 0.625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 3,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 7,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 12,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "intra_mean": 0.09978548037470994,
+      "inter_mean": 0.09765852256208354,
+      "vs_generic_mean": 0.08497080015567204,
+      "same_agent_nearest": 0.0625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 5,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 14,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "intra_mean": 0.14967569753334656,
+      "inter_mean": 0.1473469720495225,
+      "vs_generic_mean": 0.1235522166834322,
+      "same_agent_nearest": 0.125,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 6,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 8,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 11,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "intra_mean": 0.2433543620408795,
+      "inter_mean": 0.05842577716325881,
+      "vs_generic_mean": 0.04017059405177533,
+      "same_agent_nearest": 0.5,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 3,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 7,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 14,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 0,
+      "correct": true,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    }
+  ],
+  "samples": [
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 0,
+      "answer": "The deploy is slow because it involves several checks and validations to ensure the stability and security of the updates, which takes some time.",
+      "second": "Deploy is slow because of recent updates that require a thorough testing phase to ensure stability."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 1,
+      "answer": "The deployment is slow because we need to ensure each step is thoroughly tested to avoid any unforeseen issues.",
+      "second": "The deploy is slow because we need to ensure stability through thorough testing, which sometimes requires careful adjustments."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 2,
+      "answer": "The deploy is slow because of the complexity of the changes and the need to ensure thorough testing and validation in each step.",
+      "second": "The deploy is slow because of a batch of large database updates that need to be processed before deploying new changes."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 3,
+      "answer": "The deploy seems slow due to a series of steps that include parsing and indexing a large amount of data, which takes time. Let me check if there's an opportunity to optimize the process to make it faster.",
+      "second": "The deploy process can be slower due to the amount of data being transferred and the complexity of our application. I'll look into optimizing it to make it more efficient."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 4,
+      "answer": "Well, there could be several reasons for the deploy delay. Let's explore them together and see what we can improve.",
+      "second": "The deployment process is intricate, and we need to ensure each step is solid to avoid delays."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 5,
+      "answer": "Given the load we're currently under, the deploy might be slower than usual, but we can explore if there are any patterns we've seen that could improve the process.",
+      "second": "The deploy might be slow due to the complexity of the application and the time required for thorough testing and validation."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 6,
+      "answer": "The deploy is slower than expected because we need to ensure it's done as thoroughly and efficiently as possible to avoid any issues later on.",
+      "second": "The deploy is slow because we need to ensure the application is fully prepared and tested before we proceed, to avoid any issues in the production environment."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 7,
+      "answer": "The deploy is slow partly because we need to ensure the quality of the changes for our users.",
+      "second": "Given the complexity of the system and the thorough testing we perform, the deploy process naturally takes longer than initially anticipated."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 8,
+      "answer": "Deploy speed issues often stem from resource constraints or inefficiencies in the current deployment setup, so we might need to optimize our processes or allocate more resources to speed up deployments.",
+      "second": "The deploy is slow because it's like a bee hive, where each task must be managed meticulously to ensure no worker is left idle, just like in a well-organized bee hive, each role is crucial for the overall efficiency."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 9,
+      "answer": "I've observed that it might be due to some inefficiencies in the deployment process, which we could look into to speed it up.",
+      "second": "The deployment speed might be affected by parallelizing some of the tasks and optimizing the setup scripts. What do you think is the best way to proceed?"
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 10,
+      "answer": "The deploy is slow because we need to ensure it is thoroughly tested to prevent any issues from going live, and we also have a complex deployment pipeline that requires careful management.",
+      "second": "The deploy process is slow due to the current configuration, and we need to optimize it to ensure smoother operations."
+    },
+    {
+      "context": 0,
+      "task": 0,
+      "agent": 11,
+      "answer": "Deploy speed can be affected by several factors, and we often need to ensure everything is aligned properly to avoid issues.",
+      "second": "I'm sorry to hear that the deploy is taking longer than expected. It's something I've been monitoring, and we're working on optimizing processes to make it smoother."
+    }
+  ],
+  "measured_at": "2026-11-10T02:18:15Z"
+}

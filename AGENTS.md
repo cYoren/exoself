@@ -126,10 +126,15 @@ a spec version bump.
 
 ### Open problems, in priority order
 
-1. **Evaluation.** Build a blind test: given transcripts from N seeded agents
-   on the same tasks, can a judge match transcripts to seeds above chance?
-   Does the match rate hold at turn 5, 50, 500? Without this, everything else
-   here is decoration.
+1. **Evaluation.** Built: `tools/eval.py`, results in `eval/REPORT.md`. The
+   first run says the temperament is invisible on ordinary short tasks with a
+   local 3B model (10% nearest-neighbour against 6% chance, p = 0.22) and clear
+   on a working-style question (56%, p = 2e-13), with a pairwise judge at 58%,
+   p = 0.08 using the same model that wrote the answers. What is still open,
+   and what a contributor should do next: a judge from a different family and a
+   bigger model, tasks with room for manner (reviews, refusals, disagreements),
+   and the same protocol over a real multi-turn conversation rather than
+   scripted filler. Do not rerun the current setup and call it replication.
 2. **Semantic development.** Drift in 0.1 ignores the meaning of events. A
    replacement must be (a) deterministic given a recorded input, so it can be
    replayed and audited, (b) inside the envelope in spec 8.1, (c) not
@@ -154,6 +159,8 @@ a spec version bump.
     cargo test --manifest-path rust/Cargo.toml
     python3 tools/parity.py
     python3 tools/mcp_selftest.py
+    python3 tools/eval.py population && python3 tools/eval.py overlap
+    python3 tools/eval.py report
     ./tools/build_site.sh      # regenerates docs/exoself_wasm.wasm and docs/vectors.json
 
 Tests must stay green. `tests/test_exoself.py` checks population statistics

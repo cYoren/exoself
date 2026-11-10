@@ -1,0 +1,9 @@
+{
+  "seeds": 2000,
+  "pairs": 1999000,
+  "mean_shared_fraction": 0.10092845589461398,
+  "share_at_least_one_sentence": 0.34428764382191096,
+  "share_most_sentences": 0.042259129564782394,
+  "identical_sentence_sets": 0.0005302651325662832,
+  "measured_at": "2026-11-10T02:10:22Z"
+}

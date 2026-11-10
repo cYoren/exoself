@@ -73,6 +73,8 @@ Example output of `show --format soul`:
 | `docs/` | the landing page, and `docs/HOSTS.md` for wiring a harness |
 | `spec/vectors.json` | conformance vectors for ports |
 | `tests/` | determinism, population statistics, invariants |
+| `tools/eval.py` | measurements: distinctness, overlap, stability, blind model judging |
+| `eval/REPORT.md` | the numbers, published whichever way they fall |
 | `tools/parity.py` | Rust against Python, byte for byte, over many seeds |
 | `tools/mcp_selftest.py` | the MCP server driven over stdin/stdout with no SDK |
 
@@ -126,10 +128,16 @@ Read these before building on this.
    on. The model's trained disposition sits underneath and tends to reassert
    itself over long contexts. Real per-agent temperament would need to live in
    weights, activations or sampling, which this project does not do.
-2. **"More like people" is unproven.** Nobody has yet measured whether seeded
-   agents are distinguishable from each other in blind tests, or stable over
-   time. The first serious contribution this project needs is that eval, not
-   more traits.
+2. **"More like people" is measured now, and the answer is narrow.** See
+   [`eval/REPORT.md`](eval/REPORT.md). With a local three billion parameter
+   model, sixteen seeded agents were no more like themselves than like a
+   stranger on ordinary short tasks, 10% nearest-neighbour against a 6% chance,
+   p = 0.22. On a task that asks how they like to work, the same test separates
+   them cleanly, 56% against the same 6% chance, p = 2e-13. A blind pairwise
+   judge that is the same small model lands at 58%, p = 0.08, which is
+   directional and not significant. So: a temperament reaches the output when
+   manner is what is being measured, and does not otherwise. That is a smaller
+   claim than the project's name and it is the one the data supports.
 3. **The randomness cannot be policed locally.** An operator can delete the
    certificate and draw again. The spec defines a beacon-bound mode that makes
    the draw auditable, but grinding is still possible without a public log.
@@ -151,7 +159,9 @@ styles of attack.
 
 ## Roadmap
 
-1. Distinguishability and stability eval (the claim this project rests on).
+1. ~~Distinguishability and stability eval.~~ Done, and it cut the claim down:
+   `eval/REPORT.md`. The open part is a judge from a different family, longer
+   tasks, and a bigger model.
 2. Second implementation in another language, passing `spec/vectors.json`.
 3. Verified host adapters.
 4. Public commitment log for level 1 attestation.
