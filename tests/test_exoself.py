@@ -551,3 +551,49 @@ def test_the_crate_copies_match_their_sources():
             (ROOT / "src" / "exoself" / "registry" / name).read_bytes(), name
     assert (crate / "spec" / "vectors.json").read_bytes() == \
         (ROOT / "spec" / "vectors.json").read_bytes()
+
+
+# ---------------------------------------------------------------- the brief stays current
+
+def test_a_session_refreshes_the_generated_files(tmp_path):
+    """The brief and the persona are snapshots. If `develop` does not rewrite
+    them, the most common kind of host reads the agent as it was born."""
+    d = str(tmp_path)
+    assert main(["install", "--dir", d, "--desire"]) == 0
+    brief = tmp_path / "AGENTS.md"
+    soul = tmp_path / "SOUL.md"
+    assert "Sessions recorded: 0" in brief.read_text()
+    for i in range(12):
+        assert main(["develop", str(tmp_path / ".exoself/birth.json"),
+                     str(tmp_path / ".exoself/state.json"),
+                     "--event", f"session {i}"]) == 0
+    assert "Sessions recorded: 12" in brief.read_text()
+    # The operator's appetite choice survives the refresh.
+    assert "These are appetites, not goals" in brief.read_text()
+    assert "## Wants" in soul.read_text()
+    # And the persona is exactly what a fresh render would produce.
+    state = str(tmp_path / ".exoself/state.json")
+    cert = str(tmp_path / ".exoself/birth.json")
+    assert main(["show", cert, "--state", state, "--format", "soul", "--desire"]) == 0
+
+
+def test_the_refresh_touches_only_our_own_files(tmp_path):
+    d = str(tmp_path)
+    (tmp_path / "NOTES.md").write_text("# my notes\n\nnot ours\n")
+    (tmp_path / "CLAUDE.md").write_text("# project\n")
+    assert main(["install", "--dir", d, "--file", "CLAUDE.md"]) == 0
+    assert main(["develop", str(tmp_path / ".exoself/birth.json"),
+                 str(tmp_path / ".exoself/state.json"), "--event", "x"]) == 0
+    assert (tmp_path / "NOTES.md").read_text() == "# my notes\n\nnot ours\n"
+    assert "Sessions recorded: 1" in (tmp_path / "CLAUDE.md").read_text()
+    assert not (tmp_path / "AGENTS.md").exists()
+
+
+def test_a_certificate_outside_an_installed_directory_writes_nothing(tmp_path):
+    """`develop` on a loose certificate must not go looking around the tree."""
+    cert = str(tmp_path / "birth.json")
+    state = str(tmp_path / "state.json")
+    (tmp_path / "AGENTS.md").write_text("# untouched\n")
+    assert main(["born", "-o", cert]) == 0
+    assert main(["develop", cert, state, "--event", "x"]) == 0
+    assert (tmp_path / "AGENTS.md").read_text() == "# untouched\n"

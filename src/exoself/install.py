@@ -78,6 +78,66 @@ def merge_mcp_config(existing: str | None, entry: dict) -> dict:
     return root
 
 
+def brief_body(ph: dict, reg: dict, state: dict, cert_path: str, state_path: str,
+               desire: bool) -> str:
+    """The text inside the managed block. Shared by `install` and by the refresh
+    that `develop` does after a session, so the brief cannot say two things."""
+    return (
+        render.render_prompt(ph, reg, desire=desire).rstrip()
+        + f"\n\nAgent: {ph['handle']} ({ph['id']}). "
+        f"Sessions recorded: {state['events']}. Certificate: {cert_path}. "
+        f"State: {state_path}.\n"
+        "Record each session with `exoself develop` or the "
+        "exoself_record_session MCP tool."
+    )
+
+
+def had_desire(text: str) -> bool:
+    """Whether a generated file was rendered with appetites on. The text is
+    ours, so the marker in it is a reliable answer, and it means `develop` never
+    has to be told the operator's choice a second time."""
+    return "These are appetites, not goals" in text
+
+
+def refresh_generated(cert_path: str, state_path: str, ph: dict, reg: dict,
+                      state: dict) -> list[str]:
+    """Bring the generated files in an installed directory up to date after a
+    session. Only files carrying our own marker are touched."""
+    cert_abs = os.path.abspath(cert_path)
+    state_abs = os.path.abspath(state_path)
+    state_dir = os.path.dirname(cert_abs)
+    if os.path.basename(state_dir) != ".exoself":
+        return []          # not an installed layout; not ours to touch
+    directory = os.path.dirname(state_dir)
+    changed = []
+    try:
+        names = sorted(os.listdir(directory))
+    except OSError:
+        return []
+    for name in names:
+        if not name.endswith(".md"):
+            continue
+        path = os.path.join(directory, name)
+        try:
+            with open(path, encoding="utf-8") as f:
+                existing = f.read()
+        except (OSError, UnicodeDecodeError):
+            continue
+        if BEGIN_PREFIX in existing:
+            updated = upsert_block(
+                existing,
+                brief_body(ph, reg, state, cert_abs, state_abs, had_desire(existing)))
+        elif "generated, do not edit by hand" in existing:
+            updated = render.render_soul(ph, reg, desire=had_desire(existing))
+        else:
+            continue
+        if updated != existing:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(updated)
+            changed.append(name)
+    return changed
+
+
 def mcp_command() -> list[str]:
     """How a host should start this implementation's server."""
     exe = shutil.which("exoself")
@@ -140,14 +200,7 @@ def cmd_install(a) -> int:
     if os.path.exists(agent_file):
         with open(agent_file, encoding="utf-8") as f:
             existing = f.read()
-    body = (
-        render.render_prompt(pheno, reg, desire=desire).rstrip()
-        + f"\n\nAgent: {pheno['handle']} ({pheno['id']}). "
-        f"Sessions recorded: {state['events']}. Certificate: {cert_path}. "
-        f"State: {state_path}.\n"
-        "Record each session with `exoself develop` or the "
-        "exoself_record_session MCP tool."
-    )
+    body = brief_body(pheno, reg, state, cert_path, state_path, desire)
     updated = upsert_block(existing, body)
     if updated != existing:
         with open(agent_file, "w", encoding="utf-8") as f:

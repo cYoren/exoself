@@ -547,6 +547,23 @@ fn cmd_develop(args: &[String]) -> Result<i32, String> {
             state_path
         );
     }
+    // The brief and the persona are snapshots of the agent. Without this they
+    // describe the agent as it was born, for as long as nobody re-runs install.
+    // A failure here must not lose the session that was just recorded.
+    let ph = phenotype::phenotype(&cert.seed, &reg, Some(&next));
+    match install::refresh_generated(
+        Path::new(cert_path),
+        Path::new(state_path),
+        &ph,
+        &reg,
+        &next,
+    ) {
+        Ok(changed) if !changed.is_empty() => {
+            eprintln!("note: refreshed {}", changed.join(", "));
+        }
+        Ok(_) => {}
+        Err(e) => eprintln!("note: could not refresh the generated files: {}", e),
+    }
     let drift: Vec<String> = next
         .drift
         .iter()

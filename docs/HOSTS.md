@@ -128,18 +128,24 @@ exoself show .exoself/birth.json --state .exoself/state.json --format soul > SOU
 
 ## Keeping the brief current
 
-`AGENTS.md` and `SOUL.md` are snapshots taken when `install` ran. They do not
-change by themselves: after a hundred sessions the block still says
-`Sessions recorded: 0` and shows the temperament as it was at birth, while a
-host reading MCP sees the current one. Re-run the same command to refresh them
-from the state file:
+`AGENTS.md` and `SOUL.md` are snapshots of the agent, and `develop` rewrites
+them after every session: the block's session count, the drifted temperament,
+the persona. It only touches files that carry its own marker, so your own notes
+and any brief you wrote yourself are left alone, and it keeps whatever appetite
+setting `install` used.
 
 ```bash
-exoself install --dir .          # rewrites SOUL.md and the block, keeps the seed
+exoself develop .exoself/birth.json .exoself/state.json --event "reviewed the PR"
+# note: refreshed AGENTS.md, SOUL.md
 ```
 
-A host that speaks MCP does not need this: `exoself_temperament` reads the
-state file every time it is called.
+That works for a custom `--file CLAUDE.md` or `--soul PERSONA.md` too: every
+`.md` in the installed directory that carries the marker is refreshed. A
+certificate that is not inside a `.exoself/` directory is left alone, because
+there is no installed layout to look in.
+
+A host that speaks MCP does not need any of this: `exoself_temperament` reads
+the state file every time it is called.
 
 ## Growing the agent
 
