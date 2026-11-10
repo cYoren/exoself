@@ -75,7 +75,8 @@ def cmd_develop(a) -> int:
         print("certificate rejected: " + "; ".join(problems), file=sys.stderr)
         return 1
     seed = bytes.fromhex(cert["seed"])
-    state = _read(a.state) if os.path.exists(a.state) else core.new_state(seed, reg)
+    existed = os.path.exists(a.state)
+    state = _read(a.state) if existed else core.new_state(seed, reg)
     if state["id"] != cert["id"]:
         print("state file belongs to a different agent", file=sys.stderr)
         return 1
@@ -85,10 +86,18 @@ def cmd_develop(a) -> int:
         print("unknown drive: " + ", ".join(unknown), file=sys.stderr)
         return 1
     state = core.develop(seed, state, a.event.encode("utf-8"), reg, a.satisfied)
-    with open(a.state, "w", encoding="utf-8") as f:
+    # Write beside the target and rename, so an interrupted run cannot leave a
+    # half-written history behind. The Rust side does the same.
+    tmp = a.state + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)
         f.write("\n")
-    print(f"event {state['events']} applied, drift {state['drift']}, tension {state['tension']}")
+    os.replace(tmp, a.state)
+    if not existed:
+        print(f"note: {a.state} did not exist, so a new history was started", file=sys.stderr)
+    drift = ", ".join(f"{k}:{v:+d}" for k, v in state["drift"].items())
+    tension = ", ".join(f"{k}:{v}" for k, v in state["tension"].items())
+    print(f"event {state['events']} applied, drift [{drift}], tension [{tension}]")
     return 0
 
 
@@ -127,7 +136,7 @@ def cmd_conformance(a) -> int:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="exoself", description=__doc__)
-    p.add_argument("--registry", help="path to a trait registry (default: the one the certificate pins; core@0.2 at birth)")
+    p.add_argument("--registry", help="path to a trait registry (default: the one the certificate pins; core@0.3 at birth)")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     s = sub.add_parser("born", help="draw a seed and write a birth certificate")
@@ -146,8 +155,8 @@ def main(argv=None) -> int:
     s.add_argument("cert")
     s.add_argument("state")
     s.add_argument("--event", required=True)
-    s.add_argument("--satisfied", nargs="*", default=[], metavar="DRIVE",
-                   help="drives this event satisfied")
+    s.add_argument("--satisfied", action="append", default=[], metavar="DRIVE",
+                   help="a drive this event satisfied; repeat the flag for more than one")
     s.set_defaults(fn=cmd_develop)
 
     s = sub.add_parser("verify", help="check a birth certificate")
