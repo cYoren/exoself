@@ -117,6 +117,18 @@ Do not attach consequences to tension. No rewards for low tension, no
 degraded behavior at high tension, no tension-triggered actions. The moment
 tension buys something, the agent has an objective.
 
+### Adding a voice axis
+
+Register is a picks group, one axis per group, `count` 1, items mutually
+exclusive (spec 5.4). Do not add register as dimensions: a dimension joins the
+walk in 8.3, whose step indexes `mod len(dimensions)`, so adding one changes
+every existing agent's development. A picks group is drawn from a label
+nothing else uses and is therefore additive.
+
+Items are habits of writing, second person, no digits, and they must be true
+of a good agent as well as a likeable one. Two axes must never be able to
+contradict each other once drawn.
+
 ### Changing the derivation
 
 A change to an existing derivation in sections 3 to 9 changes who every agent
@@ -126,16 +138,18 @@ a spec version bump.
 
 ### Open problems, in priority order
 
-1. **Evaluation.** Built: `tools/eval.py`, results in `eval/REPORT.md`. The
-   first run says the temperament is invisible on ordinary short tasks with a
-   local 3B model (10.4% and 4.2% nearest-neighbour against 6.25% chance,
-   p = 0.22 and 0.77) and clear on a working-style question (70.8%, p = 2e-13),
-   with a pairwise judge at 57.6%, p = 0.08, and a seventeen-way judge exactly
-   at chance. The judge is the same model that wrote the answers. What is still open,
-   and what a contributor should do next: a judge from a different family and a
-   bigger model, tasks with room for manner (reviews, refusals, disagreements),
-   and the same protocol over a real multi-turn conversation rather than
-   scripted filler. Do not rerun the current setup and call it replication.
+1. **Evaluation.** Built: `tools/eval.py`, results in `eval/REPORT.md`, and it
+   cut the claim down twice. On ordinary short tasks with a local 3B model an
+   agent is no more like itself than like a stranger (12.5% and 4.2%
+   nearest-neighbour against 6.25% chance); on a working-style question it is
+   (54.2%, p = 2e-13). The pairwise judge scored 59.7% in one run and 54.2% in
+   the next on identical inputs, which is larger than the effect anyone wants
+   to report, and a seventeen-way judge is exactly at chance. Adding the 0.3
+   voice layer did not move any of it at this model size.
+   What is still open: a bigger model, then a judge from a different family,
+   tasks with room for manner (reviews, refusals, disagreements), and the same
+   protocol over a real multi-turn conversation rather than scripted filler.
+   Do not rerun the current setup and call it replication.
 2. **Semantic development.** Drift in 0.1 ignores the meaning of events. A
    replacement must be (a) deterministic given a recorded input, so it can be
    replayed and audited, (b) inside the envelope in spec 8.1, (c) not

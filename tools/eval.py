@@ -262,14 +262,13 @@ def cmd_population(a) -> int:
 # stability
 # --------------------------------------------------------------------------
 
-def cmd_stability(a) -> int:
-    reg, _ = core.load_registry()
-    n = a.seeds
+def stability_one(reg: dict, n: int, events: int, mode: str) -> dict:
     early, late, pheno_late = [], [], []
     for i in range(n):
         seed = seed_at(i)
         state = core.new_state(seed, reg)
-        for e in range(a.events):
+        state["develop"] = mode
+        for e in range(events):
             state = core.develop(seed, state, b"session %d" % e, reg)
         early.append(shingles(prompt_for(seed, reg)))
         late.append(shingles(prompt_for(seed, reg, state)))
@@ -295,30 +294,47 @@ def cmd_stability(a) -> int:
 
     # How much of the identity survives: band changes under history.
     bands_changed = 0
+    top_drift = 0
     for i in range(n):
         before = {s["dimension"]: s["band"] for s in core.phenotype(seed_at(i), reg)["salient"]}
         after = {s["dimension"]: s["band"] for s in pheno_late[i]["salient"]}
         if before != after:
             bands_changed += 1
 
-    payload = {
-        "seeds": n,
-        "events": a.events,
+    for i in range(n):
+        state = core.new_state(seed_at(i), reg)
+        state["develop"] = mode
+        for e in range(events):
+            state = core.develop(seed_at(i), state, b"session %d" % e, reg)
+        top_drift = max(top_drift, max((abs(v) for v in state["drift"].values()), default=0))
+
+    return {
+        "mode": mode,
         "similarity_intra_mean": statistics.mean(intra),
         "similarity_inter_mean": statistics.mean(inter),
         "similarity_gap": statistics.mean(intra) - statistics.mean(inter),
         "nearest_twin_accuracy": twin_wins / n,
         "nearest_twin_chance": 1 / n,
         "identity_changed_by_history": bands_changed / n,
+        "max_drift": top_drift,
         "margin_mean": statistics.mean(margins),
         "margin_fraction_positive": sum(1 for m in margins if m > 0) / n,
     }
-    save("stability", payload)
 
-    print(f"intra-seed similarity             {payload['similarity_intra_mean']:.3f}")
-    print(f"inter-seed similarity             {payload['similarity_inter_mean']:.3f}")
-    print(f"nearest neighbour is own twin     {twin_wins}/{n} = {twin_wins/n:.1%} (chance {1/n:.1%})")
-    print(f"identity changed by {a.events} events  {bands_changed/n:.1%}")
+
+def cmd_stability(a) -> int:
+    reg, _ = core.load_registry()
+    n, events = a.seeds, a.events
+    modes = [core.DEVELOP_MEAN_REVERTING, core.DEVELOP_WALK]
+    payload = {"seeds": n, "events": events,
+               "modes": {m: stability_one(reg, n, events, m) for m in modes}}
+    save("stability", payload)
+    for m in modes:
+        v = payload["modes"][m]
+        print(f"{m:14s} intra {v['similarity_intra_mean']:.3f} "
+              f"nearest own twin {v['nearest_twin_accuracy']:.1%} "
+              f"identity changed {v['identity_changed_by_history']:.1%} "
+              f"max|drift| {v['max_drift']}")
     return 0
 
 
@@ -363,6 +379,30 @@ def cmd_overlap(a) -> int:
         "share_at_least_one_sentence": sum(1 for x in shared if x > 0) / max(1, pairs),
         "share_most_sentences": sum(1 for x in shared if x >= 0.5) / max(1, pairs),
         "identical_sentence_sets": identical / max(1, pairs),
+    }
+    # The same question asked of everything an agent actually says, not only of
+    # its temperament sentences. This is where a voice layer shows up.
+    spoken = []
+    for i in range(a.seeds):
+        p = core.phenotype(seed_at(i), reg)
+        dims = {d["id"]: d["text"] for d in reg["dimensions"]}
+        units = {dims[s["dimension"]][s["band"]] for s in p["salient"]}
+        for name, group in reg["picks"].items():
+            items = {i["id"]: i["text"] for i in group["items"]}
+            units |= {items[pid] for pid in p["picks"][name]}
+        quirks = {q["id"]: q["text"] for q in reg["quirks"]}
+        units |= {quirks[q] for q in p["quirks"]}
+        spoken.append(units)
+    e_shared = []
+    for i in range(0, len(spoken), step):
+        for j in range(i + 1, len(spoken), step):
+            common = len(spoken[i] & spoken[j])
+            e_shared.append(common / max(1, max(len(spoken[i]), len(spoken[j]))))
+    payload["expression"] = {
+        "mean_shared_fraction": statistics.mean(e_shared),
+        "share_at_least_one_sentence": sum(1 for x in e_shared if x > 0) / max(1, len(e_shared)),
+        "share_most_sentences": sum(1 for x in e_shared if x >= 0.5) / max(1, len(e_shared)),
+        "identical_sentence_sets": sum(1 for x in e_shared if x >= 0.999) / max(1, len(e_shared)),
     }
     save("overlap", payload)
     print(f"pairs compared                       {pairs}")
@@ -484,7 +524,7 @@ def cmd_behaviour(a) -> int:
     A judge is added on top, and its degenerate behaviour is reported rather
     than hidden.
     """
-    reg, _ = core.load_registry()
+    reg, reg_hash = core.load_registry(name=a.registry)
     model = Model(a.endpoint, a.model)
     agents = a.agents
     seeds = [seed_at(i) for i in range(agents)]
@@ -613,13 +653,15 @@ def cmd_behaviour(a) -> int:
         "many_top1": agg["many"]["accuracy"],
         "many_called_flat": sum(1 for r in many_rows if r.get("generic_call")) / max(1, len(many_rows)),
         "flat_called_flat": sum(1 for r in flat_rows if r.get("generic_call")) / max(1, len(flat_rows)),
+        "registry": a.registry,
+        "registry_sha256": reg_hash,
         "aggregate": agg,
         "model_calls": model.calls,
         "wall_seconds": round(time.time() - started, 1),
         "rows": rows,
         "samples": samples[:48],
     }
-    save("behaviour", payload)
+    save(a.save, payload)
 
     print(f"\npairwise top-1 {agg['pair']['hits']}/{agg['pair']['trials']} = "
           f"{agg['pair']['accuracy']:.1%} (chance 50.0%, p={agg['pair']['p']:.3f})")
@@ -650,7 +692,10 @@ def cmd_report(a) -> int:
     stab = load("stability")
     overlap = load("overlap")
     beh = load("behaviour")
+    beh_old = load("behaviour-0.2")
     agg = aggregate(beh["rows"], beh["agents"], beh["tasks"], beh["contexts"]) if beh else None
+    agg_old = (aggregate(beh_old["rows"], beh_old["agents"], beh_old["tasks"], beh_old["contexts"])
+               if beh_old else None)
 
     out: list[str] = []
     w = out.append
@@ -661,9 +706,14 @@ def cmd_report(a) -> int:
     w("document without depending on a local RNG.")
     w("")
     w("`AGENTS.md` names distinguishability and stability as the open problem this")
-    w("project rests on, and `SPEC.md` section 13 admits there was no evidence for")
-    w("either. This is the first measurement. It is published whichever way it falls,")
-    w("including the part where it falls flat.")
+    w("project rests on, and `SPEC.md` section 13 admitted there was no evidence for")
+    w("either. This is that evidence. It is published whichever way it falls,")
+    w("including the parts where it falls flat.")
+    w("")
+    w("Measured against `core@0.3`. Every table that changes between 0.2 and 0.3")
+    w("shows both: development under both rules in section 8.3, and the model")
+    w("experiment run against both registries. The 0.3 registry is additive, so")
+    w("the temperament numbers are the same in both.")
     w("")
 
     if pop:
@@ -717,27 +767,60 @@ def cmd_report(a) -> int:
         w(f"| pairs sharing half or more | {overlap['share_most_sentences']:.1%} |")
         w(f"| identical sentence sets | {overlap['identical_sentence_sets']:.2%} |")
         w("")
-        w("This is the honest ceiling for text-only distinguishability, and it is the")
-        w("number to quote when someone asks whether seeded agents are different")
-        w("people. They are different sentences, not different universes: one pair in")
-        w("three shares a sentence and one in twenty-four shares half of them. More")
-        w("dimensions or a voice layer moves this; more seeds does not.")
+        w("Temperament sentences alone are the honest ceiling for telling two agents")
+        w("apart by text, and the number is not flattering: one pair in three shares a")
+        w("sentence, one in twenty-four shares half of them. They are different")
+        w("sentences, not different universes. More seeds does not move this.")
+        w("")
+        e = overlap.get("expression")
+        if e:
+            w("`core@0.3` added a voice layer, four axes drawn one option each")
+            w("(rhythm, hedging, examples, formality). Asking the same question of")
+            w("everything an agent actually says, temperament and picks and quirks")
+            w("together:")
+            w("")
+            w("| quantity | temperament only | everything expressed |")
+            w("| --- | --- | --- |")
+            w(f"| mean shared fraction | {overlap['mean_shared_fraction']:.1%} | "
+              f"{e['mean_shared_fraction']:.1%} |")
+            w(f"| at least one shared sentence | {overlap['share_at_least_one_sentence']:.1%} | "
+              f"{e['share_at_least_one_sentence']:.1%} |")
+            w(f"| half or more shared | {overlap['share_most_sentences']:.1%} | "
+              f"{e['share_most_sentences']:.1%} |")
+            w(f"| identical sets | {overlap['identical_sentence_sets']:.2%} | "
+              f"{e['identical_sentence_sets']:.2%} |")
+            w("")
+            w("Read that table as two separate results. Whole-set collisions go to")
+            w("zero, because there are more axes, so no two agents say exactly the")
+            w("same things. Sharing at least one sentence goes *up*, to 95%, because")
+            w("each register axis has only three to five options: a pair of agents is")
+            w("very likely to agree on one of them. That is what a small authored pool")
+            w("does, and it is worth knowing before anyone promises that more registry")
+            w("content makes agents distinguishable. It makes them individually")
+            w("composed of more distinct sentences, which is not the same thing as")
+            w("sharing fewer.")
         w("")
 
     if stab:
+        modes = stab.get("modes", {})
         w("## Is the temperament stable under its own history")
         w("")
         w(f"The same {stab['seeds']} seeds, rendered before and after {stab['events']}")
-        w("experience events:")
+        w("experience events, under both development rules in the spec:")
         w("")
-        w("| quantity | value |")
-        w("| --- | --- |")
-        w(f"| similarity, same seed before and after | {stab['similarity_intra_mean']:.3f} |")
-        w(f"| similarity, different seeds | {stab['similarity_inter_mean']:.3f} |")
-        w(f"| gap | {stab['similarity_gap']:+.3f} |")
-        w(f"| nearest neighbour is own older self | {stab['nearest_twin_accuracy']:.1%} "
-          f"(chance {stab['nearest_twin_chance']:.1%}) |")
-        w(f"| agents whose expressed identity changed | {stab['identity_changed_by_history']:.1%} |")
+        w("| quantity | mean-reverting | walk |")
+        w("| --- | --- | --- |")
+        mr = modes.get(core.DEVELOP_MEAN_REVERTING, {})
+        wk = modes.get(core.DEVELOP_WALK, {})
+        for label, key, fmt in [
+            ("similarity, same seed before and after", "similarity_intra_mean", "{:.3f}"),
+            ("similarity, different seeds", "similarity_inter_mean", "{:.3f}"),
+            ("gap", "similarity_gap", "{:+.3f}"),
+            ("nearest neighbour is own older self", "nearest_twin_accuracy", "{:.1%}"),
+            ("agents whose expressed identity changed", "identity_changed_by_history", "{:.1%}"),
+            ("furthest a dimension had moved", "max_drift", "{}"),
+        ]:
+            w(f"| {label} | {fmt.format(mr[key])} | {fmt.format(wk[key])} |")
         w("")
         w("Read the third row as a consistency check, not as evidence of")
         w("discriminability: an agent's older text shares its sentences with its own")
@@ -746,11 +829,15 @@ def cmd_report(a) -> int:
         w("history does not wander off: after 500 events nobody had become a different")
         w("person.")
         w("")
-        w("The last row is the one to worry about. More than a third of agents change")
-        w("which dimensions they express within a few hundred sessions, and drift is a")
-        w("symmetric random walk against a hard cap, so a long-lived agent ends up")
-        w("pinned at the envelope on the dimensions it happened to touch. That reads as")
-        w("a caricature given enough time.")
+        w("The last two rows are what 0.3 changed. Under the 0.2 walk, drift is a")
+        w("symmetric random walk against a hard cap: after a few thousand sessions it")
+        w("sits on the cap and an agent is pinned at the envelope on whichever")
+        w("dimensions it happened to touch, which reads as a caricature. With the")
+        w("reverting step, drift plateaus instead of saturating, and the share of")
+        w("agents whose expressed identity changes falls with it. Neither rule can")
+        w("keep every agent identical forever, because a band boundary is a threshold")
+        w("and any drift at all can cross one. The claim is the narrower one: the")
+        w("envelope is approached, not sat on.")
         w("")
 
     if beh and agg:
@@ -759,6 +846,8 @@ def cmd_report(a) -> int:
         w(f"{beh['agents']} seeded agents, {beh['tasks']} tasks, and context lengths of")
         w(f"{', '.join(str(c) for c in beh['contexts'])} filler exchanges, with two")
         w("samples per agent and task, plus one unseeded assistant as a baseline.")
+        w("")
+        w(f"Registry: `{beh.get('registry', 'core@0.3')}`.")
         w("")
         w(f"Model: `{beh['model']}` at `{beh['endpoint']}`. {beh['model_calls']} calls, ")
         w(f"{beh['wall_seconds']}s, all local.")
@@ -787,8 +876,37 @@ def cmd_report(a) -> int:
         w("agent's two answers resemble each other three times as much as another")
         w("agent's.")
         w("")
-        w("Which is what the design says should happen. Section 2.1 makes traits style")
-        w("and never substance, so a two sentence answer to a factual question has no")
+        if agg_old:
+            w("### Did the voice layer change that")
+            w("")
+            w("The same protocol, same seeds, same tasks, run against `core@0.2` (no")
+            w("voice) and `core@0.3` (four register axes). Nearest own sample, by task:")
+            w("")
+            w("| task | without a voice | with a voice | chance |")
+            w("| --- | --- | --- | --- |")
+            for t in agg["by_task"]:
+                a2 = agg_old["by_task"].get(t, {})
+                w(f"| {names.get(int(t), t)} | {a2.get('same_agent_nearest', 0):.1%} | "
+                  f"{agg['by_task'][t]['same_agent_nearest']:.1%} | {1/beh['agents']:.1%} |")
+            w(f"| **all** | **{agg_old['nn_pooled']['accuracy']:.1%}** | "
+              f"**{agg['nn_pooled']['accuracy']:.1%}** | "
+              f"{agg['nn_pooled']['chance']:.1%} |")
+            w("")
+            w("That is a null result and it should be read as one. Adding four")
+            w("register axes to the prompt did not make an agent more like itself on a")
+            w("short answer. It made the numbers slightly worse on every task, in every")
+            w("case inside noise. The registries differ, the seeds do not, so what")
+            w("changed is only what the model was reading.")
+            w("")
+            w("The honest reading: at this size, the model's own disposition fills a")
+            w("two-sentence answer and leaves no room for a voice it was told to have.")
+            w("The layer is worth keeping because a longer answer, a bigger model or a")
+            w("different sampling setting may spend it, and because it costs nothing in")
+            w("the derivation. It is not worth claiming as a fix.")
+            w("")
+
+        w("Section 2.1 explains the shape of that table: traits are style and never")
+        w("substance, so a two sentence answer to a factual question has no")
         w("room to show style, and the model's trained disposition fills the space. The")
         w("claim worth making is narrower than \"more like people\": an agent's manner")
         w("is consistent and identifiable when manner is what is being measured.")
@@ -830,9 +948,12 @@ def cmd_report(a) -> int:
     w("")
     w("In the order I would spend effort:")
     w("")
-    w("1. **A judge from a different family, and a bigger one.** The current judge is")
-    w("   the model being judged. This is the cheapest way to learn whether 58% is a")
-    w("   weak effect or a weak judge.")
+    w("1. **A bigger model, and then a judge from a different family.** The")
+    w("   pairwise judge scored 59.7% in one run and 54.2% in the next, on the same")
+    w("   seeds and the same candidate profiles: run-to-run variation is the same")
+    w("   size as the effect anyone would want to report. Fix the variance before")
+    w("   quoting the number, and remember that the judge here is the model being")
+    w("   judged.")
     w("2. **Tasks with room for manner.** The style-is-not-substance rule makes factual")
     w("   questions a bad test by construction. Reviews, refusals, disagreements and")
     w("   long explanations are where a temperament should show.")
@@ -849,7 +970,8 @@ def cmd_report(a) -> int:
     w("python3 tools/eval.py population --seeds 20000")
     w("python3 tools/eval.py overlap --seeds 2000 --pairs 0")
     w("python3 tools/eval.py stability --seeds 300 --events 500")
-    w("python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32")
+    w("python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32 --registry core@0.2 --save behaviour-0.2")
+    w("python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32 --registry core@0.3")
     w("python3 tools/eval.py report")
     w("```")
     w("")
@@ -890,6 +1012,9 @@ def main() -> int:
     s.add_argument("--contexts", nargs="*", default=["0", "4", "16"])
     s.add_argument("--endpoint", default="http://127.0.0.1:11434/v1")
     s.add_argument("--model", default="qwen2.5:3b")
+    s.add_argument("--registry", default=core.DEFAULT_REGISTRY,
+                   help="registry to measure; core@0.2 has no voice layer")
+    s.add_argument("--save", default="behaviour")
     s.set_defaults(fn=cmd_behaviour)
 
     s = sub.add_parser("report", help="rebuild eval/REPORT.md from the results")

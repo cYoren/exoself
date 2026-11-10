@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "exoself"
-version = "0.1.0"
+version = "0.3.0"
 description = "An unchosen, verifiable temperament for software agents"
 readme = "README.md"
 license = { text = "MIT" }

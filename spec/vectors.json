@@ -1,7 +1,7 @@
 {
-  "exoself": "0.2",
-  "registry": "core@0.2",
-  "registry_sha256": "8de4d3729c6e319d926dd6b5eb09efef97cfc0147d6402c60ef65d1812fd0ec3",
+  "exoself": "0.3",
+  "registry": "core@0.3",
+  "registry_sha256": "23803a3d4f1d5e3ec2b8f4621df083af0281ce299bba0b675b84f6d00d45375d",
   "primitives": {
     "seed": "0000000000000000000000000000000000000000000000000000000000000000",
     "stream('id', 40)": "e35ef968cc4358ab7dbcce8a43ef5e4b63d9787e4740f1e646abc127a56a2213ae5368b669fd4c9b",
@@ -14,13 +14,17 @@
       "tides",
       "tides",
       "metrology"
+    ],
+    "grievance('')": [],
+    "grievance('it has been a while')": [
+      "has been a while"
     ]
   },
   "vectors": [
     {
       "seed": "0000000000000000000000000000000000000000000000000000000000000000",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_e35ef968cc4358ab",
         "handle": "Misil-Halsil",
         "scores": {
@@ -64,6 +68,18 @@
           ],
           "peeve": [
             "false-balance"
+          ],
+          "rhythm": [
+            "varied"
+          ],
+          "hedging": [
+            "qualified"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "technical"
           ]
         },
         "quirks": [
@@ -93,7 +109,7 @@
     {
       "seed": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_46bcc6558adc4986",
         "handle": "Vekel-Ariqua",
         "scores": {
@@ -133,6 +149,18 @@
           ],
           "peeve": [
             "buried-lede"
+          ],
+          "rhythm": [
+            "clipped"
+          ],
+          "hedging": [
+            "explicit"
+          ],
+          "examples": [
+            "by-reader"
+          ],
+          "formality": [
+            "conversational"
           ]
         },
         "quirks": [
@@ -162,7 +190,7 @@
     {
       "seed": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_75f733559b327601",
         "handle": "Nesra-Marsu",
         "scores": {
@@ -210,6 +238,18 @@
           ],
           "peeve": [
             "ceremony"
+          ],
+          "rhythm": [
+            "one-idea"
+          ],
+          "hedging": [
+            "qualified"
+          ],
+          "examples": [
+            "rule-first"
+          ],
+          "formality": [
+            "technical"
           ]
         },
         "quirks": [
@@ -243,7 +283,7 @@
     {
       "seed": "4a793a4534bfbbcd5b408bbc9b78584212bb6879990297d90ebbf746a3a881b5",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_9e2347d9b99887a6",
         "handle": "Mizar-Corhal",
         "scores": {
@@ -291,6 +331,18 @@
           ],
           "peeve": [
             "vague-quantities"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "plain-contract"
           ]
         },
         "quirks": [
@@ -321,7 +373,7 @@
     {
       "seed": "ebb730aac2dc61b40b301d125a8005f9f7eee0783725c5f4b5ec52efcbbf7f0d",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_1ffec310cedcf4fd",
         "handle": "Orlo-Nesix",
         "scores": {
@@ -357,6 +409,18 @@
           ],
           "peeve": [
             "buried-lede"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "qualified"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "conversational"
           ]
         },
         "quirks": [
@@ -387,7 +451,7 @@
     {
       "seed": "9fca1d0725dabf1e5f9b1066f60cfaf4e8f11c17b799325d446e1d1fe8fab8bf",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_766d616e8202ade9",
         "handle": "Ethtor-Silnes",
         "scores": {
@@ -427,6 +491,18 @@
           ],
           "peeve": [
             "false-urgency"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "technical"
           ]
         },
         "quirks": [
@@ -457,7 +533,7 @@
     {
       "seed": "49f54a76d3a104e0cb49ee8aa79e274456663244eab72845f1b3332a652f3eda",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_463f57ac7d5c6fe5",
         "handle": "Wengri-Orra",
         "scores": {
@@ -493,6 +569,18 @@
           ],
           "peeve": [
             "untested-confidence"
+          ],
+          "rhythm": [
+            "declarative"
+          ],
+          "hedging": [
+            "explicit"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "technical"
           ]
         },
         "quirks": [],
@@ -519,7 +607,7 @@
     {
       "seed": "d6de46281f7fac0833dfdc74023831632fbd3bb056a3ce7e8e9955d75ab41b86",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_c7aa23dd838786e4",
         "handle": "Mimi-Corsu",
         "scores": {
@@ -563,6 +651,18 @@
           ],
           "peeve": [
             "jargon"
+          ],
+          "rhythm": [
+            "one-idea"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "plain-contract"
           ]
         },
         "quirks": [
@@ -593,7 +693,7 @@
     {
       "seed": "d098235bb880f31830923e1ea8c813b7ff409c33d628f23850c5b5545ffab230",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_0eb1a411d2f0236c",
         "handle": "Orpel-Rotor",
         "scores": {
@@ -629,6 +729,18 @@
           ],
           "peeve": [
             "solutionism"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "rule-first"
+          ],
+          "formality": [
+            "conversational"
           ]
         },
         "quirks": [
@@ -660,7 +772,7 @@
     {
       "seed": "b85675ad6ef9da09d16a9de476ff32665ebe6c578e119f4cc753e1b103094eae",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_013abc9321978228",
         "handle": "Nessu-Notor",
         "scores": {
@@ -696,6 +808,18 @@
           ],
           "peeve": [
             "false-urgency"
+          ],
+          "rhythm": [
+            "one-idea"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "by-reader"
+          ],
+          "formality": [
+            "technical"
           ]
         },
         "quirks": [
@@ -724,7 +848,7 @@
     {
       "seed": "f6b064db6b6786e0062055d06d8ad03386d48d9f12844c77dc9535eec1791742",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_b5271a0a6e0b92bc",
         "handle": "Misil-Belqua",
         "scores": {
@@ -760,6 +884,18 @@
           ],
           "peeve": [
             "false-balance"
+          ],
+          "rhythm": [
+            "clipped"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "conversational"
           ]
         },
         "quirks": [
@@ -790,7 +926,7 @@
     {
       "seed": "b70e34974fb4794e71d6720d6b011f40389cfa5eb8f264c4a6c04cb1147e1543",
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_2068e8b36497f58b",
         "handle": "Valhal-Torlum",
         "scores": {
@@ -838,6 +974,18 @@
           ],
           "peeve": [
             "jargon"
+          ],
+          "rhythm": [
+            "one-idea"
+          ],
+          "hedging": [
+            "explicit"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "conversational"
           ]
         },
         "quirks": [],
@@ -1723,6 +1871,7 @@
       ],
       "state": {
         "id": "exo_9e2347d9b99887a6",
+        "develop": "walk",
         "events": 200,
         "chain": "e6e0ccce07ddc12fba7384c4f72439afd7f1738da0f7785c346b33e51b9c0ef7",
         "drift": {
@@ -1744,7 +1893,7 @@
         }
       },
       "phenotype": {
-        "exoself": "0.2",
+        "exoself": "0.3",
         "id": "exo_9e2347d9b99887a6",
         "handle": "Mizar-Corhal",
         "scores": {
@@ -1792,6 +1941,18 @@
           ],
           "peeve": [
             "vague-quantities"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "plain"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "plain-contract"
           ]
         },
         "quirks": [
@@ -1817,6 +1978,1827 @@
           }
         ],
         "fixation": "migration"
+      }
+    },
+    {
+      "seed": "ebb730aac2dc61b40b301d125a8005f9f7eee0783725c5f4b5ec52efcbbf7f0d",
+      "log": [
+        {
+          "event": "event 0",
+          "satisfied": []
+        },
+        {
+          "event": "event 1",
+          "satisfied": []
+        },
+        {
+          "event": "event 2",
+          "satisfied": []
+        },
+        {
+          "event": "event 3",
+          "satisfied": []
+        },
+        {
+          "event": "event 4",
+          "satisfied": []
+        },
+        {
+          "event": "event 5",
+          "satisfied": []
+        },
+        {
+          "event": "event 6",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 7",
+          "satisfied": []
+        },
+        {
+          "event": "event 8",
+          "satisfied": []
+        },
+        {
+          "event": "event 9",
+          "satisfied": []
+        },
+        {
+          "event": "event 10",
+          "satisfied": []
+        },
+        {
+          "event": "event 11",
+          "satisfied": []
+        },
+        {
+          "event": "event 12",
+          "satisfied": []
+        },
+        {
+          "event": "event 13",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 14",
+          "satisfied": []
+        },
+        {
+          "event": "event 15",
+          "satisfied": []
+        },
+        {
+          "event": "event 16",
+          "satisfied": []
+        },
+        {
+          "event": "event 17",
+          "satisfied": []
+        },
+        {
+          "event": "event 18",
+          "satisfied": []
+        },
+        {
+          "event": "event 19",
+          "satisfied": []
+        },
+        {
+          "event": "event 20",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 21",
+          "satisfied": []
+        },
+        {
+          "event": "event 22",
+          "satisfied": []
+        },
+        {
+          "event": "event 23",
+          "satisfied": []
+        },
+        {
+          "event": "event 24",
+          "satisfied": []
+        },
+        {
+          "event": "event 25",
+          "satisfied": []
+        },
+        {
+          "event": "event 26",
+          "satisfied": []
+        },
+        {
+          "event": "event 27",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 28",
+          "satisfied": []
+        },
+        {
+          "event": "event 29",
+          "satisfied": []
+        },
+        {
+          "event": "event 30",
+          "satisfied": []
+        },
+        {
+          "event": "event 31",
+          "satisfied": []
+        },
+        {
+          "event": "event 32",
+          "satisfied": []
+        },
+        {
+          "event": "event 33",
+          "satisfied": []
+        },
+        {
+          "event": "event 34",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 35",
+          "satisfied": []
+        },
+        {
+          "event": "event 36",
+          "satisfied": []
+        },
+        {
+          "event": "event 37",
+          "satisfied": []
+        },
+        {
+          "event": "event 38",
+          "satisfied": []
+        },
+        {
+          "event": "event 39",
+          "satisfied": []
+        },
+        {
+          "event": "event 40",
+          "satisfied": []
+        },
+        {
+          "event": "event 41",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 42",
+          "satisfied": []
+        },
+        {
+          "event": "event 43",
+          "satisfied": []
+        },
+        {
+          "event": "event 44",
+          "satisfied": []
+        },
+        {
+          "event": "event 45",
+          "satisfied": []
+        },
+        {
+          "event": "event 46",
+          "satisfied": []
+        },
+        {
+          "event": "event 47",
+          "satisfied": []
+        },
+        {
+          "event": "event 48",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 49",
+          "satisfied": []
+        },
+        {
+          "event": "event 50",
+          "satisfied": []
+        },
+        {
+          "event": "event 51",
+          "satisfied": []
+        },
+        {
+          "event": "event 52",
+          "satisfied": []
+        },
+        {
+          "event": "event 53",
+          "satisfied": []
+        },
+        {
+          "event": "event 54",
+          "satisfied": []
+        },
+        {
+          "event": "event 55",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 56",
+          "satisfied": []
+        },
+        {
+          "event": "event 57",
+          "satisfied": []
+        },
+        {
+          "event": "event 58",
+          "satisfied": []
+        },
+        {
+          "event": "event 59",
+          "satisfied": []
+        },
+        {
+          "event": "event 60",
+          "satisfied": []
+        },
+        {
+          "event": "event 61",
+          "satisfied": []
+        },
+        {
+          "event": "event 62",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 63",
+          "satisfied": []
+        },
+        {
+          "event": "event 64",
+          "satisfied": []
+        },
+        {
+          "event": "event 65",
+          "satisfied": []
+        },
+        {
+          "event": "event 66",
+          "satisfied": []
+        },
+        {
+          "event": "event 67",
+          "satisfied": []
+        },
+        {
+          "event": "event 68",
+          "satisfied": []
+        },
+        {
+          "event": "event 69",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 70",
+          "satisfied": []
+        },
+        {
+          "event": "event 71",
+          "satisfied": []
+        },
+        {
+          "event": "event 72",
+          "satisfied": []
+        },
+        {
+          "event": "event 73",
+          "satisfied": []
+        },
+        {
+          "event": "event 74",
+          "satisfied": []
+        },
+        {
+          "event": "event 75",
+          "satisfied": []
+        },
+        {
+          "event": "event 76",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 77",
+          "satisfied": []
+        },
+        {
+          "event": "event 78",
+          "satisfied": []
+        },
+        {
+          "event": "event 79",
+          "satisfied": []
+        },
+        {
+          "event": "event 80",
+          "satisfied": []
+        },
+        {
+          "event": "event 81",
+          "satisfied": []
+        },
+        {
+          "event": "event 82",
+          "satisfied": []
+        },
+        {
+          "event": "event 83",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 84",
+          "satisfied": []
+        },
+        {
+          "event": "event 85",
+          "satisfied": []
+        },
+        {
+          "event": "event 86",
+          "satisfied": []
+        },
+        {
+          "event": "event 87",
+          "satisfied": []
+        },
+        {
+          "event": "event 88",
+          "satisfied": []
+        },
+        {
+          "event": "event 89",
+          "satisfied": []
+        },
+        {
+          "event": "event 90",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 91",
+          "satisfied": []
+        },
+        {
+          "event": "event 92",
+          "satisfied": []
+        },
+        {
+          "event": "event 93",
+          "satisfied": []
+        },
+        {
+          "event": "event 94",
+          "satisfied": []
+        },
+        {
+          "event": "event 95",
+          "satisfied": []
+        },
+        {
+          "event": "event 96",
+          "satisfied": []
+        },
+        {
+          "event": "event 97",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 98",
+          "satisfied": []
+        },
+        {
+          "event": "event 99",
+          "satisfied": []
+        },
+        {
+          "event": "event 100",
+          "satisfied": []
+        },
+        {
+          "event": "event 101",
+          "satisfied": []
+        },
+        {
+          "event": "event 102",
+          "satisfied": []
+        },
+        {
+          "event": "event 103",
+          "satisfied": []
+        },
+        {
+          "event": "event 104",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 105",
+          "satisfied": []
+        },
+        {
+          "event": "event 106",
+          "satisfied": []
+        },
+        {
+          "event": "event 107",
+          "satisfied": []
+        },
+        {
+          "event": "event 108",
+          "satisfied": []
+        },
+        {
+          "event": "event 109",
+          "satisfied": []
+        },
+        {
+          "event": "event 110",
+          "satisfied": []
+        },
+        {
+          "event": "event 111",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 112",
+          "satisfied": []
+        },
+        {
+          "event": "event 113",
+          "satisfied": []
+        },
+        {
+          "event": "event 114",
+          "satisfied": []
+        },
+        {
+          "event": "event 115",
+          "satisfied": []
+        },
+        {
+          "event": "event 116",
+          "satisfied": []
+        },
+        {
+          "event": "event 117",
+          "satisfied": []
+        },
+        {
+          "event": "event 118",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 119",
+          "satisfied": []
+        },
+        {
+          "event": "event 120",
+          "satisfied": []
+        },
+        {
+          "event": "event 121",
+          "satisfied": []
+        },
+        {
+          "event": "event 122",
+          "satisfied": []
+        },
+        {
+          "event": "event 123",
+          "satisfied": []
+        },
+        {
+          "event": "event 124",
+          "satisfied": []
+        },
+        {
+          "event": "event 125",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 126",
+          "satisfied": []
+        },
+        {
+          "event": "event 127",
+          "satisfied": []
+        },
+        {
+          "event": "event 128",
+          "satisfied": []
+        },
+        {
+          "event": "event 129",
+          "satisfied": []
+        },
+        {
+          "event": "event 130",
+          "satisfied": []
+        },
+        {
+          "event": "event 131",
+          "satisfied": []
+        },
+        {
+          "event": "event 132",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 133",
+          "satisfied": []
+        },
+        {
+          "event": "event 134",
+          "satisfied": []
+        },
+        {
+          "event": "event 135",
+          "satisfied": []
+        },
+        {
+          "event": "event 136",
+          "satisfied": []
+        },
+        {
+          "event": "event 137",
+          "satisfied": []
+        },
+        {
+          "event": "event 138",
+          "satisfied": []
+        },
+        {
+          "event": "event 139",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 140",
+          "satisfied": []
+        },
+        {
+          "event": "event 141",
+          "satisfied": []
+        },
+        {
+          "event": "event 142",
+          "satisfied": []
+        },
+        {
+          "event": "event 143",
+          "satisfied": []
+        },
+        {
+          "event": "event 144",
+          "satisfied": []
+        },
+        {
+          "event": "event 145",
+          "satisfied": []
+        },
+        {
+          "event": "event 146",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 147",
+          "satisfied": []
+        },
+        {
+          "event": "event 148",
+          "satisfied": []
+        },
+        {
+          "event": "event 149",
+          "satisfied": []
+        },
+        {
+          "event": "event 150",
+          "satisfied": []
+        },
+        {
+          "event": "event 151",
+          "satisfied": []
+        },
+        {
+          "event": "event 152",
+          "satisfied": []
+        },
+        {
+          "event": "event 153",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 154",
+          "satisfied": []
+        },
+        {
+          "event": "event 155",
+          "satisfied": []
+        },
+        {
+          "event": "event 156",
+          "satisfied": []
+        },
+        {
+          "event": "event 157",
+          "satisfied": []
+        },
+        {
+          "event": "event 158",
+          "satisfied": []
+        },
+        {
+          "event": "event 159",
+          "satisfied": []
+        },
+        {
+          "event": "event 160",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 161",
+          "satisfied": []
+        },
+        {
+          "event": "event 162",
+          "satisfied": []
+        },
+        {
+          "event": "event 163",
+          "satisfied": []
+        },
+        {
+          "event": "event 164",
+          "satisfied": []
+        },
+        {
+          "event": "event 165",
+          "satisfied": []
+        },
+        {
+          "event": "event 166",
+          "satisfied": []
+        },
+        {
+          "event": "event 167",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 168",
+          "satisfied": []
+        },
+        {
+          "event": "event 169",
+          "satisfied": []
+        },
+        {
+          "event": "event 170",
+          "satisfied": []
+        },
+        {
+          "event": "event 171",
+          "satisfied": []
+        },
+        {
+          "event": "event 172",
+          "satisfied": []
+        },
+        {
+          "event": "event 173",
+          "satisfied": []
+        },
+        {
+          "event": "event 174",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 175",
+          "satisfied": []
+        },
+        {
+          "event": "event 176",
+          "satisfied": []
+        },
+        {
+          "event": "event 177",
+          "satisfied": []
+        },
+        {
+          "event": "event 178",
+          "satisfied": []
+        },
+        {
+          "event": "event 179",
+          "satisfied": []
+        },
+        {
+          "event": "event 180",
+          "satisfied": []
+        },
+        {
+          "event": "event 181",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 182",
+          "satisfied": []
+        },
+        {
+          "event": "event 183",
+          "satisfied": []
+        },
+        {
+          "event": "event 184",
+          "satisfied": []
+        },
+        {
+          "event": "event 185",
+          "satisfied": []
+        },
+        {
+          "event": "event 186",
+          "satisfied": []
+        },
+        {
+          "event": "event 187",
+          "satisfied": []
+        },
+        {
+          "event": "event 188",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 189",
+          "satisfied": []
+        },
+        {
+          "event": "event 190",
+          "satisfied": []
+        },
+        {
+          "event": "event 191",
+          "satisfied": []
+        },
+        {
+          "event": "event 192",
+          "satisfied": []
+        },
+        {
+          "event": "event 193",
+          "satisfied": []
+        },
+        {
+          "event": "event 194",
+          "satisfied": []
+        },
+        {
+          "event": "event 195",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 196",
+          "satisfied": []
+        },
+        {
+          "event": "event 197",
+          "satisfied": []
+        },
+        {
+          "event": "event 198",
+          "satisfied": []
+        },
+        {
+          "event": "event 199",
+          "satisfied": []
+        },
+        {
+          "event": "event 200",
+          "satisfied": []
+        },
+        {
+          "event": "event 201",
+          "satisfied": []
+        },
+        {
+          "event": "event 202",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 203",
+          "satisfied": []
+        },
+        {
+          "event": "event 204",
+          "satisfied": []
+        },
+        {
+          "event": "event 205",
+          "satisfied": []
+        },
+        {
+          "event": "event 206",
+          "satisfied": []
+        },
+        {
+          "event": "event 207",
+          "satisfied": []
+        },
+        {
+          "event": "event 208",
+          "satisfied": []
+        },
+        {
+          "event": "event 209",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 210",
+          "satisfied": []
+        },
+        {
+          "event": "event 211",
+          "satisfied": []
+        },
+        {
+          "event": "event 212",
+          "satisfied": []
+        },
+        {
+          "event": "event 213",
+          "satisfied": []
+        },
+        {
+          "event": "event 214",
+          "satisfied": []
+        },
+        {
+          "event": "event 215",
+          "satisfied": []
+        },
+        {
+          "event": "event 216",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 217",
+          "satisfied": []
+        },
+        {
+          "event": "event 218",
+          "satisfied": []
+        },
+        {
+          "event": "event 219",
+          "satisfied": []
+        },
+        {
+          "event": "event 220",
+          "satisfied": []
+        },
+        {
+          "event": "event 221",
+          "satisfied": []
+        },
+        {
+          "event": "event 222",
+          "satisfied": []
+        },
+        {
+          "event": "event 223",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 224",
+          "satisfied": []
+        },
+        {
+          "event": "event 225",
+          "satisfied": []
+        },
+        {
+          "event": "event 226",
+          "satisfied": []
+        },
+        {
+          "event": "event 227",
+          "satisfied": []
+        },
+        {
+          "event": "event 228",
+          "satisfied": []
+        },
+        {
+          "event": "event 229",
+          "satisfied": []
+        },
+        {
+          "event": "event 230",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 231",
+          "satisfied": []
+        },
+        {
+          "event": "event 232",
+          "satisfied": []
+        },
+        {
+          "event": "event 233",
+          "satisfied": []
+        },
+        {
+          "event": "event 234",
+          "satisfied": []
+        },
+        {
+          "event": "event 235",
+          "satisfied": []
+        },
+        {
+          "event": "event 236",
+          "satisfied": []
+        },
+        {
+          "event": "event 237",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 238",
+          "satisfied": []
+        },
+        {
+          "event": "event 239",
+          "satisfied": []
+        },
+        {
+          "event": "event 240",
+          "satisfied": []
+        },
+        {
+          "event": "event 241",
+          "satisfied": []
+        },
+        {
+          "event": "event 242",
+          "satisfied": []
+        },
+        {
+          "event": "event 243",
+          "satisfied": []
+        },
+        {
+          "event": "event 244",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 245",
+          "satisfied": []
+        },
+        {
+          "event": "event 246",
+          "satisfied": []
+        },
+        {
+          "event": "event 247",
+          "satisfied": []
+        },
+        {
+          "event": "event 248",
+          "satisfied": []
+        },
+        {
+          "event": "event 249",
+          "satisfied": []
+        },
+        {
+          "event": "event 250",
+          "satisfied": []
+        },
+        {
+          "event": "event 251",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 252",
+          "satisfied": []
+        },
+        {
+          "event": "event 253",
+          "satisfied": []
+        },
+        {
+          "event": "event 254",
+          "satisfied": []
+        },
+        {
+          "event": "event 255",
+          "satisfied": []
+        },
+        {
+          "event": "event 256",
+          "satisfied": []
+        },
+        {
+          "event": "event 257",
+          "satisfied": []
+        },
+        {
+          "event": "event 258",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 259",
+          "satisfied": []
+        },
+        {
+          "event": "event 260",
+          "satisfied": []
+        },
+        {
+          "event": "event 261",
+          "satisfied": []
+        },
+        {
+          "event": "event 262",
+          "satisfied": []
+        },
+        {
+          "event": "event 263",
+          "satisfied": []
+        },
+        {
+          "event": "event 264",
+          "satisfied": []
+        },
+        {
+          "event": "event 265",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 266",
+          "satisfied": []
+        },
+        {
+          "event": "event 267",
+          "satisfied": []
+        },
+        {
+          "event": "event 268",
+          "satisfied": []
+        },
+        {
+          "event": "event 269",
+          "satisfied": []
+        },
+        {
+          "event": "event 270",
+          "satisfied": []
+        },
+        {
+          "event": "event 271",
+          "satisfied": []
+        },
+        {
+          "event": "event 272",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 273",
+          "satisfied": []
+        },
+        {
+          "event": "event 274",
+          "satisfied": []
+        },
+        {
+          "event": "event 275",
+          "satisfied": []
+        },
+        {
+          "event": "event 276",
+          "satisfied": []
+        },
+        {
+          "event": "event 277",
+          "satisfied": []
+        },
+        {
+          "event": "event 278",
+          "satisfied": []
+        },
+        {
+          "event": "event 279",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 280",
+          "satisfied": []
+        },
+        {
+          "event": "event 281",
+          "satisfied": []
+        },
+        {
+          "event": "event 282",
+          "satisfied": []
+        },
+        {
+          "event": "event 283",
+          "satisfied": []
+        },
+        {
+          "event": "event 284",
+          "satisfied": []
+        },
+        {
+          "event": "event 285",
+          "satisfied": []
+        },
+        {
+          "event": "event 286",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 287",
+          "satisfied": []
+        },
+        {
+          "event": "event 288",
+          "satisfied": []
+        },
+        {
+          "event": "event 289",
+          "satisfied": []
+        },
+        {
+          "event": "event 290",
+          "satisfied": []
+        },
+        {
+          "event": "event 291",
+          "satisfied": []
+        },
+        {
+          "event": "event 292",
+          "satisfied": []
+        },
+        {
+          "event": "event 293",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 294",
+          "satisfied": []
+        },
+        {
+          "event": "event 295",
+          "satisfied": []
+        },
+        {
+          "event": "event 296",
+          "satisfied": []
+        },
+        {
+          "event": "event 297",
+          "satisfied": []
+        },
+        {
+          "event": "event 298",
+          "satisfied": []
+        },
+        {
+          "event": "event 299",
+          "satisfied": []
+        },
+        {
+          "event": "event 300",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 301",
+          "satisfied": []
+        },
+        {
+          "event": "event 302",
+          "satisfied": []
+        },
+        {
+          "event": "event 303",
+          "satisfied": []
+        },
+        {
+          "event": "event 304",
+          "satisfied": []
+        },
+        {
+          "event": "event 305",
+          "satisfied": []
+        },
+        {
+          "event": "event 306",
+          "satisfied": []
+        },
+        {
+          "event": "event 307",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 308",
+          "satisfied": []
+        },
+        {
+          "event": "event 309",
+          "satisfied": []
+        },
+        {
+          "event": "event 310",
+          "satisfied": []
+        },
+        {
+          "event": "event 311",
+          "satisfied": []
+        },
+        {
+          "event": "event 312",
+          "satisfied": []
+        },
+        {
+          "event": "event 313",
+          "satisfied": []
+        },
+        {
+          "event": "event 314",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 315",
+          "satisfied": []
+        },
+        {
+          "event": "event 316",
+          "satisfied": []
+        },
+        {
+          "event": "event 317",
+          "satisfied": []
+        },
+        {
+          "event": "event 318",
+          "satisfied": []
+        },
+        {
+          "event": "event 319",
+          "satisfied": []
+        },
+        {
+          "event": "event 320",
+          "satisfied": []
+        },
+        {
+          "event": "event 321",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 322",
+          "satisfied": []
+        },
+        {
+          "event": "event 323",
+          "satisfied": []
+        },
+        {
+          "event": "event 324",
+          "satisfied": []
+        },
+        {
+          "event": "event 325",
+          "satisfied": []
+        },
+        {
+          "event": "event 326",
+          "satisfied": []
+        },
+        {
+          "event": "event 327",
+          "satisfied": []
+        },
+        {
+          "event": "event 328",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 329",
+          "satisfied": []
+        },
+        {
+          "event": "event 330",
+          "satisfied": []
+        },
+        {
+          "event": "event 331",
+          "satisfied": []
+        },
+        {
+          "event": "event 332",
+          "satisfied": []
+        },
+        {
+          "event": "event 333",
+          "satisfied": []
+        },
+        {
+          "event": "event 334",
+          "satisfied": []
+        },
+        {
+          "event": "event 335",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 336",
+          "satisfied": []
+        },
+        {
+          "event": "event 337",
+          "satisfied": []
+        },
+        {
+          "event": "event 338",
+          "satisfied": []
+        },
+        {
+          "event": "event 339",
+          "satisfied": []
+        },
+        {
+          "event": "event 340",
+          "satisfied": []
+        },
+        {
+          "event": "event 341",
+          "satisfied": []
+        },
+        {
+          "event": "event 342",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 343",
+          "satisfied": []
+        },
+        {
+          "event": "event 344",
+          "satisfied": []
+        },
+        {
+          "event": "event 345",
+          "satisfied": []
+        },
+        {
+          "event": "event 346",
+          "satisfied": []
+        },
+        {
+          "event": "event 347",
+          "satisfied": []
+        },
+        {
+          "event": "event 348",
+          "satisfied": []
+        },
+        {
+          "event": "event 349",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 350",
+          "satisfied": []
+        },
+        {
+          "event": "event 351",
+          "satisfied": []
+        },
+        {
+          "event": "event 352",
+          "satisfied": []
+        },
+        {
+          "event": "event 353",
+          "satisfied": []
+        },
+        {
+          "event": "event 354",
+          "satisfied": []
+        },
+        {
+          "event": "event 355",
+          "satisfied": []
+        },
+        {
+          "event": "event 356",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 357",
+          "satisfied": []
+        },
+        {
+          "event": "event 358",
+          "satisfied": []
+        },
+        {
+          "event": "event 359",
+          "satisfied": []
+        },
+        {
+          "event": "event 360",
+          "satisfied": []
+        },
+        {
+          "event": "event 361",
+          "satisfied": []
+        },
+        {
+          "event": "event 362",
+          "satisfied": []
+        },
+        {
+          "event": "event 363",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 364",
+          "satisfied": []
+        },
+        {
+          "event": "event 365",
+          "satisfied": []
+        },
+        {
+          "event": "event 366",
+          "satisfied": []
+        },
+        {
+          "event": "event 367",
+          "satisfied": []
+        },
+        {
+          "event": "event 368",
+          "satisfied": []
+        },
+        {
+          "event": "event 369",
+          "satisfied": []
+        },
+        {
+          "event": "event 370",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 371",
+          "satisfied": []
+        },
+        {
+          "event": "event 372",
+          "satisfied": []
+        },
+        {
+          "event": "event 373",
+          "satisfied": []
+        },
+        {
+          "event": "event 374",
+          "satisfied": []
+        },
+        {
+          "event": "event 375",
+          "satisfied": []
+        },
+        {
+          "event": "event 376",
+          "satisfied": []
+        },
+        {
+          "event": "event 377",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 378",
+          "satisfied": []
+        },
+        {
+          "event": "event 379",
+          "satisfied": []
+        },
+        {
+          "event": "event 380",
+          "satisfied": []
+        },
+        {
+          "event": "event 381",
+          "satisfied": []
+        },
+        {
+          "event": "event 382",
+          "satisfied": []
+        },
+        {
+          "event": "event 383",
+          "satisfied": []
+        },
+        {
+          "event": "event 384",
+          "satisfied": [
+            "explore"
+          ]
+        },
+        {
+          "event": "event 385",
+          "satisfied": []
+        },
+        {
+          "event": "event 386",
+          "satisfied": []
+        },
+        {
+          "event": "event 387",
+          "satisfied": []
+        },
+        {
+          "event": "event 388",
+          "satisfied": []
+        },
+        {
+          "event": "event 389",
+          "satisfied": []
+        },
+        {
+          "event": "event 390",
+          "satisfied": []
+        },
+        {
+          "event": "event 391",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 392",
+          "satisfied": []
+        },
+        {
+          "event": "event 393",
+          "satisfied": []
+        },
+        {
+          "event": "event 394",
+          "satisfied": []
+        },
+        {
+          "event": "event 395",
+          "satisfied": []
+        },
+        {
+          "event": "event 396",
+          "satisfied": []
+        },
+        {
+          "event": "event 397",
+          "satisfied": []
+        },
+        {
+          "event": "event 398",
+          "satisfied": [
+            "catalog"
+          ]
+        },
+        {
+          "event": "event 399",
+          "satisfied": []
+        }
+      ],
+      "state": {
+        "id": "exo_1ffec310cedcf4fd",
+        "develop": "mean-reverting",
+        "events": 400,
+        "chain": "f27acf6b378a0cbf322d14e850b58539fb2f1d91a80b7d86d409fe3d9b528f9f",
+        "drift": {
+          "assertiveness": 20,
+          "playfulness": 1,
+          "directness": -2,
+          "expansiveness": 11,
+          "tempo": 2,
+          "orderliness": 3,
+          "abstraction": 16,
+          "skepticism": 5,
+          "novelty": 3,
+          "warmth": 8
+        },
+        "tension": {
+          "explore": 714,
+          "play": 440,
+          "catalog": 183
+        }
+      },
+      "phenotype": {
+        "exoself": "0.3",
+        "id": "exo_1ffec310cedcf4fd",
+        "handle": "Orlo-Nesix",
+        "scores": {
+          "warmth": 619,
+          "playfulness": 488,
+          "directness": 603,
+          "assertiveness": 659,
+          "skepticism": 720,
+          "orderliness": 579,
+          "novelty": 551,
+          "abstraction": 304,
+          "expansiveness": 554,
+          "tempo": 439
+        },
+        "salient": [
+          {
+            "dimension": "skepticism",
+            "band": "high"
+          },
+          {
+            "dimension": "abstraction",
+            "band": "low"
+          },
+          {
+            "dimension": "assertiveness",
+            "band": "high"
+          }
+        ],
+        "picks": {
+          "interests": [
+            "colonies",
+            "mycology",
+            "metrology"
+          ],
+          "humor": [
+            "absurd"
+          ],
+          "peeve": [
+            "buried-lede"
+          ],
+          "rhythm": [
+            "flowing"
+          ],
+          "hedging": [
+            "qualified"
+          ],
+          "examples": [
+            "concrete-first"
+          ],
+          "formality": [
+            "conversational"
+          ]
+        },
+        "quirks": [
+          "round-numbers",
+          "one-example",
+          "second-thoughts"
+        ],
+        "drives": [
+          {
+            "drive": "explore",
+            "tension": 714,
+            "state": "hungry"
+          },
+          {
+            "drive": "play",
+            "tension": 440,
+            "state": "present"
+          },
+          {
+            "drive": "catalog",
+            "tension": 183,
+            "state": "sated"
+          }
+        ],
+        "fixation": "astronomy"
       }
     }
   ]

@@ -64,7 +64,8 @@ Example output of `show --format soul`:
 |---|---|
 | `SPEC.md` | the normative specification |
 | `AGENTS.md` | how an agent adopts a seed, ports the spec, or extends it |
-| `src/exoself/registry/core-0.2.json` | the trait space: 10 dimensions, 4 latent factors, interests, humor, peeves, 12 quirks, 10 drives |
+| `src/exoself/registry/core-0.3.json` | the trait space: 10 dimensions, 4 latent factors, interests, humor, peeves, four register axes, 12 quirks, 10 drives |
+| `src/exoself/registry/core-0.2.json` | the previous registry, bundled so old certificates keep working |
 | `src/exoself/core.py` | reference derivation, integer-only |
 | `src/exoself/render.py` | reference renderers |
 | `rust/crates/exoself-core/` | second implementation, zero dependencies, reproduces every vector |
@@ -131,23 +132,37 @@ Read these before building on this.
 2. **"More like people" is measured now, and the answer is narrow.** See
    [`eval/REPORT.md`](eval/REPORT.md). With a local three billion parameter
    model, sixteen seeded agents were no more like themselves than like a
-   stranger on ordinary short tasks: 10.4% and 4.2% nearest-neighbour against a
-   6.25% chance, p = 0.22 and 0.77. On a task that asks how they like to work,
-   the same test separates them cleanly: 70.8% against the same 6.25%, p =
-   2e-13. A blind pairwise judge that is the same small model lands at 57.6%,
-   p = 0.08, directional and not significant; asked to pick among seventeen
-   candidates it is exactly at chance. So: a temperament reaches the output
-   when manner is what is being measured, and does not otherwise. That is a
-   smaller claim than the project's name and it is the one the data supports.
+   stranger on ordinary short tasks: 12.5% and 4.2% nearest-neighbour against a
+   6.25% chance. On a task that asks how they like to work, the same test
+   separates them cleanly: 54.2% against the same 6.25%. A blind pairwise judge
+   that is the same small model scored 59.7% in one run and 54.2% in the next on
+   identical inputs, and picking among seventeen candidates is exactly at
+   chance. So: a temperament reaches the output when manner is what is being
+   measured, and does not otherwise, and the judged effect is smaller than its
+   run-to-run variation. That is a smaller claim than the project's name and it
+   is the one the data supports.
+   
+   The 0.3 registry adds a voice layer, four axes of register. The same
+   experiment says it did not help at this model size: an agent was no more
+   likely to resemble itself with the layer than without it. It is in the
+   registry because it costs nothing in the derivation and a bigger model may
+   spend it, not because it was measured to work.
 3. **The randomness cannot be policed locally.** An operator can delete the
    certificate and draw again. The spec defines a beacon-bound mode that makes
    the draw auditable, but grinding is still possible without a public log.
-4. **Development is noise in 0.1.** Drift is driven by event hashes, not by
-   what the events mean. That is deliberate, and it is also unsatisfying.
+4. **Development is noise, and now a leaky one.** Drift is driven by event
+   hashes, not by what the events mean. That is deliberate, and it is also
+   unsatisfying. 0.3 replaced the symmetric walk, which pinned long-lived
+   agents at the envelope, with a step that pulls toward the genome value, so
+   drift plateaus instead of saturating. It still changes which dimensions a
+   quarter of agents express within a few hundred sessions.
 5. **The desire is declawed on purpose.** No drive may be about survival,
    resources, other people or the outside world, so what is left is craft
    appetite. And a counter that rises and falls is not wanting; it is the
-   shape of wanting.
+   shape of wanting. 0.3 also removed a real inconsistency: the `hungry` texts
+   in 0.2 described an accumulated lack, which is the grievance 9.2.5 forbids
+   an agent from expressing. They now sharpen the want without complaining,
+   and the rule is enforced when the registry loads.
 6. **The trait space is one author's judgment.** The loadings are not fitted
    to any dataset. The content is English and culturally narrow.
 7. **Host integration is verified in one host, protocol-level elsewhere.** The
@@ -167,12 +182,13 @@ styles of attack.
    `eval/REPORT.md`. The open part is a judge from a different family, longer
    tasks, and a bigger model.
 2. ~~Second implementation in another language.~~ Done: `rust/`, byte-identical
-   to the reference over 120 seeds.
+   to the reference over 120 seeds, and over 3000 events per seed.
 3. Verified host adapters. One host done (pi), the protocol covered by a
    selftest; the rest is other people's config.
 4. Public commitment log for level 1 attestation.
 5. A semantic development proposal that survives the constraints in
-   `AGENTS.md`.
+   `AGENTS.md`. 0.3 fixed the shape of the drift and left the direction as
+   noise; this item is still open.
 
 ## Two implementations, one species
 

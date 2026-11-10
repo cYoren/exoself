@@ -19,6 +19,9 @@ use crate::sha256::{hex, sha256, unhex};
 #[derive(Debug, Clone, PartialEq)]
 pub struct State {
     pub id: String,
+    /// Which development arithmetic built this history. Absent in a 0.2 state
+    /// file, and read as `walk`, so an old history keeps replaying exactly.
+    pub develop: String,
     pub events: u64,
     /// Hex of the running hash. Starts at `stream(seed, "develop", 32)`.
     pub chain: String,
@@ -48,6 +51,11 @@ impl State {
             .get("id")
             .and_then(|x| x.as_str())
             .ok_or("state: missing id")?
+            .to_string();
+        let develop = v
+            .get("develop")
+            .and_then(|x| x.as_str())
+            .unwrap_or(DEVELOP_WALK)
             .to_string();
         let events = v
             .get("events")
@@ -80,6 +88,7 @@ impl State {
         }
         Ok(State {
             id,
+            develop,
             events,
             chain,
             drift,
@@ -90,6 +99,7 @@ impl State {
     pub fn to_json(&self) -> Json {
         Json::obj(vec![
             ("id", Json::str(&self.id)),
+            ("develop", Json::str(&self.develop)),
             ("events", Json::Int(self.events as i64)),
             ("chain", Json::str(&self.chain)),
             (
@@ -117,6 +127,7 @@ impl State {
 pub fn new_state(seed: &Seed, reg: &Registry) -> State {
     State {
         id: agent_id(seed),
+        develop: DEVELOP_DEFAULT.to_string(),
         events: 0,
         chain: hex(&stream(seed, "develop", 32)),
         drift: Vec::new(),
@@ -163,7 +174,13 @@ pub fn develop(
         [(u16::from_be_bytes([chain[0], chain[1]]) as usize) % reg.dimensions.len()]
     .id
     .clone();
-    let delta = (chain[2] % 7) as i64 - 3;
+    let mut delta = (chain[2] % 7) as i64 - 3;
+    if state.develop == DEVELOP_MEAN_REVERTING {
+        // Pull toward the genome value. At zero drift this is the 0.2 walk; a
+        // dimension that has wandered far gets steps back more often than out,
+        // so the envelope is approached rather than sat on (SPEC 8.3).
+        delta -= floor_div(state.drift_of(&dim), DRIFT_PULL);
+    }
 
     let mut drift = state.drift.clone();
     match drift.iter_mut().find(|(k, _)| *k == dim) {
@@ -186,6 +203,7 @@ pub fn develop(
 
     State {
         id: state.id.clone(),
+        develop: state.develop.clone(),
         events: state.events + 1,
         chain: hex(&chain),
         drift,
@@ -196,6 +214,7 @@ pub fn develop(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::registry::DEFAULT_REGISTRY;
 
     fn seed(n: u8) -> Seed {
         let mut s = [0u8; SEED_BYTES];
@@ -216,6 +235,67 @@ mod tests {
         assert!(
             !st.drift.is_empty(),
             "no dimension was touched in 5000 events"
+        );
+    }
+
+    #[test]
+    fn the_old_walk_still_replays_when_the_state_says_so() {
+        let reg = Registry::bundled("core@0.2").unwrap();
+        let s = seed(6);
+        let mut st = new_state(&s, &reg);
+        st.develop = DEVELOP_WALK.to_string();
+        let mut artefacts = Vec::new();
+        for i in 0..200 {
+            st = develop(&s, &st, format!("event-{}", i).as_bytes(), &reg, &[]);
+            artefacts.push(st.chain.clone());
+        }
+        // Same seed, same registry, same walk: a state file written before 0.3
+        // has no mode field and must produce exactly this history.
+        let mut legacy = State {
+            id: st.id.clone(),
+            develop: DEVELOP_WALK.to_string(),
+            events: 0,
+            chain: hex(&stream(&s, "develop", 32)),
+            drift: Vec::new(),
+            tension: st.tension.clone(),
+        };
+        let json = legacy.to_json();
+        legacy = State::from_json(&json).unwrap();
+        for (i, want) in artefacts.iter().enumerate() {
+            legacy = develop(&s, &legacy, format!("event-{}", i).as_bytes(), &reg, &[]);
+            assert_eq!(&legacy.chain, want, "event {}", i);
+        }
+        assert_eq!(legacy.drift, st.drift);
+    }
+
+    #[test]
+    fn mean_reversion_stops_drift_at_the_envelope() {
+        let reg = Registry::bundled(DEFAULT_REGISTRY).unwrap();
+        let mut worst_walk = 0;
+        let mut worst_revert = 0;
+        for n in 0..40u8 {
+            let s = seed(n);
+            let mut walk = new_state(&s, &reg);
+            walk.develop = DEVELOP_WALK.to_string();
+            let mut revert = new_state(&s, &reg);
+            for i in 0..3000 {
+                let e = format!("event-{}", i);
+                walk = develop(&s, &walk, e.as_bytes(), &reg, &[]);
+                revert = develop(&s, &revert, e.as_bytes(), &reg, &[]);
+            }
+            let top = |st: &State| st.drift.iter().map(|(_, v)| v.abs()).max().unwrap_or(0);
+            worst_walk = worst_walk.max(top(&walk));
+            worst_revert = worst_revert.max(top(&revert));
+        }
+        assert!(
+            worst_walk > 60,
+            "walk did not wander ({}), test is blind",
+            worst_walk
+        );
+        assert!(
+            worst_revert < 60,
+            "mean-reverting drift reached {}, the envelope is not soft",
+            worst_revert
         );
     }
 

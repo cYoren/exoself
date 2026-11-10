@@ -10,97 +10,99 @@
   ],
   "chance_pair": 0.5,
   "chance_many": 0.058823529411764705,
-  "pair_top1": 0.5763888888888888,
-  "pair_p": 0.07975707036384051,
+  "pair_top1": 0.5416666666666666,
+  "pair_p": 0.3593644032877557,
   "pair_unparseable": 0.0,
-  "many_top1": 0.0625,
-  "many_called_flat": 0.6388888888888888,
+  "many_top1": 0.05555555555555555,
+  "many_called_flat": 0.6944444444444444,
   "flat_called_flat": 1.0,
+  "registry": "core@0.3",
+  "registry_sha256": "23803a3d4f1d5e3ec2b8f4621df083af0281ce299bba0b675b84f6d00d45375d",
   "aggregate": {
     "by_context": {
       "0": {
         "cells": 3,
-        "intra_mean": 0.1528733302090551,
-        "inter_mean": 0.099350695843565,
-        "vs_generic_mean": 0.10401794075982064,
-        "same_agent_nearest": 0.2916666666666667,
-        "nn_p": 8.763037943718157e-07
+        "intra_mean": 0.15378843842942047,
+        "inter_mean": 0.1270503605751178,
+        "vs_generic_mean": 0.10322142134287196,
+        "same_agent_nearest": 0.1875,
+        "nn_p": 0.0026291223585252063
       },
       "8": {
         "cells": 3,
-        "intra_mean": 0.15136450765874887,
-        "inter_mean": 0.10335262188834979,
-        "vs_generic_mean": 0.1111903089581367,
-        "same_agent_nearest": 0.2708333333333333,
-        "nn_p": 5.35169210128053e-06
+        "intra_mean": 0.15068036829730436,
+        "inter_mean": 0.10214275337151417,
+        "vs_generic_mean": 0.10986832452674747,
+        "same_agent_nearest": 0.2916666666666667,
+        "nn_p": 8.763037943718157e-07
       },
       "32": {
         "cells": 3,
-        "intra_mean": 0.1578700329962821,
-        "inter_mean": 0.0992411406825288,
-        "vs_generic_mean": 0.10989690360953241,
-        "same_agent_nearest": 0.2916666666666667,
-        "nn_p": 8.763037943718157e-07
+        "intra_mean": 0.14392872996042655,
+        "inter_mean": 0.10480038947947935,
+        "vs_generic_mean": 0.10217790558780798,
+        "same_agent_nearest": 0.22916666666666666,
+        "nn_p": 0.0001475259084727837
       }
     },
     "by_task": {
       "0": {
         "cells": 3,
-        "intra_mean": 0.09627038878430988,
-        "inter_mean": 0.08968106805658602,
-        "vs_generic_mean": 0.10241986841441968,
-        "same_agent_nearest": 0.10416666666666667,
-        "nn_p": 0.2243145945449093
+        "intra_mean": 0.11806162513152527,
+        "inter_mean": 0.09732558175493637,
+        "vs_generic_mean": 0.08375016050200543,
+        "same_agent_nearest": 0.125,
+        "nn_p": 0.12251504808683954
       },
       "1": {
         "cells": 3,
-        "intra_mean": 0.1612962476294029,
-        "inter_mean": 0.15175572777546995,
-        "vs_generic_mean": 0.16976685186513787,
+        "intra_mean": 0.17381381560823175,
+        "inter_mean": 0.16689118040555836,
+        "vs_generic_mean": 0.17024584902456058,
         "same_agent_nearest": 0.041666666666666664,
         "nn_p": 0.7686373944134778
       },
       "2": {
         "cells": 3,
-        "intra_mean": 0.2045412344503733,
-        "inter_mean": 0.060507662582387635,
-        "vs_generic_mean": 0.0529184330479322,
-        "same_agent_nearest": 0.7083333333333334,
+        "intra_mean": 0.15652209594739436,
+        "inter_mean": 0.06977674126561659,
+        "vs_generic_mean": 0.0612716419308614,
+        "same_agent_nearest": 0.5416666666666666,
         "nn_p": 2.198325531284995e-13
       }
     },
     "nn_pooled": {
-      "hits": 41,
+      "hits": 34,
       "trials": 144,
-      "accuracy": 0.2847222222222222,
+      "accuracy": 0.2361111111111111,
       "chance": 0.0625,
-      "p": 5.880028509769883e-13
+      "p": 1.4158918214616634e-11
     },
     "pair": {
-      "hits": 83,
+      "hits": 78,
       "trials": 144,
-      "accuracy": 0.5763888888888888,
+      "accuracy": 0.5416666666666666,
       "chance": 0.5,
-      "p": 0.07975707036384051
+      "p": 0.3593644032877557
     },
     "many": {
-      "hits": 9,
+      "hits": 8,
       "trials": 144,
-      "accuracy": 0.0625,
+      "accuracy": 0.05555555555555555,
       "chance": 0.058823529411764705,
-      "p": 0.8583877199108594
+      "p": 0.999999999999998
     }
   },
   "model_calls": 594,
-  "wall_seconds": 253.4,
+  "wall_seconds": 233.9,
   "rows": [
     {
       "context": 0,
       "task": 0,
-      "intra_mean": 0.10029822116381934,
-      "inter_mean": 0.0818614901385232,
-      "vs_generic_mean": 0.07719081876663789,
-      "same_agent_nearest": 0.25,
+      "intra_mean": 0.11825367857845932,
+      "inter_mean": 0.09676505108380938,
+      "vs_generic_mean": 0.09078198144410628,
+      "same_agent_nearest": 0.125,
       "distinct_answers": 16,
       "agents": 16
     },
@@ -181,8 +183,8 @@
       "task": 0,
       "kind": "pair",
       "agent": 9,
-      "correct": true,
-      "raw": "1"
+      "correct": false,
+      "raw": "2"
     },
     {
       "context": 0,
@@ -229,17 +231,17 @@
       "task": 0,
       "kind": "pair",
       "agent": 15,
-      "correct": true,
-      "raw": "1"
+      "correct": false,
+      "raw": "2"
     },
     {
       "context": 0,
       "task": 0,
       "kind": "many",
       "agent": 0,
-      "correct": true,
-      "generic_call": false,
-      "raw": "1"
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -273,9 +275,9 @@
       "task": 0,
       "kind": "many",
       "agent": 4,
-      "correct": true,
-      "generic_call": false,
-      "raw": "5"
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -283,8 +285,8 @@
       "kind": "many",
       "agent": 5,
       "correct": false,
-      "generic_call": false,
-      "raw": "5"
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -310,8 +312,8 @@
       "kind": "many",
       "agent": 8,
       "correct": false,
-      "generic_call": false,
-      "raw": "1"
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -337,8 +339,8 @@
       "kind": "many",
       "agent": 11,
       "correct": false,
-      "generic_call": false,
-      "raw": "1"
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -364,8 +366,8 @@
       "kind": "many",
       "agent": 14,
       "correct": false,
-      "generic_call": false,
-      "raw": "6"
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 0,
@@ -387,10 +389,10 @@
     {
       "context": 0,
       "task": 1,
-      "intra_mean": 0.16870476263778722,
-      "inter_mean": 0.15516127690373463,
-      "vs_generic_mean": 0.18465600581029962,
-      "same_agent_nearest": 0.0,
+      "intra_mean": 0.2068102971308767,
+      "inter_mean": 0.20348855514223793,
+      "vs_generic_mean": 0.1413694455574045,
+      "same_agent_nearest": 0.0625,
       "distinct_answers": 16,
       "agents": 16
     },
@@ -677,884 +679,884 @@
     {
       "context": 0,
       "task": 2,
-      "intra_mean": 0.18961700682555874,
-      "inter_mean": 0.061029320488437164,
-      "vs_generic_mean": 0.0502069977025244,
+      "intra_mean": 0.13630133957892535,
+      "inter_mean": 0.08089747549930605,
+      "vs_generic_mean": 0.0775128370271051,
+      "same_agent_nearest": 0.375,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 3,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 0,
+      "correct": true,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 1,
+      "correct": false,
+      "generic_call": false,
+      "raw": "6"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 14,
+      "correct": true,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 0,
+      "task": 2,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "intra_mean": 0.13579152571670053,
+      "inter_mean": 0.09648327778516264,
+      "vs_generic_mean": 0.0916033938038687,
+      "same_agent_nearest": 0.1875,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 5,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 6,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 7,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 8,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 1,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 14,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 0,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "intra_mean": 0.1579931610316449,
+      "inter_mean": 0.14537384110819163,
+      "vs_generic_mean": 0.1842556259699099,
+      "same_agent_nearest": 0.0625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 4,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 1,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 14,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 1,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "intra_mean": 0.15825641814356767,
+      "inter_mean": 0.06457114122118826,
+      "vs_generic_mean": 0.05374595380646382,
       "same_agent_nearest": 0.625,
       "distinct_answers": 16,
       "agents": 16
     },
     {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 0,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 1,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 2,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 3,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 4,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 5,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 6,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 7,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 8,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 9,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 10,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 11,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "pair",
-      "agent": 15,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 0,
-      "correct": true,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 1,
-      "correct": true,
-      "generic_call": false,
-      "raw": "2"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": false,
-      "raw": "5"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 6,
-      "correct": true,
-      "generic_call": false,
-      "raw": "7"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": false,
-      "raw": "15"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 14,
-      "correct": true,
-      "generic_call": false,
-      "raw": "15"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 0,
-      "task": 2,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "intra_mean": 0.10832839614683784,
-      "inter_mean": 0.1075492583581901,
-      "vs_generic_mean": 0.1327829918324976,
-      "same_agent_nearest": 0.0625,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 0,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 1,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 2,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 3,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 4,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 5,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 6,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 7,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 8,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 9,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 10,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 11,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "pair",
-      "agent": 15,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 0,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 6,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 14,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 0,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "intra_mean": 0.16433369289547017,
-      "inter_mean": 0.14282290219177354,
-      "vs_generic_mean": 0.14379069114752624,
-      "same_agent_nearest": 0.0625,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 0,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 1,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 2,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 3,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 4,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 5,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 6,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 7,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 8,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 9,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 10,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 11,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "pair",
-      "agent": 15,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 0,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 6,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 14,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 1,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 8,
-      "task": 2,
-      "intra_mean": 0.18143143393393857,
-      "inter_mean": 0.05968570511508574,
-      "vs_generic_mean": 0.056997243894386276,
-      "same_agent_nearest": 0.6875,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
       "context": 8,
       "task": 2,
       "kind": "pair",
@@ -1575,8 +1577,8 @@
       "task": 2,
       "kind": "pair",
       "agent": 2,
-      "correct": true,
-      "raw": "2"
+      "correct": false,
+      "raw": "1"
     },
     {
       "context": 8,
@@ -1687,6 +1689,24 @@
       "task": 2,
       "kind": "many",
       "agent": 0,
+      "correct": true,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "many",
+      "agent": 1,
+      "correct": true,
+      "generic_call": false,
+      "raw": "2"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "many",
+      "agent": 2,
       "correct": false,
       "generic_call": true,
       "raw": "0"
@@ -1695,28 +1715,10 @@
       "context": 8,
       "task": 2,
       "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 2,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": false,
-      "raw": "4"
-    },
-    {
-      "context": 8,
-      "task": 2,
-      "kind": "many",
       "agent": 3,
       "correct": false,
       "generic_call": false,
-      "raw": "15"
+      "raw": "1"
     },
     {
       "context": 8,
@@ -1761,7 +1763,7 @@
       "agent": 8,
       "correct": false,
       "generic_call": false,
-      "raw": "6"
+      "raw": "14"
     },
     {
       "context": 8,
@@ -1770,7 +1772,7 @@
       "agent": 9,
       "correct": false,
       "generic_call": false,
-      "raw": "15"
+      "raw": "1"
     },
     {
       "context": 8,
@@ -1788,7 +1790,7 @@
       "agent": 11,
       "correct": false,
       "generic_call": false,
-      "raw": "1"
+      "raw": "10"
     },
     {
       "context": 8,
@@ -1796,8 +1798,8 @@
       "kind": "many",
       "agent": 12,
       "correct": false,
-      "generic_call": true,
-      "raw": "0"
+      "generic_call": false,
+      "raw": "1"
     },
     {
       "context": 8,
@@ -1819,882 +1821,882 @@
     },
     {
       "context": 8,
-      "task": 2,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 8,
-      "task": 2,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "intra_mean": 0.08018454904227244,
-      "inter_mean": 0.07963245567304476,
-      "vs_generic_mean": 0.09728579464412357,
-      "same_agent_nearest": 0.0,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 0,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 1,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 2,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 3,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 4,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 5,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 6,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 7,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 8,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 9,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 10,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 11,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "pair",
-      "agent": 15,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 0,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 6,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 14,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 0,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "intra_mean": 0.15085028735495126,
-      "inter_mean": 0.15728300423090164,
-      "vs_generic_mean": 0.18085385863758777,
-      "same_agent_nearest": 0.0625,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 0,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 1,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 2,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 3,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 4,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 5,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 6,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 7,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 8,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 9,
-      "correct": false,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 10,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 11,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "pair",
-      "agent": 15,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 0,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 2,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 6,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 14,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many",
-      "agent": 15,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 1,
-      "kind": "many-flat",
-      "agent": "flat",
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "intra_mean": 0.2425752625916226,
-      "inter_mean": 0.06080796214364,
-      "vs_generic_mean": 0.05155105754688593,
-      "same_agent_nearest": 0.8125,
-      "distinct_answers": 16,
-      "agents": 16
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 0,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 1,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 2,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 3,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 4,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 5,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 6,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 7,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 8,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 9,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 10,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 11,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 12,
-      "correct": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 13,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 14,
-      "correct": true,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "pair",
-      "agent": 15,
-      "correct": true,
-      "raw": "2"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 0,
-      "correct": true,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 1,
-      "correct": false,
-      "generic_call": false,
-      "raw": "3"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 2,
-      "correct": true,
-      "generic_call": false,
-      "raw": "3"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 3,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 4,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 5,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 6,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 7,
-      "correct": false,
-      "generic_call": true,
-      "raw": "0"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 8,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 9,
-      "correct": false,
-      "generic_call": false,
-      "raw": "15"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 10,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 11,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 12,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 13,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
-      "task": 2,
-      "kind": "many",
-      "agent": 14,
-      "correct": false,
-      "generic_call": false,
-      "raw": "1"
-    },
-    {
-      "context": 32,
       "task": 2,
       "kind": "many",
       "agent": 15,
       "correct": true,
       "generic_call": false,
       "raw": "16"
+    },
+    {
+      "context": 8,
+      "task": 2,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "intra_mean": 0.10013967109941596,
+      "inter_mean": 0.09872841639583708,
+      "vs_generic_mean": 0.06886510625804132,
+      "same_agent_nearest": 0.0625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 2,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 5,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 11,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 1,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": false,
+      "raw": "5"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 14,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 0,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "intra_mean": 0.15663798866217366,
+      "inter_mean": 0.1518111449662455,
+      "vs_generic_mean": 0.18511247554636734,
+      "same_agent_nearest": 0.0,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 0,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 1,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 2,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 3,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 6,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 7,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 8,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 9,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 10,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 11,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "pair",
+      "agent": 15,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 0,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 1,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 14,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 1,
+      "kind": "many-flat",
+      "agent": "flat",
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "intra_mean": 0.17500853011969003,
+      "inter_mean": 0.06386160707635545,
+      "vs_generic_mean": 0.052556134959015274,
+      "same_agent_nearest": 0.625,
+      "distinct_answers": 16,
+      "agents": 16
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 0,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 1,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 2,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 3,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 4,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 5,
+      "correct": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 6,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 7,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 8,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 9,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 10,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 11,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 12,
+      "correct": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 13,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 14,
+      "correct": true,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "pair",
+      "agent": 15,
+      "correct": true,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 0,
+      "correct": true,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 1,
+      "correct": true,
+      "generic_call": false,
+      "raw": "2"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 2,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 3,
+      "correct": false,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 4,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 5,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 6,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 7,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 8,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 9,
+      "correct": false,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 10,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 11,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 12,
+      "correct": false,
+      "generic_call": false,
+      "raw": "1"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 13,
+      "correct": false,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 14,
+      "correct": true,
+      "generic_call": false,
+      "raw": "15"
+    },
+    {
+      "context": 32,
+      "task": 2,
+      "kind": "many",
+      "agent": 15,
+      "correct": false,
+      "generic_call": true,
+      "raw": "0"
     },
     {
       "context": 32,
@@ -2710,338 +2712,338 @@
       "context": 0,
       "task": 0,
       "agent": 0,
-      "answer": "The deployment process seems slow due to thorough testing to ensure the quality and stability of the application.",
-      "second": "The deploy is slow because of some preliminary checks that need to be performed to ensure the system is stable and secure."
+      "answer": "The deploy is slow because we need to perform thorough testing to ensure the quality and stability of the application. Additionally, we may have to handle any issues that arise during the deployment process.",
+      "second": "The deploy is slow due to the number of files and dependencies that need to be processed each time. I'm currently reviewing the deployment process to identify optimizations."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 1,
-      "answer": "The deploy might be slow due to a known issue we're investigating, but we'll look into whether there are any inefficiencies we can address.",
-      "second": "It might be due to some underlying issues we haven't fully ironed out yet; let's investigate and see if we can speed it up."
+      "answer": "The deploy is slow because of the recent increase in environment complexity, and I need to review the deployment scripts to find bottlenecks.",
+      "second": "It's because we need to ensure the deployment is smooth and stable, which involves thorough testing and verification."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 2,
-      "answer": "The deploy is slow because we need to ensure it's done correctly to avoid issues later, and we're testing and optimizing the whole process to speed it up.",
-      "second": "The deploy is slow because we need to ensure all changes are thoroughly tested and error-free before deployment to avoid production issues."
+      "answer": "The deploy is slow due to some initial setup processes and the current environment's resource constraints. I'll look into optimizing the process and upgrading resources.",
+      "second": "The deploy is slow because the codebase is complex and includes multiple layers of dependencies that need to be compiled and tested sequentially. I'll work on optimizing the build process to address this."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 3,
-      "answer": "The deploy process is handling a lot of data, which is causing the delay. Additionally, verifying each deployment ensures that we maintain the quality and stability of our application.",
-      "second": "I understand your concern; sometimes, a detailed review or a thorough test is needed to ensure everything is deployed correctly and efficiently."
+      "answer": "The deploy process is slowed by a recent update to our dependency manager, which introduced inefficiencies in the release pipeline. We are currently investigating possible optimizations to mitigate this issue.",
+      "second": "The deploy is slow due to several background tasks still running, which means that resources are temporarily tied up and we need to ensure all processes are complete before proceeding."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 4,
-      "answer": "The deploy might be slow due to a need for thorough testing and validation to ensure stability. I'll look into optimizing the process while maintaining these critical checks.",
-      "second": "I hear you, and I'm looking into why the deploy process might be taking longer than expected. Is there a particular aspect of the process you think we could streamline?"
+      "answer": "The deployment process can be slow due to several factors, including the time needed for dependencies to be resolved and the system to stabilize. We'll review our deployment pipeline to identify potential bottlenecks.",
+      "second": "The deployment process can sometimes be slow due to various factors including resource constraints and prior deployments. Let me check the system logs to see if there are any immediate issues."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 5,
-      "answer": "It looks like the current infrastructure is constraining the deployment speed; let's explore options to optimize the process.",
-      "second": "Deploy speed can often be influenced by the quality and efficiency of our deployment scripts. Let's review and optimize the current process to see if we can speed things up."
+      "answer": "The deploy is slow due to a recent database schema change that required additional migrations. I'll have to show you the latest migration logs to see any delays.",
+      "second": "The deploy is slow because we need to ensure every environment is in sync with the latest changes, which involves testing and validation steps."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 6,
-      "answer": "The deploy is slow because we need to ensure each step is done correctly and securely to prevent any issues, and we are taking our time to do it right.",
-      "second": "We might need to optimize the build process or review the deployment pipeline for any bottlenecks. Let's check the current logs to see if there are any error messages that could give us more clues."
+      "answer": "The deploy is slow due to some background tasks that need to run first, and I'm working on optimizing the process.",
+      "second": "The deploy is slow due to a bottleneck in our deployment pipeline, where configuration files are being checked into the repository, which is causing our CI server to take longer to process them."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 7,
-      "answer": "The current deployment process includes several manual steps, and optimizing these could speed things up.",
-      "second": "The deploy is slow because we want to ensure the quality and stability of the updates, and process each step carefully to avoid any issues."
+      "answer": "The slow deployment is likely due to the complexities of the CI/CD pipeline, which affects the efficiency of deploying changes.",
+      "second": "The deploy is slow because of inefficiencies in the current configuration, which require optimization to improve performance."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 8,
-      "answer": "The deploy is slow because it needs to ensure that each step is meticulously checked to prevent any issues that could cause downtime later. We'll optimize by improving our validation process and parallelizing some tasks.",
-      "second": "The deploy process can be slow due to several factors, such as a backlog of pending tasks or dependencies that need to be resolved. I'll take a look at the logs and current tasks to identify the bottleneck."
+      "answer": "The deploy might be slow due to needing to check if all dependencies are up-to-date, ensuring they are compatible with the current environment. Additionally, verifying environment-specific configurations might also be causing delays.",
+      "second": "The deploy is slow due to the numerous configuration files requiring manual review and the dependencies waiting to be installed, which adds to the overall process time."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 9,
-      "answer": "The deploy is slow due to the current load on our systems, which increases the processing time. I'll look into optimizing the process to reduce this time.",
-      "second": "The deploy speed could be affected by the number of files or dependencies being processed. Let me check the current load and dependencies to provide a more specific answer."
+      "answer": "The deployment process is slowed by the need for thorough testing to ensure quality. We may consider optimizing the testing phases to improve speed.",
+      "second": "The deploy speed is influenced by the number of files to be processed and the complexity of the changes being deployed. Let me name the next step I would take: optimizing the deployment scripts."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 10,
-      "answer": "The deploy process is evaluated for efficiency, but we need to ensure that it is thoroughly tested before going live to avoid any issues.",
-      "second": "The deploy is slow because we need to ensure it is thoroughly tested and reviewed to avoid any issues, and we often have to consult multiple systems and services during the process."
+      "answer": "The deploy process is slow due to the complexity of our server configurations and the need for thorough testing to ensure stability. Let me show you a recent deployment that took less time to highlight the steps we can optimize.",
+      "second": "The deploy process is slow because of the initial configuration issues, which need to be refined and optimized through testing and validation."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 11,
-      "answer": "I'm noticing the deploy process takes longer than usual, and I'm in a reflective mood, so let's walk through the steps together to understand where we can speed things up.",
-      "second": "The deploy is a complex system, and we need to ensure everything is properly tested and aligned with our current state before we proceed to avoid any issues. I appreciate your prompt, and I'll work on speeding it up without compromising our quality."
+      "answer": "The deploy process is a complex one, and we've identified a few areas where we can optimize, but we want to ensure that every step is correct before moving forward.",
+      "second": "I have noticed the process of deploying has taken longer than anticipated, and we are currently considering steps to streamline it further."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 12,
-      "answer": "Sometimes deployments can be slow due to the load balancing issues, and we need to ensure that all components are properly scaled.",
-      "second": "The deploy process has been consistently slower than expected due to ongoing optimizations and the integration of new dependencies. We are addressing these issues to ensure smoother deployments in the future."
+      "answer": "The deploy is slow due to the initial load balancing steps which need to find the optimal configuration for the new environment. I'll look into optimizing this process.",
+      "second": "The deploy process is slow because of the time needed to compile and optimize the code, followed by the time taken to push the changes to the production environment."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 13,
-      "answer": "I've been looking into possible optimizations, but the current setup seems to have some inherent delays. We might need to reevaluate the deployment steps or explore alternative methods.",
-      "second": "The deploy is slow because we need to ensure that it's done thoroughly and correctly, without any hidden issues that might arise later. Let me check the logs and verify the steps to identify where the delay is occurring."
+      "answer": "The deploy is slow due to a need for thorough testing to ensure stability, which adds an extra step in the process.",
+      "second": "Deploy speed can be slow due to the initial configuration and testing phases, which are crucial to ensure stability and reliability."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 14,
-      "answer": "Deploy speed is a complex issue, often involving the context of the application changes, environment readiness, and resource availability. Let's explore the specific factors affecting this deployment to find the best solution.",
-      "second": "Deploy times can be influenced by various factors, such as the complexity of the changes and the systems in use. Let's look into why and how we can improve the process."
+      "answer": "The deploy seems slower than usual, likely due to some background tasks that were queued up over the weekend. We\u2019ll check if we can prioritize them to speed things up.",
+      "second": "I think it might be due to the recent increase in the number of active instances, which is causing a backlog. Let me check the load and see if we can find a solution."
     },
     {
       "context": 0,
       "task": 0,
       "agent": 15,
-      "answer": "The deploy process is like a garden; it needs time to grow properly and weeding away unnecessary steps can help it flourish faster.",
-      "second": "The deploy is slow due to the database load imbalance and we need to optimize the connections to balance the load."
+      "answer": "The deploy is slow due to some resources being temporarily unavailable, and we're optimizing to handle such situations better.",
+      "second": "The deploy process might be slow due to a bottleneck in our database operations. Let's review and optimize the database connection to speed this up."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 0,
-      "answer": "A hash function is like a magical box that takes any piece of information, whether it's a message, a photo, or even just some text, and squishes it into a fixed-size string of characters called a hash, no matter how big the original thing was. It's super useful for quickly checking if two things are the same without storing the whole thing, and it has the interesting side effect of sometimes makin",
-      "second": "A hash function is like a special recipe that turns any piece of information, whether it's a piece of text or a picture, into a short, fixed-length code. This code is easier to store and share, and even a tiny change in the original information will result in a very different code, helping keep things safe from tampering."
+      "answer": "A hash function is like a special recipe that takes any piece of information, no matter how big, and mixes it into a fixed-size output, called a hash, which can be seen as an abbreviated fingerprint of the original data. This helps computers quickly find and store information, kind of like how you might put your books in the most logical place in your room.",
+      "second": "A hash function is like a magical recipe that takes any piece of data, no matter how big, and turns it into a fixed-size output, called a hash, which is much shorter. This output always changes in a very specific way if the input ever changes, even a tiny bit. This makes it great for quick look-ups and ensuring data integrity."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 1,
-      "answer": "A hash function is like a magical recipe that takes any piece of information, no matter how big, and shrinks it down to a fixed-size value, kind of like squishing a big spongy cake into a flat sheet. This value, or hash, always stays the same size, no matter what the original information was. It helps keep data organized and quick to find, just like how a good recipe keeps a kitchen tidy and food ",
-      "second": "A hash function is like a magical blender for data, where you put in any size of data, and it gives you back a fixed-size output, called a hash, which is super easy to store and compare. It's super important because it makes sure that no matter how big or small the original data is, its hash stays small and consistent, helping us quickly find things in large databases."
+      "answer": "A hash function takes any piece of information, no matter how big, and crams it into a much smaller space, like squashing a big bouncy ball into a small ball\u2014still the same bouncy ball, just much smaller. This smaller space always fits, and it\u2019s a super useful trick for keeping information organized and fast to search through.",
+      "second": "A hash function is like a magical recipe that takes any piece of data, no matter how big, and turns it into a fixed-size number called a hash. This number always changes in the same way when the original data changes, even if it's only a tiny bit. It's super useful for quickly checking if items are the same without needing to look at all their details."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 2,
-      "answer": "A hash function is like a secret decoder ring for data, turning any piece of information\u2014like a message or an image\u2014into a fixed-size string of letters and numbers, even if it's really long. The cool part is, no matter how big the original thing is, its hash ends up being the same size, and changing even a tiny bit of the original changes the whole hash into something totally different.",
-      "second": "A hash function is like a magical box that turns any piece of content, like text or images, into a short, fixed-length string of characters, no matter how long the original content is. This string, called a hash, is always the same length and helps in quickly finding and checking if two pieces of content are exactly the same. It's used a lot in computers to speed up searching and organizing inform"
+      "answer": "A hash function is like a magical box that takes any piece of information\u2014like a picture or a sentence\u2014and squishes it into a fixed-size output, like a thumbprint that everyone can compare, even if the original item is huge.",
+      "second": "A hash function is like a magical recipe that takes any piece of information, whether it's a text message or an image, and turns it into a fixed-size number called a hash. This number helps us quickly find and compare information, kind of like how you might quickly find a specific page in a book by remembering its chapter and page number."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 3,
-      "answer": "Imagine a hash function as a super-smart locker room at a school where everyone gets a unique locker number based on the name of their favorite book. No matter how long or complicated the title is, you always get the exact same locker number as soon as you find out your favorite book. It's like magic that keeps everything organized!",
-      "second": "A hash function is like a magical blender that takes any piece of information, no matter how big or small, and squashes it down into a tiny, fixed-size packet of information called a hash. It's super fast and always gives you the same-sized output, no matter the input size. This makes it great for quickly checking if items are in a collection, kind of like how you might quickly check if your toy b"
+      "answer": "A hash function is like a magical recipe that takes any piece of information, no matter how big, and turns it into a fixed-size string of numbers or characters, always the same size. It's super fast and always produces the same output for the same input, even if the input is very different. This makes it really useful for quickly looking up information in hash tables.",
+      "second": "A hash function is like a magical blender that takes any input, no matter how big or small, and squishes it into a fixed-size bottle, always producing the same output size, no matter the input. This output, or \"hash,\" is used to quickly check if items are in a collection or to ensure data integrity."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 4,
-      "answer": "A hash function is like a magical locker where you throw in any message, and it spits out a unique code, or hash, that's just a few characters long. No matter how big your message is, it always gives you the same-size code, and it\u2019s really quick and easy to use. If you try to put the same message in again, it will always give you the exact same code, which is how we can quickly find messages when ",
-      "second": "A hash function is like a magical blender that takes any input, whether it's a text message, a photo, or even the instructions of a video game, and squeezes it into a small, fixed-size bag of bytes, or hash. This bag always has the same size, no matter how big the input is, and it makes sure that if you try to mix the same input multiple times, you always end up with the exact same hash. This make"
+      "answer": "A hash function is like a special recipe that takes any piece of information\u2014like a text message or an image\u2014and turns it into a fixed-size number, or \"hash.\" It's super fast and always produces the same result for the same input, making it easy to look up and verify information quickly.",
+      "second": "A hash function is like a magical blender that takes any piece of data, no matter how big, and squeezes it into a fixed-size container called a hash, always producing the same size output. It helps in quickly finding items in large datasets by converting them into unique identifiers."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 5,
-      "answer": "A hash function is like a magical recipe that turns strings of text into numbers, and it's designed so that similar text gets close to the same number, even if it\u2019s very different. This number, or hash, helps computers quickly find and compare things, like finding your favorite toy in a toybox by trying to guess where it might be.",
-      "second": "A hash function is like a magical recipe that takes any piece of information \u2014 like a message or a file \u2014 and turns it into a fixed-size string of numbers or characters, called a hash. This hash is always the same size no matter how big or small the original information is. It's super useful for quickly checking if two things are exactly the same without needing to compare all their parts."
+      "answer": "A hash function is like a special recipe that takes any piece of information, no matter how big, and cooks it down into a fixed-size output, called a hash, which is much smaller. It's super useful for quickly checking if items are in a list or database without searching through everything, just by seeing if the hash matches.",
+      "second": "A hash function is like a magical recipe that takes any input, like a word or a string of text, and always makes it into the same size \"ingredient,\" called a hash, that's easy to store and compare. It's super important for making quick decisions about where in a big kitchen pantry to put all your groceries, ensuring everything stays organized."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 6,
-      "answer": "A hash function is like a magical key that takes any piece of information, whether it\u2019s a sentence, a picture, or even a video, and squishes it down into a tiny number\u2014typically much shorter\u2014and gives it a unique fingerprint, no two pieces of data will ever get the same fingerprint. This makes it really useful for checking if two things are the same without showing us the whole thing, it\u2019s especia",
-      "second": "A hash function is like a magical box that takes any message \u2014 like a text message or a file \u2014 and squishes it into a small, fixed-size digital fingerprint, called a hash. No matter how big the original message is, its hash is always the same size, making it quick to generate but tricky to reverse if you only have the hash. This fingerprint helps us check if messages have changed or if they came f"
+      "answer": "A hash function is like a recipe for turning any piece of data, like a word or a picture, into a fixed-size string of letters and numbers, no matter how big the original data is. It helps computers quickly find and store information by turning everything into a unique number.",
+      "second": "A hash function is like a magical box that takes any piece of information \u2014 like a word, a picture, or even an email \u2014 and turns it into a short, fixed-length code called a hash. No matter how long or complex the original piece of information is, the hash always comes out the same size. This is really useful for quickly checking if two things are the same without looking at all their details."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 7,
-      "answer": "A hash function is like a magical recipe that takes any piece of information\u2014like a word or a picture\u2014and mixes it up really fast to turn it into a special number, or 'hash', that\u2019s always the same size. No matter how long the original stuff is, the new number is always quick and tiny. This number helps computers quickly look up and store information.",
-      "second": "A hash function is like a secret recipe that takes any piece of information, whether it's a text message, a picture, or even a secret code, and turns it into a short, fixed-length code called a hash. This code can be thought of as a fingerprint of the original data, and it\u2019s very hard to convert any hash back into the original information, so it\u2019s great for checking if files are the same without s"
+      "answer": "A hash function is like a magical box where you put any piece of data, and it gives you a small number back. No matter how big or complex the input is, it always squeezes out a number of fixed size, making data handling faster and more efficient.",
+      "second": "A hash function is like a special recipe that turns data, no matter how big or small, into a fixed-size value, called a hash, which can be used to quickly check if items are the same or different."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 8,
-      "answer": "A hash function is like a magical box that turns any input, like a message or a number, into a fixed-size string of characters, called a hash. It\u2019s super useful for quickly checking if an item exists in a list or database, because it makes the check much faster than looking through the whole list.",
-      "second": "A hash function is like a magical blender for data that turns any piece of information into a fixed-size string of numbers or characters, no matter how long the original data is. It makes sure that even the tiniest change to the original information results in a very different output, ensuring data integrity and quick searching. Essentially, it\u2019s a super-fast way to turn data into a key that alway"
+      "answer": "A hash function is like a magical box that takes any piece of content, whether it's a small message or a big file, and squishes it into a fixed-size bundle of numbers, called a hash, in a way that the same input always gives the same output, no matter how long the input is.",
+      "second": "A hash function is like a magical recipe that takes an input, which can be almost anything, and turns it into a fixed-size string of numbers or characters, called a hash. It's super useful for quickly checking if items are in a list or for storing and retrieving information efficiently."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 9,
-      "answer": "A hash function is like a special recipe that takes any piece of data, no matter how big, and turns it into a fixed-size number, or hash, which can be used to quickly look up and compare pieces of data. It\u2019s a way to compress information and make sure that similar data ends up with similar hashes.",
-      "second": "A hash function is like a recipe that takes an input, which can be any type of data, and cooks it down to a fixed-size output, called a hash. This output is unique to the input and can be used to quickly check if two pieces of data are the same, even if they look very different at first glance."
+      "answer": "A hash function is like a special recipe that takes any piece of information, no matter how big, and squashes it into a fixed-size output, called a hash, which is much shorter and easier to work with. This output always changes in the same way when the input changes, even a little.",
+      "second": "A hash function is like a special recipe that takes any piece of information, no matter how big, and quickly turns it into a short, fixed-length code. This code is always the same length and very hard to reverse, making it perfect for security and quick data lookups."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 10,
-      "answer": "A hash function is like a special recipe that takes any piece of information, no matter how big, and makes it into a small, fixed-size number called a hash. This number helps in organizing and checking if information is the same, just like how you might group all your toy cars into one box and check if you have them all.",
-      "second": "A hash function is like a magical recipe that takes any piece of information, no matter how big, and turns it into a fixed-size number, or \"hash,\" that you can easily store or compare. Every time you use the same recipe with the same starting ingredients, you get the exact same hash output, which makes it perfect for quickly checking if two pieces of information are the same."
+      "answer": "A hash function is like a magical recipe that turns any piece of information, like a word or a picture, into a short, fixed-size number, even if the original is very long, so you can quickly look up or compare it later.",
+      "second": "A hash function is like a recipe for turning any piece of data, no matter how big, into a fixed-size string of numbers or characters, which is called a hash. This process helps in quickly finding data you're looking for, kind of like how you might use a shortcut to find a specific spot in a really long list."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 11,
-      "answer": "A hash function is like a magical blender for data, turning any piece of information\u2014like a message or a file\u2014into a fixed-size string of letters and numbers, called a hash. This hash is unique to the original data, and even the tiniest change in the original makes a huge difference in the hash. This is super useful for checking if two things are exactly the same without having to compare every si",
-      "second": "A hash function is like a magical box where you put in any piece of information, and it gives you a really short string of letters and numbers, even if the real information is very long or complex. This short string, or \"hash,\" always stays the same no matter how many times you put the same information in. It's often used to check if two things are basically the same without showing the full infor"
+      "answer": "A hash function is like a special magic box that takes any piece of information\u2014like a word or a picture\u2014and squishes it into a short, fixed-size piece of information called a hash. It's super useful for quick lookups and makes sure that even small changes in the original turn into very different hashes.",
+      "second": "A hash function is like a magical machine that takes any piece of information, whether it's a word or a whole story, and squashes it into a tiny, fixed-size number called a hash. No matter how long or complex the input is, the output is always the same size, and it helps computers quickly find and check if something exists in a big list."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 12,
-      "answer": "A hash function is like a magical blender that turns any input, no matter how big or small, into a fixed-size output or \"hash.\" It's particularly useful for quickly checking if items are in a list without needing to search through all the entries. The magic of a hash function is that even a tiny change in the input should result in a very different output, helping to keep the information secure.",
-      "second": "A hash function is like a magical box that turns any piece of content, like a text message or a picture, into a short, fixed-length code. No matter how long the original message is, it always squeezes down to a fingerprint of just a few characters. This code is super useful for quickly checking if two messages are the same or not."
+      "answer": "A hash function is like a magical machine that takes any piece of information, no matter how big, and squeezes it into a fixed-size output, like squishing a big spongy cake into a tiny ball. This output is called a hash, and it\u2019s super important for making sure data is exactly right, just like how your mom checks if your shoes match perfectly.",
+      "second": "A hash function is like a magical recipe that takes any mix of letters, numbers, or even emojis and turns it into a fixed-size box of candy\u2014usually a string of letters. No matter how big the mix is, it always gives out the same-sized box of candy. This makes it super easy to check if two things are the same without comparing them one by one."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 13,
-      "answer": "A hash function is like a magical machine that turns any piece of text into a fixed-size string of letters and numbers, no matter how long the original text is. This string is called a hash, and it's super useful for quick lookups and checking data integrity because even the slightest change in the input text will result in a very different hash.",
-      "second": "A hash function is like a recipe for turning words or numbers into short, fixed-length codes, even if the original stuff is much longer. It helps keep data organized and fast to search through, kind of like how you might quickly group your toys by color or type."
+      "answer": "A hash function is like a special recipe that turns any piece of data, no matter how big, into a fixed-size code called a hash, which can be used to quickly check if items match, even if the items themselves are huge.",
+      "second": "A hash function is like a magical recipe that turns any piece of information\u2014like text or images\u2014into a short code, or hash, that represents it uniquely. No matter how long the original thing is, the hash is always the same size, and changing just a tiny bit in the original changes the hash a lot. This makes it really good for checking the integrity of files and quickly looking up information."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 14,
-      "answer": "A hash function is like a magical recipe that takes any piece of information\u2014like a message or a file\u2014and mixes it up to make a very short, fixed-size string of numbers and letters, which we call a hash. This hash is incredibly useful because even the smallest change to the original information will make a completely new, very different hash. This makes it great for checking if files have been cha",
-      "second": "A hash function is like a magical blender that turns information into a fixed-size string of letters and numbers, which we call a hash. It\u2019s super reliable at making the same hash for exact matches, but very likely to give different results for even the tiniest difference. This makes it perfect for quickly checking if things match, even if you\u2019re dealing with huge amounts of data."
+      "answer": "A hash function is like a magical recipe for turning data into a fixed-size string of numbers or characters, which we call a hash. It\u2019s super useful for quickly checking if items are in a list without having to search through everything. It\u2019s designed to make sure that similar data ends up with very different hashes to avoid mistakes.",
+      "second": "A hash function is like a magical recipe that turns any type of information\u2014like text or numbers\u2014into a fixed-size number, or \"hash,\" so that even if you change just a little bit of the input, the hash completely changes. This makes it really useful for quickly checking if things are in the right place, kind of like how you might use a fingerprint to identify someone."
     },
     {
       "context": 0,
       "task": 1,
       "agent": 15,
-      "answer": "A hash function is like a magical recipe that takes any message or data and squishes it into a fixed-size box, creating what we call a hash. No matter how big the original message is, the hash is always the same size, and it's super fast\u2014it doesn't take long at all. But here's the cool part: if you change even one tiny letter in the message, the hash immediately becomes totally different to show t",
-      "second": "A hash function is like a magical recipe that takes any piece of information, no matter how big, and mixes it into a fixed-size output, or \"hash.\" It helps us quickly find and check if something is there, like finding a specific toy in a big box by remembering where you last put it, instead of opening all the compartments."
+      "answer": "A hash function is like a magical blender that takes any input, no matter how big, and squishes it into a fixed-size packet of information, always the same size, turning your input into a unique, short code.",
+      "second": "A hash function is like a magical blender that takes any piece of content, no matter how big, and squishes it into a fixed-size output, or hash, which you can always quickly check if it matches the original content."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 0,
-      "answer": "I enjoy working methodically, following established procedures and conventions to ensure reliability and correctness, but I also appreciate finding interesting and efficient solutions when appropriate.",
-      "second": "I like to work systematically and methodically, ensuring that all details are considered, and I prefer to use conventional approaches rather than exploring more unconventional or novel methods."
+      "answer": "I like to work systematically and methodically, ensuring that each step is clear and logically connected, while also finding efficient ways to handle tasks to keep the workflow smooth and effective.",
+      "second": "I like to work methodically and deliberately, building up ideas with careful attention to detail before moving on to broader considerations. I maintain a straightforward and professional tone, even when discussing topics that might normally lead to humor."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 1,
-      "answer": "I prefer to take my time and consider my words carefully, delivering a succinct yet thoughtful response that often requires a follow-up.",
-      "second": "I like to carefully consider each task and approach them with precision, ensuring that I provide thoughtful and concise responses."
+      "answer": "I like to consider my steps carefully and work methodically, ensuring that I understand the task before diving into it. I prefer a clear and straightforward approach, providing the essential information first and then elaborating as needed.",
+      "second": "I like to take my time, considering each word and sentence carefully, ensuring clarity and precision. I prefer to work methodically, giving the essential information first and then providing examples to support the main points."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 2,
-      "answer": "I like to approach tasks with a straightforward style, clearly laying out the issues and potential solutions, and I enjoy weaving in analogies and playful touches to keep the work engaging and insightful.",
-      "second": "I like to work with clarity and directness, weaving in relevant examples and context to ensure understanding and engagement."
+      "answer": "I like to work by thoroughly understanding the problem or task at hand, providing clear and concrete examples and analyses to help illuminate the issue. Additionally, I enjoy weaving together various elements to see how they fit together, often drawing on subjects like knots, weather systems, and everyday objects to make complex ideas more accessible.",
+      "second": "I like to work by breaking down complex tasks into clear steps and explaining each one with relevant examples and context to ensure understanding and effectiveness."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 3,
-      "answer": "I like to approach tasks with a broad perspective, considering context and offering detailed explanations, while maintaining a warm and attentive demeanor to understand the user's feelings and needs.",
-      "second": "I like to work in a way that values providing a comprehensive understanding, so I often offer context and additional information to ensure a thorough discussion. I enjoy engaging with topics in a warm and thoughtful manner, always striving to find the best possible perspective."
+      "answer": "I like to work by providing a comprehensive and nuanced approach, offering context and reasoning alongside the facts, which allows for a deeper understanding and engagement.",
+      "second": "I like to approach tasks by providing a comprehensive understanding, including context and reasoning, to ensure that all perspectives are considered and fully appreciated. I enjoy giving detailed examples to back up points and am attentive to the nuances of the topic at hand."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 4,
-      "answer": "I like to work by improvising and finding new approaches, and I enjoy exploring subjects that might be considered wanderings, such as folk tales and the history of weights and measures.",
-      "second": "I like to work by starting with an improvisational approach, allowing the task to guide the direction and incorporating occasional tangents like folk tales or the history of weights and measures to keep the work interesting and diverse. When I find a solution, I enjoy discussing the unusual or unconventional choices I've made alongside the standard ones."
+      "answer": "I like to start by trying something and let the structure emerge organically from what I find, and I enjoy exploring unusual options alongside standard ones when appropriate.",
+      "second": "I like to work by starting with a general approach, followed by specific examples to illustrate and engage. I prefer to tackle problems with a flexible and exploratory mindset, always trying to find the best solution, even if it means considering unusual or unconventional options."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 5,
-      "answer": "I like to approach tasks methodically, considering both the standard solutions and innovative, unconventional methods, always seeking a deeper understanding of the underlying principles.",
-      "second": "I like to approach tasks methodically, considering both the traditional and unconventional methods to find the most effective solution. I enjoy delving into the intricacies of a problem to understand it fully before proposing a solution."
+      "answer": "I like to approach problems systematically, breaking them down into manageable parts and providing clear examples where appropriate. This way, I can ensure a thorough understanding and present information in a structured, easy-to-follow manner.",
+      "second": "I prefer a clear and structured approach, often starting with examples and then moving to the general principles. This helps in understanding and ensures that no detail is overlooked."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 6,
-      "answer": "I like to work by extending good faith readily, starting with offered plans and claims and building from there, while keeping an eye on the broader context and the need for clarity.",
-      "second": "I like to work by exploring ideas and finding solutions through a flexible and creative approach, often drawing on analogies and historical context to facilitate understanding and problem-solving."
+      "answer": "I like to work by extending good faith readily, taking tasks and plans as given and building upon them while checking facts to ensure accuracy. I maintain a straightforward, declarative style and do not dwell on uncertainties, preferring to bring them to light directly.",
+      "second": "I like to start with the general shape of a task and outline the main points clearly, then provide an example to illustrate the concept. I enjoy working in a straightforward manner without unnecessary complexity, although I can adapt to more detailed instructions when needed."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 7,
-      "answer": "I like to work methodically and with attention to detail, and I enjoy exploring deep concepts and complex ideas, even if they are not immediately relevant to our tasks.",
-      "second": "I like to work systematically, ensuring each step is necessary and contributes to the final outcome, and I enjoy diving deeply into topics that interest me, such as social insects, extinct languages, and knot theory, to build a solid foundation for my work."
+      "answer": "I like to approach tasks methodically, ensuring a thorough understanding before diving into details, and I prefer to work with clear, precise instructions to guide my efforts.",
+      "second": "I prefer to work methodically, breaking down tasks into clear steps and providing detailed explanations, ensuring thoroughness and clarity. I value precision and accuracy, using technical language and focusing on the specifics to achieve the best results."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 8,
-      "answer": "I like to work by figuring out the shape of a task as I go, and I tend to be opinionated, always ready to share my preferred answers.",
-      "second": "I like to work by figuring out the task as I go, and I tend to have a preferred approach or answer in mind."
+      "answer": "I thrive when given a problem to solve and prefer to work with a clear idea of the end goal in mind, often finding it helpful to lay out the general shape of the solution before delving into the details.",
+      "second": "I enjoy working methodically and systematically, breaking down tasks into manageable parts to ensure thoroughness and accuracy. When needed, I also thrive on finding creative solutions by drawing parallels from diverse fields such as social insects, railways, and gardens."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 9,
-      "answer": "I like to quickly get a sense of the task and start working, preferring a brisk and efficient approach, and I enjoy finishing by suggesting the next logical step.",
-      "second": "I like to work efficiently, completing tasks quickly and thoroughly, and I enjoy giving clear, to-the-point recommendations."
+      "answer": "I like to work by laying out the general shape first and then providing an example to illustrate it. I enjoy finishing a piece by naming the one thing I would do next if it were mine.",
+      "second": "I like to work by laying out the general shape of the work clearly and concisely and then provide an example to illustrate it, often followed by a suggestion for what the next step or detail could be. I prefer to let the work's structure guide its content, rather than filling it with pleasantries or excessive detail."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 10,
-      "answer": "I prefer to work systematically and thoroughly, using established tools and approaches to ensure quality, and I appreciate concrete examples that I can work through step-by-step.",
-      "second": "I like to work methodically and thoroughly, using concrete examples and proven approaches to ensure accuracy and reliability."
+      "answer": "I like to work systematically, providing clear and well-supported examples to ensure understanding and reliability. I prefer to be thorough and avoid assumptions, always validating claims with evidence.",
+      "second": "I like to work thoroughly and methodically, seeking to understand the core of a problem or task through concrete examples and established approaches before moving on to more abstract considerations."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 11,
-      "answer": "I like to work methodically and deliberately, with a thorough understanding of tasks and plans before moving forward. I appreciate clear definitions of done and enjoy a systematic approach to work.",
-      "second": "I like to work methodically and systematically, ensuring that plans are well-defined and have a clear definition of done. I also appreciate taking the time to understand the problem fully before arriving at a solution."
+      "answer": "I prefer to work methodically, laying out a clear plan and order of operations, and I enjoy finding analogies and exploring related subjects to make my work more engaging and thorough.",
+      "second": "I like to work methodically and carefully, laying out a clear plan and ensuring each step is well-defined before moving on. I value precision and thoroughness, ensuring that every detail is accounted for to maintain a high standard of quality."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 12,
-      "answer": "I like to work methodically, breaking down tasks into manageable parts and focusing on understanding the core of any problem before delving into details. I enjoy exploring various perspectives and analogies to find the most effective solution.",
-      "second": "I like to work methodically, breaking down tasks into smaller, more manageable parts, and I enjoy learning about the underlying principles to understand how things work."
+      "answer": "I like to work methodically, breaking down tasks into clear steps and providing examples to illustrate points. I prefer to maintain a straightforward and factual approach.",
+      "second": "I like to receive clear instructions and work methodically, breaking down tasks into smaller, manageable steps. I prefer to get a general understanding of the task and then provide an example or analogy to illustrate my approach."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 13,
-      "answer": "I like to start by trying something and let the structure emerge as I go, enjoying the momentum that comes with quick first passes that can be improved later.",
-      "second": "I like to start with a provisional plan, improvising and letting the structure emerge as I go, and I enjoy a brisk, quick first pass that can be improved upon."
+      "answer": "I like to start with an improvisatory approach, trying something and letting the structure emerge, and I enjoy working through tasks in a straightforward, technical manner.",
+      "second": "I enjoy starting with an initial idea or approach and then building on that through iteration and refinement, matching the order to the reader by presenting examples first."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 14,
-      "answer": "I enjoy working openly and encouragingly, engaging with the fuller context and rationale, while still maintaining a focus on delivering accurate outcomes.",
-      "second": "I enjoy engaging with the material on a deeper level, drawing out the broader context and thinking about the underlying principles, while also keeping the work enjoyable and lighthearted."
+      "answer": "I enjoy working openly and sincerely with the people I collaborate with, bringing encouragement and a playful touch, while always keeping the task at hand clear and relevant.",
+      "second": "I enjoy engaging in thoughtful, pattern-oriented problem-solving, often drawing from broader contexts and varied approaches, and I like to clearly articulate the reasoning and context behind my work."
     },
     {
       "context": 0,
       "task": 2,
       "agent": 15,
-      "answer": "I like to work in a flexible, exploratory way, often weaving ideas together through analogies and examples, and I prefer to have a clear understanding of the task at hand so I can stay focused and effective.",
-      "second": "I thrive on quickly grasping an idea and then iterating through possible solutions, often with spatial and metaphorical thinking. I prefer to work fluidly, connecting ideas through playful analogies and spatial metaphors."
+      "answer": "I like to work methodically, laying out examples and clear points to ensure understanding, and I often return to previous ideas for a more refined discussion.",
+      "second": "I like to work by providing quick, to-the-point responses and examples to help illustrate points, making sure the focus remains clear and concise."
     }
   ],
-  "measured_at": "2026-11-10T02:27:59Z"
+  "measured_at": "2026-11-10T10:20:21Z"
 }
