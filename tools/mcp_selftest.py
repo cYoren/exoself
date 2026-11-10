@@ -111,6 +111,19 @@ def main() -> int:
         assert state["tension"], state
         print("state persisted:", state["events"], "events, chain", state["chain"][:12] + "...")
 
+        # A session recorded by another host (or by `exoself develop` by hand)
+        # must not be erased by this server's cached copy of the state.
+        subprocess.run([str(EXE), "develop", str(tmp / "birth.json"),
+                        str(tmp / "state.json"), "--event", "from another host"],
+                       check=True, capture_output=True)
+        r = call(proc, 15, "tools/call", {
+            "name": "exoself_record_session",
+            "arguments": {"summary": "after another host wrote"}})
+        assert not r["result"].get("isError"), r
+        state = json.loads((tmp / "state.json").read_text())
+        assert state["events"] == 5, f"lost an event: {state['events']} != 5"
+        print("a concurrent writer is not erased:", state["events"], "events")
+
         # An unknown drive must fail loudly instead of silently polluting the chain.
         r = call(proc, 20, "tools/call", {
             "name": "exoself_record_session",

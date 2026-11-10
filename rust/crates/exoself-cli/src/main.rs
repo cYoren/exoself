@@ -6,6 +6,7 @@
 //! implementation, which `tools/parity.py` checks over a few hundred seeds.
 
 mod install;
+mod lock;
 mod mcp;
 
 use exoself_core::json::{self, Json};
@@ -500,6 +501,9 @@ fn cmd_develop(args: &[String]) -> Result<i32, String> {
         return Err(format!("unknown drive: {}", bad));
     }
 
+    // Hold the lock across the whole read-modify-write. Two hosts recording a
+    // session for the same agent at the same time would otherwise lose one.
+    let _lock = lock::StateLock::acquire(state_path)?;
     let existing = Path::new(state_path).exists();
     let state = if existing {
         let st = State::from_json(&read_json(state_path)?)?;

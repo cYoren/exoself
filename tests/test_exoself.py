@@ -385,3 +385,30 @@ def test_a_satisfied_drive_is_named_once_per_flag(tmp_path):
         assert tension[drive] == core.drive_initial(seed, drive) // 4
     with pytest.raises(SystemExit):
         main(["develop", out, state, "--event", "e", "--satisfied", held[0], held[1]])
+
+
+# ---------------------------------------------------------------- state locking
+
+def test_the_state_lock_is_taken_and_released(tmp_path):
+    """Two hosts can record sessions for one agent. Development is
+    read-modify-write on a chained file, so the write is serialised."""
+    from exoself.cli import state_lock
+    state = str(tmp_path / "state.json")
+    lock = pathlib.Path(state + ".lock")
+    with state_lock(state):
+        assert lock.exists()
+    assert not lock.exists()
+
+
+def test_a_lock_left_by_a_dead_process_is_stolen(tmp_path):
+    import os
+    import time
+    from exoself.cli import state_lock
+    state = str(tmp_path / "state.json")
+    lock = pathlib.Path(state + ".lock")
+    lock.write_text("999999\n")
+    old = time.time() - 120
+    os.utime(lock, (old, old))
+    with state_lock(state):
+        assert lock.exists()
+    assert not lock.exists()

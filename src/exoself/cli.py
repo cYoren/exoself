@@ -3,11 +3,53 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import sys
+import time
 
 from . import core, render
+
+LOCK_WAIT = 10.0
+LOCK_STALE = 60.0
+
+
+@contextlib.contextmanager
+def state_lock(state_path: str):
+    """Hold a sibling lock file for a read-modify-write of the state.
+
+    Two hosts can record sessions for the same agent, and development is
+    read-modify-write on a chained file, so without this the later writer
+    silently erases the earlier event. The Rust side takes the same lock.
+    """
+    lock = state_path + ".lock"
+    started = time.monotonic()
+    while True:
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(lock) > LOCK_STALE:
+                    os.unlink(lock)  # a process died holding it
+                    continue
+            except FileNotFoundError:
+                continue
+            if time.monotonic() - started > LOCK_WAIT:
+                raise SystemExit(f"{lock} is locked by another process. "
+                                 "Remove it if that process is gone.")
+            time.sleep(0.01)
+            continue
+        try:
+            os.write(fd, b"%d\n" % os.getpid())
+        finally:
+            os.close(fd)
+        break
+    try:
+        yield
+    finally:
+        with contextlib.suppress(FileNotFoundError):
+            os.unlink(lock)
 
 
 def _read(path: str) -> dict:
@@ -75,6 +117,11 @@ def cmd_develop(a) -> int:
         print("certificate rejected: " + "; ".join(problems), file=sys.stderr)
         return 1
     seed = bytes.fromhex(cert["seed"])
+    with state_lock(a.state):
+        return _develop_locked(a, cert, seed, reg)
+
+
+def _develop_locked(a, cert, seed, reg) -> int:
     existed = os.path.exists(a.state)
     state = _read(a.state) if existed else core.new_state(seed, reg)
     if state["id"] != cert["id"]:
