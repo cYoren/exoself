@@ -14,10 +14,11 @@ use crate::sha256::{hex, sha256};
 use std::fmt;
 use std::path::Path;
 
-pub const DEFAULT_REGISTRY: &str = "core@0.2";
+pub const DEFAULT_REGISTRY: &str = "core@0.3";
 
 const CORE_0_1: &str = include_str!("../../../../src/exoself/registry/core-0.1.json");
 const CORE_0_2: &str = include_str!("../../../../src/exoself/registry/core-0.2.json");
+const CORE_0_3: &str = include_str!("../../../../src/exoself/registry/core-0.3.json");
 
 #[derive(Debug, Clone)]
 pub struct Bands {
@@ -121,6 +122,34 @@ fn err<T>(msg: impl Into<String>) -> Result<T, RegistryError> {
     Err(RegistryError(msg.into()))
 }
 
+/// Words and phrases that turn an appetite into a complaint about the past.
+/// Same list as the reference implementation; a registry that trips it fails
+/// to load, so the rule in SPEC 9.2.5 is enforced rather than described.
+pub const GRIEVANCE: [&str; 13] = [
+    "in a while",
+    "lately",
+    "has been",
+    "have been",
+    "have not",
+    "miss it",
+    "you miss",
+    "the lack",
+    "too much",
+    "weighs on you",
+    "hungry for",
+    "bothers you that",
+    "and you feel",
+];
+
+pub fn grievance_words(text: &str) -> Vec<&'static str> {
+    let low = text.to_lowercase();
+    GRIEVANCE
+        .iter()
+        .copied()
+        .filter(|w| low.contains(w))
+        .collect()
+}
+
 /// A registry's `name@version` identifier, as recorded in a certificate.
 impl Registry {
     pub fn id(&self) -> String {
@@ -141,6 +170,7 @@ impl Registry {
         let raw = match name {
             "core@0.1" => CORE_0_1,
             "core@0.2" => CORE_0_2,
+            "core@0.3" => CORE_0_3,
             other => return err(format!("no bundled registry {:?}", other)),
         };
         Registry::from_bytes(raw.to_string())
@@ -391,6 +421,19 @@ impl Registry {
             if d.count > d.items.len() {
                 return err("drives: count exceeds item count");
             }
+            if self.version.as_str() >= "0.3" {
+                // SPEC 9.2.5: a hungry text may sharpen the want; it may not
+                // present the unmet want as a grievance. 0.1 and 0.2 fail this
+                // on purpose, which is the bug this rule exists to fix.
+                for it in &d.items {
+                    if let Some(w) = grievance_words(&it.hungry).first() {
+                        return err(format!(
+                            "drive {}: hungry text presents a grievance ({:?}); see SPEC 9.2.5",
+                            it.id, w
+                        ));
+                    }
+                }
+            }
         }
         if let Some(f) = &self.fixation {
             let group = self
@@ -413,6 +456,46 @@ impl Registry {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn core_0_3_is_purely_additive() {
+        let old = Registry::bundled("core@0.2").unwrap();
+        let new = Registry::bundled("core@0.3").unwrap();
+        assert_eq!(new.id(), "core@0.3");
+        assert_eq!(
+            new.sha256,
+            "23803a3d4f1d5e3ec2b8f4621df083af0281ce299bba0b675b84f6d00d45375d"
+        );
+        assert_eq!(new.dimensions.len(), old.dimensions.len());
+        assert_eq!(new.factors, old.factors);
+        assert_eq!(new.quirks.len(), old.quirks.len());
+        // Every group that existed keeps its name, order, count and items.
+        for g in &old.picks {
+            let n = new
+                .picks
+                .iter()
+                .find(|x| x.name == g.name)
+                .expect("group kept");
+            assert_eq!(g.count, n.count);
+            assert_eq!(g.items.len(), n.items.len());
+            for (a, b) in g.items.iter().zip(n.items.iter()) {
+                assert_eq!(a.id, b.id);
+                assert_eq!(a.text, b.text);
+            }
+        }
+        assert!(new.picks.iter().any(|g| g.name == "rhythm"));
+    }
+
+    #[test]
+    fn a_new_registry_fails_the_grievance_rule_and_the_old_ones_load() {
+        let raw = CORE_0_2.replace("\"version\": \"0.2\"", "\"version\": \"0.3\"");
+        match Registry::from_bytes(raw) {
+            Err(e) => assert!(e.0.contains("grievance"), "{}", e.0),
+            Ok(_) => panic!("0.2 drive text passed the 9.2.5 rule"),
+        }
+        assert!(Registry::bundled("core@0.2").is_ok());
+        assert!(Registry::bundled("core@0.3").is_ok());
+    }
 
     #[test]
     fn core_registries_load_and_hash() {

@@ -14,6 +14,7 @@
 use crate::json::{self, Json};
 use crate::{write_atomic, write_new};
 use exoself_core::develop;
+use exoself_core::registry::DEFAULT_REGISTRY;
 use exoself_core::{birth, phenotype, render, Certificate, Registry, State};
 use std::path::{Path, PathBuf};
 
@@ -120,7 +121,7 @@ pub fn cmd_install(args: &[String]) -> Result<i32, String> {
     } else {
         let reg = match f.value("registry") {
             Some(p) => Registry::from_path(p).map_err(|e| e.to_string())?,
-            None => Registry::bundled("core@0.2").map_err(|e| e.to_string())?,
+            None => Registry::bundled(DEFAULT_REGISTRY).map_err(|e| e.to_string())?,
         };
         let seed = birth::os_entropy()?;
         let cert = birth::born(

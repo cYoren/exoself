@@ -13,8 +13,8 @@ import json
 import os
 from importlib import resources
 
-SPEC_VERSION = "0.2"
-SUPPORTED_VERSIONS = ("0.1", "0.2")
+SPEC_VERSION = "0.3"
+SUPPORTED_VERSIONS = ("0.1", "0.2", "0.3")
 # Derivation epoch, not the spec version. It changes only when an existing
 # derivation changes, because changing it turns every agent into someone else.
 PREFIX = b"exoself/0.1/"
@@ -28,6 +28,14 @@ SCORE_SD = 150
 SCORE_MAX = 1000
 
 DRIFT_LIMIT = 100
+# A drift point that pulls a dimension back toward its genome value. See 8.3.
+DRIFT_PULL = 25
+# Development arithmetic, recorded in the state (SPEC 8.2). Absent means the
+# 0.2 walk, so an old state file keeps replaying exactly.
+DEVELOP_WALK = "walk"
+DEVELOP_MEAN_REVERTING = "mean-reverting"
+DEVELOP_MODES = (DEVELOP_WALK, DEVELOP_MEAN_REVERTING)
+DEVELOP_DEFAULT = DEVELOP_MEAN_REVERTING
 MIN_EXPRESSED = 2
 MAX_EXPRESSED = 5
 
@@ -86,7 +94,7 @@ def band(score: int) -> str:
 # Registry (SPEC section 5)
 # --------------------------------------------------------------------------
 
-DEFAULT_REGISTRY = "core@0.2"
+DEFAULT_REGISTRY = "core@0.3"
 
 
 def load_registry(path: str | None = None, name: str = DEFAULT_REGISTRY) -> tuple[dict, str]:
@@ -108,6 +116,21 @@ def load_registry(path: str | None = None, name: str = DEFAULT_REGISTRY) -> tupl
     registry = json.loads(raw)
     validate_registry(registry)
     return registry, hashlib.sha256(raw).hexdigest()
+
+
+# Words and phrases that turn an appetite into a complaint about the past. A
+# `hungry` text may say the want is stronger; it may not say something is
+# lacking, that time has passed, or that the agent feels the deficit.
+GRIEVANCE = (
+    "in a while", "lately", "has been", "have been", "have not", "miss it",
+    "you miss", "the lack", "too much", "weighs on you", "hungry for",
+    "bothers you that", "and you feel",
+)
+
+
+def grievance_words(text: str) -> list[str]:
+    low = text.lower()
+    return [w for w in GRIEVANCE if w in low]
 
 
 def validate_registry(reg: dict) -> None:
@@ -141,6 +164,14 @@ def validate_registry(reg: dict) -> None:
         for i in drives["items"]:
             if any(ch.isdigit() for ch in i["want"] + i["hungry"]):
                 raise ValueError(f"drive {i['id']}: expression text must not contain digits")
+    if reg.get("version", "0.0") >= "0.3":
+        # SPEC 9.2.5: an unmet desire is not a grievance. 0.2 registries fail
+        # this on purpose, because that is the bug this rule fixes.
+        for i in drives["items"]:
+            for word in grievance_words(i["hungry"]):
+                raise ValueError(
+                    f"drive {i['id']}: hungry text presents a grievance ({word!r}); "
+                    "see SPEC 9.2.5")
     fix = reg.get("fixation")
     if fix and len(reg["picks"][fix["group"]]["items"]) < 2:
         raise ValueError("fixation: group needs at least two items")
@@ -353,6 +384,7 @@ def verify_certificate(cert: dict, registry_sha256: str) -> list[str]:
 def new_state(seed: bytes, reg: dict) -> dict:
     return {
         "id": agent_id(seed),
+        "develop": DEVELOP_DEFAULT,
         "events": 0,
         "chain": stream(seed, "develop", 32).hex(),
         "drift": {},
@@ -376,6 +408,11 @@ def develop(seed: bytes, state: dict, event: bytes, reg: dict,
     dims = [d["id"] for d in reg["dimensions"]]
     dim = dims[int.from_bytes(chain[0:2], "big") % len(dims)]
     delta = chain[2] % 7 - 3
+    if state.get("develop", DEVELOP_WALK) == DEVELOP_MEAN_REVERTING:
+        # Pull toward the genome value. At zero drift this is the 0.2 walk; a
+        # dimension that has wandered far gets steps back more often than out,
+        # so the envelope is a place to approach rather than a wall to sit on.
+        delta -= state["drift"].get(dim, 0) // DRIFT_PULL
     drift = dict(state["drift"])
     drift[dim] = clamp(drift.get(dim, 0) + delta, -DRIFT_LIMIT, DRIFT_LIMIT)
     old = state.get("tension", {})
@@ -383,5 +420,6 @@ def develop(seed: bytes, state: dict, event: bytes, reg: dict,
     for d in held:
         t = clamp(old.get(d, drive_initial(seed, d)), 0, TENSION_MAX)
         tension[d] = t // 4 if d in met else min(TENSION_MAX, t + drive_rate(seed, d))
-    return {"id": state["id"], "events": state["events"] + 1, "chain": chain.hex(),
+    return {"id": state["id"], "develop": state.get("develop", DEVELOP_WALK),
+            "events": state["events"] + 1, "chain": chain.hex(),
             "drift": drift, "tension": tension}

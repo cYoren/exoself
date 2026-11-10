@@ -4,18 +4,18 @@ version = 4
 
 [[package]]
 name = "exoself-cli"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "exoself-core",
 ]
 
 [[package]]
 name = "exoself-core"
-version = "0.2.0"
+version = "0.3.0"
 
 [[package]]
 name = "exoself-wasm"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "exoself-core",
 ]

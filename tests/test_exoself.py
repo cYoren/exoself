@@ -167,14 +167,82 @@ def test_cli_born_refuses_reroll(tmp_path, capsys):
 # ---------------------------------------------------------------- desire
 
 def test_registry_upgrade_keeps_everyone_who_they_were():
-    """core@0.2 adds desire. It must not change a single existing trait."""
+    """0.2 added desire, 0.3 added a voice. Neither may move a living agent."""
     old, _ = core.load_registry(str(ROOT / "src/exoself/registry/core-0.1.json"))
+    prev, _ = core.load_registry(str(ROOT / "src/exoself/registry/core-0.2.json"))
     for s in seeds(100):
         a, b = core.phenotype(s, old), core.phenotype(s, REG)
-        for k in ("id", "handle", "scores", "salient", "picks", "quirks"):
+        for k in ("id", "handle", "scores", "salient", "quirks"):
             assert a[k] == b[k]
         assert a["drives"] == [] and a["fixation"] is None
         assert "Wants" not in render.render_soul(a, old, desire=True)
+        # 0.2 to 0.3: every group that existed keeps every pick, and the new
+        # groups are additive.
+        c = core.phenotype(s, prev)
+        assert c["scores"] == b["scores"] and c["salient"] == b["salient"]
+        for group in prev["picks"]:
+            assert c["picks"][group] == b["picks"][group]
+        assert set(b["picks"]) - set(c["picks"]) == {"rhythm", "hedging", "examples", "formality"}
+
+
+def test_the_voice_layer_speaks_on_every_seed():
+    """A register group has one option per axis, so it always says something."""
+    for s in seeds(200):
+        p = core.phenotype(s, REG)
+        for axis in ("rhythm", "hedging", "examples", "formality"):
+            assert len(p["picks"][axis]) == 1
+        text = render.render_prompt(p, REG)
+        for axis in ("rhythm", "hedging", "examples", "formality"):
+            item = p["picks"][axis][0]
+            want = next(i["text"] for i in REG["picks"][axis]["items"] if i["id"] == item)
+            assert want in text
+
+
+def test_an_unmet_drive_is_not_a_grievance():
+    """SPEC 9.2.5, enforced at load time rather than trusted."""
+    assert core.grievance_words("Your sentences are short.") == []
+    assert core.grievance_words("It has been a while.") == ["has been"]
+    assert core.grievance_words("something owed, in a while") == ["in a while"]
+    for item in REG["drives"]["items"]:
+        assert core.grievance_words(item["hungry"]) == [], item["id"]
+        # The hungry text sharpens the want; it does not describe a deficit.
+        assert item["hungry"] != item["want"]
+    # The 0.2 registry fails that rule, which is the bug it fixes. Relabelled as
+    # 0.3 it must be refused rather than quietly accepted.
+    old = json.loads((ROOT / "src/exoself/registry/core-0.2.json").read_text())
+    old["version"] = "0.3"
+    with pytest.raises(ValueError, match="grievance"):
+        core.validate_registry(old)
+
+
+def test_development_pulls_back_instead_of_saturating():
+    """SPEC 8.3: the envelope is approached, never sat on."""
+    def worst(mode: str, events: int) -> int:
+        top = 0
+        for s in seeds(24):
+            state = core.new_state(s, REG)
+            state["develop"] = mode
+            for i in range(events):
+                state = core.develop(s, state, b"event %d" % i, REG)
+            top = max(top, max((abs(v) for v in state["drift"].values()), default=0))
+        return top
+
+    assert worst(core.DEVELOP_WALK, 3000) > 60, "the old walk should saturate"
+    assert worst(core.DEVELOP_MEAN_REVERTING, 3000) < 60
+    assert worst(core.DEVELOP_MEAN_REVERTING, 20000) < 60
+
+
+def test_an_old_state_file_still_replays():
+    """A state written by 0.2 has no mode field, so it must replay as it did."""
+    s = seeds(1)[0]
+    walk = core.new_state(s, REG)
+    walk["develop"] = core.DEVELOP_WALK
+    legacy = {k: v for k, v in walk.items() if k != "develop"}
+    assert "develop" not in legacy
+    a = core.develop(s, legacy, b"thing", REG)
+    b = core.develop(s, walk, b"thing", REG)
+    assert a["chain"] == b["chain"] and a["drift"] == b["drift"]
+    assert a["develop"] == core.DEVELOP_WALK
 
 
 def test_drives_are_held_for_life():
