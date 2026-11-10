@@ -36,7 +36,7 @@ pub fn sha256(data: &[u8]) -> Digest {
     msg.extend_from_slice(&bit_len.to_be_bytes());
 
     let mut w = [0u32; 64];
-    for chunk in msg.as_chunks::<64>().0 {
+    for chunk in msg.chunks_exact(64) {
         for i in 0..16 {
             w[i] = u32::from_be_bytes([
                 chunk[4 * i],
@@ -98,11 +98,11 @@ pub fn hex(bytes: &[u8]) -> String {
 
 pub fn unhex(s: &str) -> Option<Vec<u8>> {
     let b = s.as_bytes();
-    if !b.len().is_multiple_of(2) {
+    if b.len() % 2 != 0 {
         return None;
     }
     let mut out = Vec::with_capacity(b.len() / 2);
-    for pair in b.as_chunks::<2>().0 {
+    for pair in b.chunks_exact(2) {
         let hi = (pair[0] as char).to_digit(16)?;
         let lo = (pair[1] as char).to_digit(16)?;
         out.push((hi * 16 + lo) as u8);
