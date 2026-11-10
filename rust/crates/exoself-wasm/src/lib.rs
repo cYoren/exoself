@@ -21,7 +21,7 @@ use exoself_core::conformance;
 use exoself_core::develop::{self, State};
 use exoself_core::json::{self, Json};
 use exoself_core::primitives::{self, Seed};
-use exoself_core::registry::Registry;
+use exoself_core::registry::{Registry, DEFAULT_REGISTRY};
 use exoself_core::sha256::{hex, unhex};
 use exoself_core::{phenotype, render, Certificate};
 
@@ -58,7 +58,7 @@ fn registry_of(req: &Json) -> Result<Registry, String> {
         Some(raw) if raw.trim_start().starts_with('{') => {
             Registry::from_bytes(raw.to_string()).map_err(|e| e.to_string())
         }
-        _ => Registry::bundled("core@0.2").map_err(|e| e.to_string()),
+        _ => Registry::bundled(DEFAULT_REGISTRY).map_err(|e| e.to_string()),
     }
 }
 

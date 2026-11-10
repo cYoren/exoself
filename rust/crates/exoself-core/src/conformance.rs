@@ -42,8 +42,19 @@ fn seed_from(v: &Json, what: &str) -> Result<Seed, String> {
 }
 
 /// Replay a vector's event log, honouring the reported satisfactions.
-pub fn replay(seed: &Seed, reg: &Registry, log: &[Json]) -> Result<State, String> {
+///
+/// `mode` is the development arithmetic the vector was recorded under (SPEC
+/// 8.2). A vector recorded before 0.3 has none, and replays as `walk`.
+pub fn replay(
+    seed: &Seed,
+    reg: &Registry,
+    log: &[Json],
+    mode: Option<&str>,
+) -> Result<State, String> {
     let mut state = new_state(seed, reg);
+    if let Some(m) = mode {
+        state.develop = m.to_string();
+    }
     for (i, entry) in log.iter().enumerate() {
         let event = entry
             .get("event")
@@ -114,6 +125,32 @@ pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result
                     checks.push((label.into(), want.to_string(), got.to_string()));
                 }
             }
+            // The grievance list is duplicated between the two
+            // implementations. This vector is what stops the copies drifting:
+            // both must return the same matches for the same text.
+            let primitive_keys: Vec<String> = match p {
+                Json::Object(pairs) => pairs.iter().map(|(k, _)| k.clone()).collect(),
+                _ => Vec::new(),
+            };
+            for key in &primitive_keys {
+                if let Some(text) = key
+                    .strip_prefix("grievance('")
+                    .and_then(|t| t.strip_suffix("')"))
+                {
+                    let got = crate::registry::grievance_words(text).join(",");
+                    let want = p
+                        .get(key)
+                        .and_then(|x| x.as_array())
+                        .map(|a| {
+                            a.iter()
+                                .filter_map(|x| x.as_str())
+                                .collect::<Vec<_>>()
+                                .join(",")
+                        })
+                        .unwrap_or_default();
+                    checks.push((key.clone(), want, got));
+                }
+            }
             if let Some(want) = p
                 .get("fixation at events 0, 100, 1000")
                 .and_then(|x| x.as_array())
@@ -156,7 +193,14 @@ pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result
             }
         };
         let state = match (v.get("log"), v.get("state")) {
-            (Some(Json::Array(log)), _) => match replay(&seed, reg, log) {
+            (Some(Json::Array(log)), _) => match replay(
+                &seed,
+                reg,
+                log,
+                v.get("state")
+                    .and_then(|s| s.get("develop"))
+                    .and_then(|d| d.as_str()),
+            ) {
                 Ok(s) => Some(s),
                 Err(e) => {
                     report.failed += 1;
@@ -202,12 +246,13 @@ pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::registry::DEFAULT_REGISTRY;
 
     const VECTORS: &str = include_str!("../../../../spec/vectors.json");
 
     #[test]
     fn reproduces_every_vector_and_primitive() {
-        let reg = Registry::bundled("core@0.2").unwrap();
+        let reg = Registry::bundled(DEFAULT_REGISTRY).unwrap();
         let r = run(VECTORS, &reg, true).unwrap();
         assert!(r.ok(), "{}\n{}", r.summary(), r.failures.join("\n"));
         assert!(r.passed >= 20, "{}", r.summary());
@@ -215,7 +260,7 @@ mod tests {
 
     #[test]
     fn detects_a_changed_bit() {
-        let reg = Registry::bundled("core@0.2").unwrap();
+        let reg = Registry::bundled(DEFAULT_REGISTRY).unwrap();
         let tampered = VECTORS.replace("\"warmth\": 372", "\"warmth\": 373");
         let r = run(&tampered, &reg, false).unwrap();
         assert!(!r.ok());

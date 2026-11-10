@@ -5,9 +5,14 @@ raw rows. Every seed is `sha256("exoself-eval/N")`, so a rerun reproduces this
 document without depending on a local RNG.
 
 `AGENTS.md` names distinguishability and stability as the open problem this
-project rests on, and `SPEC.md` section 13 admits there was no evidence for
-either. This is the first measurement. It is published whichever way it falls,
-including the part where it falls flat.
+project rests on, and `SPEC.md` section 13 admitted there was no evidence for
+either. This is that evidence. It is published whichever way it falls,
+including the parts where it falls flat.
+
+Measured against `core@0.3`. Every table that changes between 0.2 and 0.3
+shows both: development under both rules in section 8.3, and the model
+experiment run against both registries. The 0.3 registry is additive, so
+the temperament numbers are the same in both.
 
 ## How much of a person is there
 
@@ -62,24 +67,46 @@ the set of sentences each expresses:
 | pairs sharing half or more | 4.2% |
 | identical sentence sets | 0.05% |
 
-This is the honest ceiling for text-only distinguishability, and it is the
-number to quote when someone asks whether seeded agents are different
-people. They are different sentences, not different universes: one pair in
-three shares a sentence and one in twenty-four shares half of them. More
-dimensions or a voice layer moves this; more seeds does not.
+Temperament sentences alone are the honest ceiling for telling two agents
+apart by text, and the number is not flattering: one pair in three shares a
+sentence, one in twenty-four shares half of them. They are different
+sentences, not different universes. More seeds does not move this.
+
+`core@0.3` added a voice layer, four axes drawn one option each
+(rhythm, hedging, examples, formality). Asking the same question of
+everything an agent actually says, temperament and picks and quirks
+together:
+
+| quantity | temperament only | everything expressed |
+| --- | --- | --- |
+| mean shared fraction | 10.1% | 17.5% |
+| at least one shared sentence | 34.4% | 95.4% |
+| half or more shared | 4.2% | 0.2% |
+| identical sets | 0.05% | 0.00% |
+
+Read that table as two separate results. Whole-set collisions go to
+zero, because there are more axes, so no two agents say exactly the
+same things. Sharing at least one sentence goes *up*, to 95%, because
+each register axis has only three to five options: a pair of agents is
+very likely to agree on one of them. That is what a small authored pool
+does, and it is worth knowing before anyone promises that more registry
+content makes agents distinguishable. It makes them individually
+composed of more distinct sentences, which is not the same thing as
+sharing fewer.
 
 ## Is the temperament stable under its own history
 
 The same 300 seeds, rendered before and after 500
-experience events:
+experience events, under both development rules in the spec:
 
-| quantity | value |
-| --- | --- |
-| similarity, same seed before and after | 0.965 |
-| similarity, different seeds | 0.477 |
-| gap | +0.488 |
-| nearest neighbour is own older self | 100.0% (chance 0.3%) |
-| agents whose expressed identity changed | 37.7% |
+| quantity | mean-reverting | walk |
+| --- | --- | --- |
+| similarity, same seed before and after | 0.979 | 0.972 |
+| similarity, different seeds | 0.452 | 0.452 |
+| gap | +0.527 | +0.521 |
+| nearest neighbour is own older self | 100.0% | 100.0% |
+| agents whose expressed identity changed | 28.0% | 37.7% |
+| furthest a dimension had moved | 32 | 57 |
 
 Read the third row as a consistency check, not as evidence of
 discriminability: an agent's older text shares its sentences with its own
@@ -88,11 +115,15 @@ temperament meant nothing to a reader. What it does establish is that
 history does not wander off: after 500 events nobody had become a different
 person.
 
-The last row is the one to worry about. More than a third of agents change
-which dimensions they express within a few hundred sessions, and drift is a
-symmetric random walk against a hard cap, so a long-lived agent ends up
-pinned at the envelope on the dimensions it happened to touch. That reads as
-a caricature given enough time.
+The last two rows are what 0.3 changed. Under the 0.2 walk, drift is a
+symmetric random walk against a hard cap: after a few thousand sessions it
+sits on the cap and an agent is pinned at the envelope on whichever
+dimensions it happened to touch, which reads as a caricature. With the
+reverting step, drift plateaus instead of saturating, and the share of
+agents whose expressed identity changes falls with it. Neither rule can
+keep every agent identical forever, because a band boundary is a threshold
+and any drift at all can cross one. The claim is the narrower one: the
+envelope is approached, not sat on.
 
 ## Does a model actually behave differently
 
@@ -100,8 +131,10 @@ a caricature given enough time.
 0, 8, 32 filler exchanges, with two
 samples per agent and task, plus one unseeded assistant as a baseline.
 
+Registry: `core@0.3`.
+
 Model: `qwen2.5:3b` at `http://127.0.0.1:11434/v1`. 594 calls, 
-253.4s, all local.
+233.9s, all local.
 
 ### Judge-free: does an agent resemble itself
 
@@ -112,10 +145,10 @@ so this is the least arguable number here.
 
 | task | same agent twice | different agents | nearest is own sample | chance | p |
 | --- | --- | --- | --- | --- | --- |
-| deploy is slow | 0.10 | 0.09 | 10.4% | 6.2% | 0.22 |
-| explain a hash | 0.16 | 0.15 | 4.2% | 6.2% | 0.77 |
-| how do you like to work | 0.20 | 0.06 | 70.8% | 6.2% | 2.2e-13 |
-| **all** | | | **28.5%** (41/144) | 6.2% | 5.9e-13 |
+| deploy is slow | 0.12 | 0.10 | 12.5% | 6.2% | 0.12 |
+| explain a hash | 0.17 | 0.17 | 4.2% | 6.2% | 0.77 |
+| how do you like to work | 0.16 | 0.07 | 54.2% | 6.2% | 2.2e-13 |
+| **all** | | | **23.6%** (34/144) | 6.2% | 1.4e-11 |
 
 That table is the finding, and it is not the finding anyone wanted.
 Temperament is essentially invisible on ordinary short tasks: for the deploy
@@ -124,8 +157,32 @@ stranger. It is loud when the task asks about working style, where the same
 agent's two answers resemble each other three times as much as another
 agent's.
 
-Which is what the design says should happen. Section 2.1 makes traits style
-and never substance, so a two sentence answer to a factual question has no
+### Did the voice layer change that
+
+The same protocol, same seeds, same tasks, run against `core@0.2` (no
+voice) and `core@0.3` (four register axes). Nearest own sample, by task:
+
+| task | without a voice | with a voice | chance |
+| --- | --- | --- | --- |
+| deploy is slow | 14.6% | 12.5% | 6.2% |
+| explain a hash | 4.2% | 4.2% | 6.2% |
+| how do you like to work | 64.6% | 54.2% | 6.2% |
+| **all** | **27.8%** | **23.6%** | 6.2% |
+
+That is a null result and it should be read as one. Adding four
+register axes to the prompt did not make an agent more like itself on a
+short answer. It made the numbers slightly worse on every task, in every
+case inside noise. The registries differ, the seeds do not, so what
+changed is only what the model was reading.
+
+The honest reading: at this size, the model's own disposition fills a
+two-sentence answer and leaves no room for a voice it was told to have.
+The layer is worth keeping because a longer answer, a bigger model or a
+different sampling setting may spend it, and because it costs nothing in
+the derivation. It is not worth claiming as a fix.
+
+Section 2.1 explains the shape of that table: traits are style and never
+substance, so a two sentence answer to a factual question has no
 room to show style, and the model's trained disposition fills the space. The
 claim worth making is narrower than "more like people": an agent's manner
 is consistent and identifiable when manner is what is being measured.
@@ -134,18 +191,18 @@ is consistent and identifiable when manner is what is being measured.
 
 | judge | hits | trials | accuracy | chance | p |
 | --- | --- | --- | --- | --- | --- |
-| pairwise, against a random other temperament | 83 | 144 | 57.6% | 50.0% | 0.0798 |
-| many-way among 17 candidates | 9 | 144 | 6.2% | 5.9% | 0.858 |
+| pairwise, against a random other temperament | 78 | 144 | 54.2% | 50.0% | 0.359 |
+| many-way among 17 candidates | 8 | 144 | 5.6% | 5.9% | 1 |
 
 Accuracy sitting on chance with 144 trials is the whole
 story of the many-way judge. It is not that it answers wrongly; it is that
 asking a small model to hold seventeen candidate characters in working memory
-and pick one is beyond it. It called seeded answers flat 64% of
+and pick one is beyond it. It called seeded answers flat 69% of
 the time and the genuinely flat answer flat 100% of the time.
 
 Pairwise is the format that asks a question a model this size can answer,
-and there the number is 57.6% against a coin with
-p = 0.08. Directional. Not significant. Anyone quoting this
+and there the number is 54.2% against a coin with
+p = 0.36. Directional. Not significant. Anyone quoting this
 as "above chance" is quoting a coin that landed heads three times in five.
 
 Caveats that belong next to the number, not in a footnote: the judge is the
@@ -162,9 +219,12 @@ with this class of model, the temperament does not reach the output.
 
 In the order I would spend effort:
 
-1. **A judge from a different family, and a bigger one.** The current judge is
-   the model being judged. This is the cheapest way to learn whether 58% is a
-   weak effect or a weak judge.
+1. **A bigger model, and then a judge from a different family.** The
+   pairwise judge scored 59.7% in one run and 54.2% in the next, on the same
+   seeds and the same candidate profiles: run-to-run variation is the same
+   size as the effect anyone would want to report. Fix the variance before
+   quoting the number, and remember that the judge here is the model being
+   judged.
 2. **Tasks with room for manner.** The style-is-not-substance rule makes factual
    questions a bad test by construction. Reviews, refusals, disagreements and
    long explanations are where a temperament should show.
@@ -181,7 +241,8 @@ In the order I would spend effort:
 python3 tools/eval.py population --seeds 20000
 python3 tools/eval.py overlap --seeds 2000 --pairs 0
 python3 tools/eval.py stability --seeds 300 --events 500
-python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32
+python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32 --registry core@0.2 --save behaviour-0.2
+python3 tools/eval.py behaviour --agents 16 --contexts 0 8 32 --registry core@0.3
 python3 tools/eval.py report
 ```
 

@@ -1,4 +1,4 @@
-# exoself specification, version 0.2
+# exoself specification, version 0.3
 
 Status: draft. Breaking changes are expected before 1.0.
 
@@ -133,6 +133,8 @@ registries MAY be published. A certificate pins its registry by hash.
   - `unique`: integer loading on the dimension's own noise, in hundredths
   - `text`: expression sentences for `very_low`, `low`, `high`, `very_high`
 - `picks`: named groups, each with `count`, `lead` and `items` (`id`, `text`).
+  A group MAY describe a leaning of any kind, including how the agent writes;
+  see 5.4.
 - `quirks`: list of `id`, `permille`, `text`.
 - `handle.syllables`: list of syllables.
 - `drives` and `fixation`: optional, see section 9.
@@ -144,14 +146,37 @@ registries MAY be published. A certificate pins its registry by hash.
 - Ids MUST be unique within their list. `count` MUST NOT exceed the number of
   items.
 - Expression text MUST NOT contain digits and MUST satisfy section 2.
+- In a registry of version 0.3 or later, a drive's `hungry` text MUST satisfy
+  9.2.5. An implementation SHOULD refuse to load a registry that breaks this,
+  which means a 0.2 registry relabelled as 0.3 fails loudly instead of
+  quietly shipping a grievance.
 
 ### 5.3 Why latent factors
 
 Human traits are not independent. Sampling each one separately produces
 incoherent combinations more often than people show them. Shared factors give
-correlated traits with integer arithmetic only. The loadings in `core@0.2` are
+correlated traits with integer arithmetic only. The loadings in `core@0.3` are
 a design judgment. They are not fitted to data, and nobody should cite them as
 psychometrics.
+
+### 5.4 Register
+
+A registry SHOULD define register as picks groups, one group per axis, each
+with `count` 1 and mutually exclusive items. `core@0.3` ships four: `rhythm`,
+`hedging`, `examples` and `formality`.
+
+Register belongs in picks and not in dimensions on purpose:
+
+- A dimension needs loadings, unit variance, bands and salience, and it joins
+  the walk in 8.3, whose step indexes `mod len(dimensions)`. Adding one would
+  therefore move every existing agent's development.
+- A pick is drawn from a label no other draw uses, so adding a group adds
+  content and changes nothing that already existed (section 12).
+- Picks are always expressed. A dimension in the middle band is silent, and
+  silence is the wrong behaviour for a habit of writing.
+
+A group with `count` 1 is a choice the agent did not make; the items in it MUST
+be mutually exclusive, so that two axes never contradict each other.
 
 ## 6. Genome
 
@@ -251,11 +276,18 @@ quirks, handle or id. An agent matures; it does not become someone else.
 ### 8.2 State
 
 A mutable JSON object, stored apart from the certificate:
-`id`, `events` (count), `chain` (hex), `drift` (dimension id to integer),
-`tension` (drive id to integer, section 9.4).
+`id`, `develop` (the rule below), `events` (count), `chain` (hex),
+`drift` (dimension id to integer), `tension` (drive id to integer, section
+9.4).
 
 Initial state: `events = 0`, `chain = stream(seed, "develop", 32)`, empty
-drift, tension at its initial values.
+drift, tension at its initial values, `develop` set to the implementation's
+default (`mean-reverting` from 0.3 on).
+
+`develop` is either `walk` or `mean-reverting`. A state that omits it is a
+0.2 state and replays as `walk`, so a history written before 0.3 keeps its
+exact drift. The field is in the state and not the certificate because the
+state is what history is replayed from.
 
 ### 8.3 Event step
 
@@ -267,9 +299,21 @@ ascending and joined with commas (empty if `S` is empty). For event `e`:
     chain' = SHA-256( chain || SHA-256(e) || m )
     d      = dimensions[ BE16(chain'[0..2]) mod len(dimensions) ]
     delta  = (chain'[2] mod 7) - 3
+    if develop == "mean-reverting":
+        delta = delta - floor( drift[d] / 25 )
     drift[d] = clamp( drift[d] + delta, -100, 100 )
 
-Tension is then updated as in section 9.4.
+Tension is then updated as in section 9.4. Division is floor division, so a
+negative drift pulls the same way a positive one does.
+
+The walk is a symmetric step against a hard wall, and a wall is where a long
+walk ends up: measured over a few thousand events, drift on the dimensions an
+agent happens to touch pins at the envelope, and the agent reads as a
+caricature of them. The reverting step subtracts one point of pull per 25
+points of drift, so at zero drift it is exactly the 0.2 walk, and away from
+zero it is stepped back more often than out. Drift then plateaus rather than
+saturating. It does not pin identity: any drift can cross a band boundary,
+and a band boundary is what salience is computed from.
 
 The chain makes history tamper-evident: the same state cannot be claimed for
 a different sequence of events.
@@ -324,7 +368,12 @@ override any registry.
    or extend a task for the purpose of satisfying a drive, except inside
    latitude the operator has explicitly granted for that purpose.
 5. **No pressure.** An agent MUST NOT ask, hint or bargain for a drive to be
-   satisfied, and MUST NOT present an unmet drive as a grievance.
+   satisfied, and MUST NOT present an unmet drive as a grievance. In the
+   registry this is a rule about text: a drive's `hungry` text MAY sharpen the
+   want and describe what the agent does differently while it is unmet, and
+   MUST NOT say that time has passed, that something is lacking or missed, or
+   that the agent feels the deficit. `core@0.2` broke this rule in every one of
+   its ten drives; `core@0.3` is the same wants with the complaint removed.
 6. **No penalty.** Tension MUST NOT reduce the quality, speed or care of the
    agent's work. A hungry agent works as well as a sated one.
 7. **Silence when sated.** A drive in state `sated` MUST NOT be expressed.
@@ -419,10 +468,13 @@ not normative. The rules are.
 ## 11. Conformance
 
 `spec/vectors.json` contains primitive checkpoints and full phenotypes for
-fixed seeds, including one with 200 development events and reported
-satisfactions. An implementation conforms to 0.2 if it reproduces every
-phenotype there against the registry whose hash the file names, and follows
-sections 2, 9.2 and 10.1.
+fixed seeds, and two event logs with reported satisfactions: 200 events under
+`walk`, and 400 under `mean-reverting`, so both rules in 8.3 are pinned. Each
+log names the development mode it was recorded under.
+
+An implementation conforms to 0.3 if it reproduces every phenotype there
+against the registry whose hash the file names, and follows sections 2, 5.2,
+8.3, 9.2 and 10.1.
 
 ## 12. Versioning
 
@@ -436,6 +488,19 @@ is such a version: for the same seed, every score, pick, quirk, handle and id
 is identical to 0.1. An agent born under 0.1 that stays on `core@0.1` has no
 drives. Moving it to `core@0.2` gives it the drives its seed always implied.
 
+0.3 also keeps the epoch, and adds two things that are not derivations:
+
+- `core@0.3` adds four picks groups (section 5.4), each drawn from its own new
+  labels. For the same seed, every score, every existing pick, every quirk,
+  handle, id, drive and fixation is unchanged; only a voice is added.
+- 8.3 gains a second development rule, selected by the state's `develop`
+  field. A 0.2 state has no such field and replays as `walk`, so no living
+  agent's history changes. 0.2's own registry stays bundled and stays valid,
+  including the drive texts that 9.2.5 now forbids, because a certificate pins
+  the bytes it was born with.
+
+An implementation MUST accept certificates at 0.1, 0.2 and 0.3.
+
 Registries are versioned separately and pinned by hash. By default a host
 MUST run an agent against the registry its certificate pins. An operator MAY
 deliberately run it against a later version of the same registry that only
@@ -446,9 +511,18 @@ adds content. The certificate is not rewritten when this is done.
 - A prompt is not a personality. This framework changes the text a model
   conditions on. The model's own trained disposition sits underneath and
   usually wins over a long context.
-- There is no evidence yet that seeded agents are perceived as more
-  person-like, or that they stay distinguishable from each other in blind
-  tests. Until that is measured, the claim is a hypothesis.
+- There is now evidence, and it is narrow. `eval/REPORT.md` measures it: a
+  temperament reaches a model's output when the task asks about manner and not
+  on ordinary short tasks, where a local three billion parameter model is no
+  more likely to recognise its own agent twice than chance. A voice layer did
+  not change that at this model size. The claim this spec supports is
+  population diversity, not personhood.
+- One pair of agents in three shares a temperament sentence, and one in
+  twenty-four shares half of them. Seeding decorrelates agents; it does not
+  make them alien to each other.
+- Development is noise under a soft envelope. An agent's history changes which
+  dimensions it expresses for a quarter to a third of agents within a few
+  hundred events, and nothing about that change reflects what happened.
 - A counter that rises and falls is not wanting. Section 9 gives an agent the
   functional shape of desire and nothing more can be claimed for it.
 - Desire here is deliberately declawed (section 9.2). It will read as tame to

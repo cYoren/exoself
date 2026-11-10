@@ -1,6 +1,6 @@
 {
   "seeds": 20000,
-  "registry": "8de4d3729c6e319d926dd6b5eb09efef97cfc0147d6402c60ef65d1812fd0ec3",
+  "registry": "23803a3d4f1d5e3ec2b8f4621df083af0281ce299bba0b675b84f6d00d45375d",
   "distinct_temperaments": 12451,
   "distinct_temperaments_ratio": 0.62255,
   "distinct_characters_quirks_picks": 20000,
@@ -53,5 +53,5 @@
     "units": 0.2,
     "second-thoughts": 0.2
   },
-  "measured_at": "2026-11-10T02:10:30Z"
+  "measured_at": "2026-11-10T10:10:54Z"
 }

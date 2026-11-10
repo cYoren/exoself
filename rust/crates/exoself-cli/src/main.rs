@@ -10,7 +10,7 @@ mod mcp;
 
 use exoself_core::json::{self, Json};
 use exoself_core::primitives::{self, Seed};
-use exoself_core::registry::Registry;
+use exoself_core::registry::{Registry, DEFAULT_REGISTRY};
 use exoself_core::sha256::{hex, unhex};
 use exoself_core::{birth, conformance, develop, phenotype, render, Certificate, State};
 use std::io::Write;
@@ -313,7 +313,7 @@ fn cmd_born(args: &[String]) -> Result<i32, String> {
     }
     let reg = match f.value("registry") {
         Some(p) => Registry::from_path(p).map_err(|e| e.to_string())?,
-        None => Registry::bundled("core@0.2").map_err(|e| e.to_string())?,
+        None => Registry::bundled(DEFAULT_REGISTRY).map_err(|e| e.to_string())?,
     };
 
     let beacon_value = f.value("beacon-value");
@@ -466,7 +466,7 @@ fn cmd_conformance(args: &[String]) -> Result<i32, String> {
     let f = Flags::parse(args, &["registry"])?;
     let reg = match f.value("registry") {
         Some(p) => Registry::from_path(p).map_err(|e| e.to_string())?,
-        None => Registry::bundled("core@0.2").map_err(|e| e.to_string())?,
+        None => Registry::bundled(DEFAULT_REGISTRY).map_err(|e| e.to_string())?,
     };
     let vectors = match f.positional.first() {
         Some(p) => std::fs::read_to_string(p).map_err(|e| format!("{}: {}", p, e))?,

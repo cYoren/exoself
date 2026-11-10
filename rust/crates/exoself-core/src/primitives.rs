@@ -6,8 +6,8 @@
 
 use crate::sha256::sha256;
 
-pub const SPEC_VERSION: &str = "0.2";
-pub const SUPPORTED_VERSIONS: [&str; 2] = ["0.1", "0.2"];
+pub const SPEC_VERSION: &str = "0.3";
+pub const SUPPORTED_VERSIONS: [&str; 3] = ["0.1", "0.2", "0.3"];
 
 /// Derivation epoch, not the spec version. It changes only when an existing
 /// derivation changes, because changing it turns every living agent into
@@ -25,6 +25,15 @@ pub const SCORE_SD: i64 = 150;
 pub const SCORE_MAX: i64 = 1000;
 
 pub const DRIFT_LIMIT: i64 = 100;
+
+/// A drift point that pulls a dimension back toward its genome value (SPEC 8.3).
+pub const DRIFT_PULL: i64 = 25;
+
+/// Development arithmetic, carried in the state (SPEC 8.2). An absent mode
+/// means 0.2's walk, so an old state file keeps replaying exactly.
+pub const DEVELOP_WALK: &str = "walk";
+pub const DEVELOP_MEAN_REVERTING: &str = "mean-reverting";
+pub const DEVELOP_DEFAULT: &str = DEVELOP_MEAN_REVERTING;
 pub const MIN_EXPRESSED: usize = 2;
 pub const MAX_EXPRESSED: usize = 5;
 
