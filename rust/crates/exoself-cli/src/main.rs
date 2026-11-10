@@ -33,6 +33,10 @@ exoself: an unchosen temperament for software agents
   exoself verify CERT [--registry PATH]
         Check a birth certificate. Exit code is non-zero on any problem.
 
+  exoself status [CERT] [--state PATH] [--registry PATH]
+        Who this agent is, how many sessions it has lived, and how its
+        appetites stand. Default certificate: .exoself/birth.json.
+
   exoself conformance [VECTORS] [--registry PATH]
         Reproduce spec/vectors.json. Default: the bundled vectors.
 
@@ -78,6 +82,7 @@ fn run(args: &[String]) -> Result<i32, String> {
         "show" => cmd_show(rest),
         "develop" => cmd_develop(rest),
         "verify" => cmd_verify(rest),
+        "status" => cmd_status(rest),
         "conformance" => cmd_conformance(rest),
         "commit" => cmd_commit(rest),
         "install" => install::cmd_install(rest),
@@ -590,6 +595,53 @@ fn cmd_verify(args: &[String]) -> Result<i32, String> {
     } else {
         Ok(1)
     }
+}
+
+/// Default certificate for a command run inside an installed directory.
+fn default_cert() -> String {
+    let installed = Path::new(".exoself/birth.json");
+    if installed.exists() {
+        installed.display().to_string()
+    } else {
+        "birth.json".to_string()
+    }
+}
+
+fn cmd_status(args: &[String]) -> Result<i32, String> {
+    let f = Flags::parse(args, &["state", "registry"])?;
+    f.reject_unknown(&["state", "registry"], &[], 1)?;
+    if f.help() {
+        print!("{}", USAGE);
+        return Ok(0);
+    }
+    let cert_path = f.positional.first().cloned().unwrap_or_else(default_cert);
+    let cert = read_cert(&cert_path)?;
+    let (reg, problems) = registry_for(&cert, f.value("registry"))?;
+    if !problems.is_empty() {
+        return Err(format!("certificate rejected: {}", problems.join("; ")));
+    }
+    // The state sits beside the certificate unless the operator says otherwise.
+    let state_path = f.value("state").map(|s| s.to_string()).or_else(|| {
+        let sibling = Path::new(&cert_path).with_file_name("state.json");
+        sibling.exists().then(|| sibling.display().to_string())
+    });
+    let state = match &state_path {
+        Some(p) => {
+            let st = State::from_json(&read_json(p)?)?;
+            if st.id != cert.id {
+                return Err(format!(
+                    "{} belongs to a different agent than {}",
+                    p, cert.id
+                ));
+            }
+            Some(st)
+        }
+        None => None,
+    };
+    let ph = phenotype::phenotype(&cert.seed, &reg, state.as_ref());
+    let events = state.as_ref().map(|s| s.events).unwrap_or(0);
+    println!("{}", mcp::status_text(&cert_path, &ph, &reg, events));
+    Ok(0)
 }
 
 fn cmd_conformance(args: &[String]) -> Result<i32, String> {

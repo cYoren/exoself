@@ -279,26 +279,7 @@ impl Server {
             "exoself_status" => {
                 let ph = self.phenotype();
                 let events = self.state.as_ref().map(|s| s.events).unwrap_or(0);
-                let mut out = format!(
-                    "{} ({}). Sessions recorded: {}. Certificate: {}",
-                    ph.handle, ph.id, events, self.cert_path
-                );
-                if let Some(d) = &self.reg.drives {
-                    for (id, _t, state) in &ph.drives {
-                        let label = d
-                            .items
-                            .iter()
-                            .find(|i| &i.id == id)
-                            .map(|i| i.want.as_str());
-                        out.push_str(&format!("\n{}: {}", id, state));
-                        if let Some(l) = label {
-                            if *state != "sated" {
-                                out.push_str(&format!(" ({})", l));
-                            }
-                        }
-                    }
-                }
-                Ok(out)
+                Ok(status_text(&self.cert_path, &ph, &self.reg, events))
             }
             "exoself_verify" => {
                 let problems = birth::verify_certificate(&self.cert, &self.reg.sha256);
@@ -311,6 +292,36 @@ impl Server {
             other => Err(format!("unknown tool {:?}", other)),
         }
     }
+}
+
+/// Who this agent is, how many sessions it has lived, and its appetites in
+/// words. Shared by the MCP tool and `exoself status` so the two cannot drift.
+pub fn status_text(
+    cert_path: &str,
+    ph: &phenotype::Phenotype,
+    reg: &Registry,
+    events: u64,
+) -> String {
+    let mut out = format!(
+        "{} ({}). Sessions recorded: {}. Certificate: {}",
+        ph.handle, ph.id, events, cert_path
+    );
+    if let Some(d) = &reg.drives {
+        for (id, _t, state) in &ph.drives {
+            let label = d
+                .items
+                .iter()
+                .find(|i| &i.id == id)
+                .map(|i| i.want.as_str());
+            out.push_str(&format!("\n{}: {}", id, state));
+            if let Some(l) = label {
+                if *state != "sated" {
+                    out.push_str(&format!(" ({})", l));
+                }
+            }
+        }
+    }
+    out
 }
 
 fn respond(out: &mut impl Write, id: Json, result: Json) -> Result<(), String> {

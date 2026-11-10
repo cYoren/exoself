@@ -165,14 +165,7 @@ class Server:
         if name == "exoself_status":
             ph = self.phenotype()
             events = (self.state or {}).get("events", 0)
-            out = (f"{ph['handle']} ({ph['id']}). Sessions recorded: {events}. "
-                   f"Certificate: {self.cert_path}")
-            wants = {i["id"]: i["want"] for i in self.reg.get("drives", {}).get("items", [])}
-            for d in ph["drives"]:
-                out += f"\n{d['drive']}: {d['state']}"
-                if d["state"] != "sated" and d["drive"] in wants:
-                    out += f" ({wants[d['drive']]})"
-            return out
+            return status_text(self.cert_path, ph, self.reg, events)
 
         if name == "exoself_verify":
             _, reg_hash = core.load_registry(name=self.cert.get("registry", ""))
@@ -192,6 +185,19 @@ class Server:
             _write_atomic(self.state_path, nxt)
         self.state = nxt
         return nxt
+
+
+def status_text(cert_path: str, ph: dict, reg: dict, events: int) -> str:
+    """Who this agent is, how many sessions it has lived, and its appetites in
+    words. Shared by the MCP tool and `exoself status` so the two cannot drift."""
+    out = (f"{ph['handle']} ({ph['id']}). Sessions recorded: {events}. "
+           f"Certificate: {cert_path}")
+    wants = {i["id"]: i["want"] for i in reg.get("drives", {}).get("items", [])}
+    for d in ph["drives"]:
+        out += f"\n{d['drive']}: {d['state']}"
+        if d["state"] != "sated" and d["drive"] in wants:
+            out += f" ({wants[d['drive']]})"
+    return out
 
 
 def _respond(out, rid, result: dict) -> None:

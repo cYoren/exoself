@@ -184,6 +184,20 @@ def main() -> int:
             return 1
         checked += 1
 
+        # `exoself status` on the command line must say what the MCP tool says.
+        py_status = subprocess.run(
+            [*py_cmd, "status", str(cert_path), "--state", str(tmp / "mcp-py-state.json")],
+            capture_output=True, env=env)
+        rs_status = subprocess.run(
+            [str(exe), "status", str(cert_path), "--state", str(tmp / "mcp-rs-state.json")],
+            capture_output=True)
+        if py_status.stdout != rs_status.stdout:
+            sys.stderr.write("MISMATCH: CLI status output\n"
+                             f"--- python ---\n{py_status.stdout.decode()}\n"
+                             f"--- rust ---\n{rs_status.stdout.decode()}\n")
+            return 1
+        checked += 1
+
     print(f"parity ok: {checked} comparisons over {a.seeds} seeds, "
           f"{a.events} events each")
     return 0
