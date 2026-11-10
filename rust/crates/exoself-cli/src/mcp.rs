@@ -178,11 +178,30 @@ impl Server {
         })
     }
 
+    /// Re-read the state file. Another host, or `exoself develop` by hand, may
+    /// have written since this server started; a cached copy would make the
+    /// next `record_session` erase that event.
+    fn refresh(&mut self) -> Result<(), String> {
+        let Some(path) = self.state_path.clone() else {
+            return Ok(());
+        };
+        if !std::path::Path::new(&path).exists() {
+            return Ok(());
+        }
+        let st = State::from_json(&read_json(&path)?)?;
+        if st.id != self.cert.id {
+            return Err(format!("{} belongs to a different agent", path));
+        }
+        self.state = Some(st);
+        Ok(())
+    }
+
     fn phenotype(&self) -> phenotype::Phenotype {
         phenotype::phenotype(&self.cert.seed, &self.reg, self.state.as_ref())
     }
 
     fn call(&mut self, name: &str, args: &Json) -> Result<String, String> {
+        self.refresh()?;
         match name {
             "exoself_temperament" => {
                 let ph = self.phenotype();
@@ -225,6 +244,13 @@ impl Server {
                 if let Some(bad) = satisfied.iter().find(|s| !known.contains(s)) {
                     return Err(format!("unknown drive {:?}", bad));
                 }
+                // Hold the lock and re-read under it: the read-modify-write
+                // must not interleave with another host's.
+                let _lock = match &self.state_path {
+                    Some(p) => Some(crate::lock::StateLock::acquire(p)?),
+                    None => None,
+                };
+                self.refresh()?;
                 let from = self
                     .state
                     .clone()
