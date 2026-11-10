@@ -452,7 +452,7 @@ def test_the_python_cli_has_the_same_commands_as_the_rust_one():
     parser = build_parser()
     actions = [a for a in parser._actions if isinstance(a, argparse._SubParsersAction)]
     names = set(actions[0].choices)
-    assert names == {"born", "show", "develop", "verify", "conformance",
+    assert names == {"born", "show", "develop", "verify", "status", "conformance",
                      "commit", "install", "mcp", "version"}, names
 
 

@@ -41,6 +41,10 @@ exoself: an unchosen temperament for software agents
   exoself verify CERT [--registry PATH]
         Check a birth certificate. Exit code is non-zero on any problem.
 
+  exoself status [CERT] [--state PATH] [--registry PATH]
+        Who this agent is, how many sessions it has lived, and how its
+        appetites stand. Default certificate: .exoself/birth.json.
+
   exoself conformance [VECTORS] [--registry PATH]
         Reproduce spec/vectors.json.
 
@@ -305,6 +309,34 @@ def cmd_verify(a) -> int:
     return 1 if problems else 0
 
 
+def _default_cert() -> str:
+    """Default certificate for a command run inside an installed directory."""
+    return ".exoself/birth.json" if os.path.exists(".exoself/birth.json") else "birth.json"
+
+
+def cmd_status(a) -> int:
+    from .mcp import status_text
+
+    cert_path = a.cert or _default_cert()
+    cert = _read(cert_path)
+    reg, problems = _registry_for(a, cert)
+    if problems:
+        raise Fail("certificate rejected: " + "; ".join(problems))
+    state_path = a.state
+    if not state_path:
+        sibling = os.path.join(os.path.dirname(os.path.abspath(cert_path)), "state.json")
+        if os.path.exists(sibling):
+            state_path = sibling
+    state = None
+    if state_path:
+        state = _read(state_path)
+        if state.get("id") != cert["id"]:
+            raise Fail(f"{state_path} belongs to a different agent than {cert['id']}")
+    pheno = core.phenotype(bytes.fromhex(cert["seed"]), reg, state)
+    print(status_text(cert_path, pheno, reg, (state or {}).get("events", 0)))
+    return 0
+
+
 def _default_vectors() -> str:
     here = os.path.dirname(os.path.abspath(__file__))
     for candidate in (
@@ -454,6 +486,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     s = command("verify", "check a birth certificate", cmd_verify)
     s.add_argument("cert")
+    s.add_argument("--registry", help="path to a trait registry")
+
+    s = command("status", "who this agent is and how its appetites stand", cmd_status)
+    s.add_argument("cert", nargs="?", help="default: .exoself/birth.json")
+    s.add_argument("--state", help="development state file (default: beside the certificate)")
     s.add_argument("--registry", help="path to a trait registry")
 
     s = command("conformance", "check this implementation against test vectors",
