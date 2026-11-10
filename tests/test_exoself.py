@@ -412,3 +412,31 @@ def test_a_lock_left_by_a_dead_process_is_stolen(tmp_path):
     with state_lock(state):
         assert lock.exists()
     assert not lock.exists()
+
+
+# ---------------------------------------------------------------- identity
+
+def test_a_state_file_from_another_agent_is_refused(tmp_path, capsys):
+    """Drift belongs to one agent. Rendering A with B's state would show a
+    phenotype that no seed produces."""
+    a = str(tmp_path / "a.json")
+    b = str(tmp_path / "b.json")
+    state = str(tmp_path / "state.json")
+    assert main(["born", "-o", a]) == 0
+    assert main(["born", "-o", b]) == 0
+    assert main(["develop", a, state, "--event", "x"]) == 0
+    assert main(["show", b, "--state", state]) == 1
+    assert "different agent" in capsys.readouterr().err
+    assert main(["show", a, "--state", state]) == 0
+
+
+def test_forgetting_the_state_flag_says_so(tmp_path, capsys):
+    cert = str(tmp_path / "birth.json")
+    state = str(tmp_path / "state.json")
+    assert main(["born", "-o", cert]) == 0
+    assert main(["develop", cert, state, "--event", "x"]) == 0
+    capsys.readouterr()
+    assert main(["show", cert]) == 0
+    assert "--state was not given" in capsys.readouterr().err
+    assert main(["show", cert, "--state", state]) == 0
+    assert capsys.readouterr().err == ""
