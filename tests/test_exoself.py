@@ -597,3 +597,18 @@ def test_a_certificate_outside_an_installed_directory_writes_nothing(tmp_path):
     assert main(["born", "-o", cert]) == 0
     assert main(["develop", cert, state, "--event", "x"]) == 0
     assert (tmp_path / "AGENTS.md").read_text() == "# untouched\n"
+
+
+def test_one_version_everywhere():
+    """The version is written in three files. A release that disagrees with
+    itself is the kind of thing nobody notices until the wheel is on PyPI."""
+    import re
+    from exoself.cli import VERSION
+    pyproject = (ROOT / "pyproject.toml").read_text()
+    cargo = (ROOT / "rust" / "Cargo.toml").read_text()
+    py_version = re.search(r'^version = "([^"]+)"', pyproject, re.M).group(1)
+    rs_version = re.search(r'^version = "([^"]+)"', cargo, re.M).group(1)
+    assert VERSION == py_version == rs_version, (VERSION, py_version, rs_version)
+    # And the MCP server reports the same one.
+    from exoself import mcp
+    assert mcp.VERSION == VERSION

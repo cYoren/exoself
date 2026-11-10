@@ -2,8 +2,9 @@
 
 Two packages, one version. The version lives in `pyproject.toml`,
 `rust/Cargo.toml` (`[workspace.package]`) and `src/exoself/cli.py`
-(`VERSION`); they must agree, and `tests/test_exoself.py` does not check that
-for you, so check it by hand.
+(`VERSION`), and the MCP server reports `cli.VERSION` rather than keeping its
+own copy. `tests/test_exoself.py::test_one_version_everywhere` fails if the
+three disagree, so bump them together and run `pytest`.
 
 ## Before anything
 

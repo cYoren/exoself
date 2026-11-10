@@ -22,10 +22,9 @@ import os
 import sys
 
 from . import core, render
-from .cli import Fail, _read, _write_atomic, state_lock
+from .cli import VERSION, Fail, _read, _write_atomic, state_lock
 
 PROTOCOL_VERSION = "2025-06-18"
-SERVER_VERSION = "0.3.0"
 
 INSTRUCTIONS = (
     "You have a temperament. It was drawn at random from a seed when you were "
@@ -241,7 +240,7 @@ def cmd_mcp(a) -> int:
             _respond(out, rid, {
                 "protocolVersion": params.get("protocolVersion", PROTOCOL_VERSION),
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "exoself", "version": SERVER_VERSION},
+                "serverInfo": {"name": "exoself", "version": VERSION},
                 "instructions": INSTRUCTIONS,
             })
         elif method in ("notifications/initialized", "initialized",
