@@ -11,6 +11,36 @@ const dec = new TextDecoder();
 let wasm = null;
 let current = { seed: null, cert: null, panes: {}, pane: 'prompt' };
 
+/* One agent per browser, on purpose.
+ *
+ * The tooling refuses to draw twice: `born` will not overwrite a certificate
+ * and there is no MCP tool that draws at all. A page with a button that redraws
+ * would be the reroll everything else refuses, so the draw is stored and the
+ * button goes away. Pasting a seed someone gave you is reconstruction, not a
+ * draw, and does not replace the one you have. */
+const STORE = 'exoself.seed';
+
+function storedSeed() {
+  try {
+    return fromHex(localStorage.getItem(STORE) || '');
+  } catch (e) {
+    return null;   // storage disabled: the page still works, it just forgets
+  }
+}
+
+function storeSeed(seed) {
+  try {
+    localStorage.setItem(STORE, toHex(seed));
+  } catch (e) { /* private mode, storage full, or disabled */ }
+}
+
+function lockDraw(label) {
+  const btn = $('#draw');
+  btn.disabled = true;
+  btn.textContent = label;
+  btn.classList.add('spent');
+}
+
 /** One request in, one JSON response out. The module may grow its memory, so
  *  every view is re-read from the current buffer. */
 function call(req) {
@@ -60,10 +90,19 @@ async function boot() {
   wire();
   runConformance();
 
-  const seed = seedFromHash();
-  if (seed) {
-    $('#seed').value = toHex(seed);
-    derive(seed, { fromHash: true });
+  const fromUrl = seedFromHash();
+  if (fromUrl) {
+    // Someone shared this agent. Show it, but do not adopt it.
+    $('#seed').value = toHex(fromUrl);
+    derive(fromUrl, { fromHash: true });
+    lockDraw('Your seed');
+    return;
+  }
+  const mine = storedSeed();
+  if (mine) {
+    $('#seed').value = toHex(mine);
+    derive(mine, { fromHash: true, adopted: true });
+    lockDraw('Your seed');
   }
 }
 
@@ -91,9 +130,12 @@ function seedFromHash() {
 }
 
 function draw() {
+  if (storedSeed()) return;          // already has one; the button is disabled anyway
   const seed = new Uint8Array(32);
   crypto.getRandomValues(seed);
+  storeSeed(seed);
   derive(seed);
+  lockDraw('Your seed');
 }
 
 function derive(seed, opts = {}) {

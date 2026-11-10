@@ -527,3 +527,15 @@ def test_conformance_checks_the_primitives_too():
     assert failures == []
     assert checked == 11, checked
     assert checked + len(vectors["vectors"]) == 25
+
+
+def test_the_site_does_not_offer_a_free_reroll():
+    """Every other surface refuses to draw twice: `born` will not overwrite, and
+    no MCP tool draws at all. The page must not be the exception."""
+    js = (ROOT / "docs" / "app.js").read_text()
+    assert "localStorage.setItem(STORE" in js, "the drawn seed must be kept"
+    assert "btn.disabled = true" in js, "the draw button must be spent"
+    assert "if (storedSeed()) return;" in js, "draw() must refuse a second draw"
+    html = (ROOT / "docs" / "index.html").read_text()
+    # One draw control, and no second one hiding in a link or a form.
+    assert html.count('id="draw"') == 1
