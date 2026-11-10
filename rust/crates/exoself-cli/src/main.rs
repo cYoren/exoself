@@ -457,8 +457,28 @@ fn cmd_show(args: &[String]) -> Result<i32, String> {
         return Err(format!("certificate rejected: {}", problems.join("; ")));
     }
     let state = match f.value("state") {
-        Some(p) => Some(State::from_json(&read_json(p)?)?),
-        None => None,
+        Some(p) => {
+            let st = State::from_json(&read_json(p)?)?;
+            if st.id != cert.id {
+                return Err(format!(
+                    "{} belongs to a different agent than {}",
+                    p, cert.id
+                ));
+            }
+            Some(st)
+        }
+        None => {
+            // The usual mistake: the state is right there and the operator
+            // forgot the flag, so the agent is rendered as it was born.
+            let sibling = Path::new(path).with_file_name("state.json");
+            if sibling.exists() {
+                eprintln!(
+                    "note: {} exists but --state was not given; rendering the genome only",
+                    sibling.display()
+                );
+            }
+            None
+        }
     };
     let ph = phenotype::phenotype(&cert.seed, &reg, state.as_ref());
     let desire = f.has("desire");
