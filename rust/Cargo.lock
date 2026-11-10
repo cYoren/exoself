@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "exoself-cli"
+name = "exoself"
 version = "0.3.0"
 dependencies = [
  "exoself-core",
