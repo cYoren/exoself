@@ -26,10 +26,10 @@ Either implementation, same commands, same output. Pick one; do not run both
 into the same file, because the second `born` refuses.
 
     # Rust, no dependencies at all
-    cargo install --path rust/crates/exoself-cli      # or: cargo build --release
+    cargo install exoself
 
     # Python, standard library only
-    pip install exoself                               # or: pip install -e . from a clone
+    pip install exoself
 
     exoself born -o birth.json           # draw a seed, once
     exoself show birth.json              # system prompt block

@@ -8,8 +8,7 @@ Build once, with either implementation. Both have the same commands, the same
 flags and the same output, so a host cannot tell them apart:
 
 ```bash
-cargo build --release --manifest-path rust/Cargo.toml
-export PATH="$PWD/rust/target/release:$PATH"
+cargo install exoself          # or: cargo build --release --manifest-path rust/Cargo.toml
 exoself version
 
 # or, with no Rust toolchain at all
