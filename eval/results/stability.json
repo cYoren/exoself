@@ -1,0 +1,13 @@
+{
+  "seeds": 300,
+  "events": 500,
+  "similarity_intra_mean": 0.9654821715013208,
+  "similarity_inter_mean": 0.477236853227179,
+  "similarity_gap": 0.48824531827414175,
+  "nearest_twin_accuracy": 1.0,
+  "nearest_twin_chance": 0.0033333333333333335,
+  "identity_changed_by_history": 0.37666666666666665,
+  "margin_mean": 0.3065964443739692,
+  "margin_fraction_positive": 1.0,
+  "measured_at": "2026-11-10T02:09:29Z"
+}
