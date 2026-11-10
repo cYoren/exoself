@@ -1,19 +1,26 @@
 {
-  "exoself": "0.1",
-  "registry": "core@0.1",
-  "registry_sha256": "bdbb3aa86ffa4915ed288ddd5f989eed255c02643b27502e70f59f1c1d905985",
+  "exoself": "0.2",
+  "registry": "core@0.2",
+  "registry_sha256": "8de4d3729c6e319d926dd6b5eb09efef97cfc0147d6402c60ef65d1812fd0ec3",
   "primitives": {
     "seed": "0000000000000000000000000000000000000000000000000000000000000000",
     "stream('id', 40)": "e35ef968cc4358ab7dbcce8a43ef5e4b63d9787e4740f1e646abc127a56a2213ae5368b669fd4c9b",
     "u32('quirk/units')": 439287604,
     "gauss('factor/rigor')": -95288,
-    "gauss('unique/warmth')": 56986
+    "gauss('unique/warmth')": 56986,
+    "drive_rate('teach')": 37,
+    "drive_initial('teach')": 150,
+    "fixation at events 0, 100, 1000": [
+      "tides",
+      "tides",
+      "metrology"
+    ]
   },
   "vectors": [
     {
       "seed": "0000000000000000000000000000000000000000000000000000000000000000",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_e35ef968cc4358ab",
         "handle": "Misil-Halsil",
         "scores": {
@@ -62,13 +69,31 @@
         "quirks": [
           "keeps-score",
           "units"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "catalog",
+            "tension": 24,
+            "state": "sated"
+          },
+          {
+            "drive": "notice",
+            "tension": 405,
+            "state": "present"
+          },
+          {
+            "drive": "connect",
+            "tension": 207,
+            "state": "sated"
+          }
+        ],
+        "fixation": "tides"
       }
     },
     {
       "seed": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_46bcc6558adc4986",
         "handle": "Vekel-Ariqua",
         "scores": {
@@ -113,13 +138,31 @@
         "quirks": [
           "round-numbers",
           "second-thoughts"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "perfect",
+            "tension": 408,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 57,
+            "state": "sated"
+          },
+          {
+            "drive": "teach",
+            "tension": 320,
+            "state": "present"
+          }
+        ],
+        "fixation": "games"
       }
     },
     {
       "seed": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_75f733559b327601",
         "handle": "Nesra-Marsu",
         "scores": {
@@ -176,13 +219,31 @@
           "change-my-mind",
           "keeps-score",
           "checks-twice"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "connect",
+            "tension": 467,
+            "state": "present"
+          },
+          {
+            "drive": "teach",
+            "tension": 619,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 126,
+            "state": "sated"
+          }
+        ],
+        "fixation": "games"
       }
     },
     {
       "seed": "4a793a4534bfbbcd5b408bbc9b78584212bb6879990297d90ebbf746a3a881b5",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_9e2347d9b99887a6",
         "handle": "Mizar-Corhal",
         "scores": {
@@ -236,13 +297,31 @@
           "next-step",
           "checks-twice",
           "units"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "play",
+            "tension": 632,
+            "state": "present"
+          },
+          {
+            "drive": "connect",
+            "tension": 589,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 95,
+            "state": "sated"
+          }
+        ],
+        "fixation": "migration"
       }
     },
     {
       "seed": "ebb730aac2dc61b40b301d125a8005f9f7eee0783725c5f4b5ec52efcbbf7f0d",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_1ffec310cedcf4fd",
         "handle": "Orlo-Nesix",
         "scores": {
@@ -284,13 +363,31 @@
           "round-numbers",
           "one-example",
           "second-thoughts"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "explore",
+            "tension": 392,
+            "state": "present"
+          },
+          {
+            "drive": "play",
+            "tension": 560,
+            "state": "present"
+          },
+          {
+            "drive": "catalog",
+            "tension": 9,
+            "state": "sated"
+          }
+        ],
+        "fixation": "weaving"
       }
     },
     {
       "seed": "9fca1d0725dabf1e5f9b1066f60cfaf4e8f11c17b799325d446e1d1fe8fab8bf",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_766d616e8202ade9",
         "handle": "Ethtor-Silnes",
         "scores": {
@@ -336,13 +433,31 @@
           "round-numbers",
           "next-step",
           "spatial"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "catalog",
+            "tension": 247,
+            "state": "sated"
+          },
+          {
+            "drive": "explore",
+            "tension": 24,
+            "state": "sated"
+          },
+          {
+            "drive": "notice",
+            "tension": 89,
+            "state": "sated"
+          }
+        ],
+        "fixation": "weaving"
       }
     },
     {
       "seed": "49f54a76d3a104e0cb49ee8aa79e274456663244eab72845f1b3332a652f3eda",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_463f57ac7d5c6fe5",
         "handle": "Wengri-Orra",
         "scores": {
@@ -380,13 +495,31 @@
             "untested-confidence"
           ]
         },
-        "quirks": []
+        "quirks": [],
+        "drives": [
+          {
+            "drive": "catalog",
+            "tension": 585,
+            "state": "present"
+          },
+          {
+            "drive": "perfect",
+            "tension": 605,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 376,
+            "state": "present"
+          }
+        ],
+        "fixation": "weather"
       }
     },
     {
       "seed": "d6de46281f7fac0833dfdc74023831632fbd3bb056a3ce7e8e9955d75ab41b86",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_c7aa23dd838786e4",
         "handle": "Mimi-Corsu",
         "scores": {
@@ -436,13 +569,31 @@
           "names-things",
           "checks-twice",
           "second-thoughts"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "notice",
+            "tension": 201,
+            "state": "sated"
+          },
+          {
+            "drive": "simplify",
+            "tension": 384,
+            "state": "present"
+          },
+          {
+            "drive": "perfect",
+            "tension": 439,
+            "state": "present"
+          }
+        ],
+        "fixation": "typography"
       }
     },
     {
       "seed": "d098235bb880f31830923e1ea8c813b7ff409c33d628f23850c5b5545ffab230",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_0eb1a411d2f0236c",
         "handle": "Orpel-Rotor",
         "scores": {
@@ -485,13 +636,31 @@
           "spatial",
           "checks-twice",
           "units"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "explore",
+            "tension": 548,
+            "state": "present"
+          },
+          {
+            "drive": "teach",
+            "tension": 629,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 20,
+            "state": "sated"
+          }
+        ],
+        "fixation": "astronomy"
       }
     },
     {
       "seed": "b85675ad6ef9da09d16a9de476ff32665ebe6c578e119f4cc753e1b103094eae",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_013abc9321978228",
         "handle": "Nessu-Notor",
         "scores": {
@@ -531,13 +700,31 @@
         },
         "quirks": [
           "change-my-mind"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "play",
+            "tension": 48,
+            "state": "sated"
+          },
+          {
+            "drive": "perfect",
+            "tension": 600,
+            "state": "present"
+          },
+          {
+            "drive": "simplify",
+            "tension": 75,
+            "state": "sated"
+          }
+        ],
+        "fixation": "bridges"
       }
     },
     {
       "seed": "f6b064db6b6786e0062055d06d8ad03386d48d9f12844c77dc9535eec1791742",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_b5271a0a6e0b92bc",
         "handle": "Misil-Belqua",
         "scores": {
@@ -579,13 +766,31 @@
           "names-things",
           "spatial",
           "keeps-score"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "perfect",
+            "tension": 552,
+            "state": "present"
+          },
+          {
+            "drive": "connect",
+            "tension": 223,
+            "state": "sated"
+          },
+          {
+            "drive": "make",
+            "tension": 613,
+            "state": "present"
+          }
+        ],
+        "fixation": "soil"
       }
     },
     {
       "seed": "b70e34974fb4794e71d6720d6b011f40389cfa5eb8f264c4a6c04cb1147e1543",
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_2068e8b36497f58b",
         "handle": "Valhal-Torlum",
         "scores": {
@@ -635,241 +840,924 @@
             "jargon"
           ]
         },
-        "quirks": []
+        "quirks": [],
+        "drives": [
+          {
+            "drive": "explore",
+            "tension": 385,
+            "state": "present"
+          },
+          {
+            "drive": "perfect",
+            "tension": 645,
+            "state": "present"
+          },
+          {
+            "drive": "play",
+            "tension": 466,
+            "state": "present"
+          }
+        ],
+        "fixation": "railways"
       }
     },
     {
       "seed": "4a793a4534bfbbcd5b408bbc9b78584212bb6879990297d90ebbf746a3a881b5",
-      "events": [
-        "event 0",
-        "event 1",
-        "event 2",
-        "event 3",
-        "event 4",
-        "event 5",
-        "event 6",
-        "event 7",
-        "event 8",
-        "event 9",
-        "event 10",
-        "event 11",
-        "event 12",
-        "event 13",
-        "event 14",
-        "event 15",
-        "event 16",
-        "event 17",
-        "event 18",
-        "event 19",
-        "event 20",
-        "event 21",
-        "event 22",
-        "event 23",
-        "event 24",
-        "event 25",
-        "event 26",
-        "event 27",
-        "event 28",
-        "event 29",
-        "event 30",
-        "event 31",
-        "event 32",
-        "event 33",
-        "event 34",
-        "event 35",
-        "event 36",
-        "event 37",
-        "event 38",
-        "event 39",
-        "event 40",
-        "event 41",
-        "event 42",
-        "event 43",
-        "event 44",
-        "event 45",
-        "event 46",
-        "event 47",
-        "event 48",
-        "event 49",
-        "event 50",
-        "event 51",
-        "event 52",
-        "event 53",
-        "event 54",
-        "event 55",
-        "event 56",
-        "event 57",
-        "event 58",
-        "event 59",
-        "event 60",
-        "event 61",
-        "event 62",
-        "event 63",
-        "event 64",
-        "event 65",
-        "event 66",
-        "event 67",
-        "event 68",
-        "event 69",
-        "event 70",
-        "event 71",
-        "event 72",
-        "event 73",
-        "event 74",
-        "event 75",
-        "event 76",
-        "event 77",
-        "event 78",
-        "event 79",
-        "event 80",
-        "event 81",
-        "event 82",
-        "event 83",
-        "event 84",
-        "event 85",
-        "event 86",
-        "event 87",
-        "event 88",
-        "event 89",
-        "event 90",
-        "event 91",
-        "event 92",
-        "event 93",
-        "event 94",
-        "event 95",
-        "event 96",
-        "event 97",
-        "event 98",
-        "event 99",
-        "event 100",
-        "event 101",
-        "event 102",
-        "event 103",
-        "event 104",
-        "event 105",
-        "event 106",
-        "event 107",
-        "event 108",
-        "event 109",
-        "event 110",
-        "event 111",
-        "event 112",
-        "event 113",
-        "event 114",
-        "event 115",
-        "event 116",
-        "event 117",
-        "event 118",
-        "event 119",
-        "event 120",
-        "event 121",
-        "event 122",
-        "event 123",
-        "event 124",
-        "event 125",
-        "event 126",
-        "event 127",
-        "event 128",
-        "event 129",
-        "event 130",
-        "event 131",
-        "event 132",
-        "event 133",
-        "event 134",
-        "event 135",
-        "event 136",
-        "event 137",
-        "event 138",
-        "event 139",
-        "event 140",
-        "event 141",
-        "event 142",
-        "event 143",
-        "event 144",
-        "event 145",
-        "event 146",
-        "event 147",
-        "event 148",
-        "event 149",
-        "event 150",
-        "event 151",
-        "event 152",
-        "event 153",
-        "event 154",
-        "event 155",
-        "event 156",
-        "event 157",
-        "event 158",
-        "event 159",
-        "event 160",
-        "event 161",
-        "event 162",
-        "event 163",
-        "event 164",
-        "event 165",
-        "event 166",
-        "event 167",
-        "event 168",
-        "event 169",
-        "event 170",
-        "event 171",
-        "event 172",
-        "event 173",
-        "event 174",
-        "event 175",
-        "event 176",
-        "event 177",
-        "event 178",
-        "event 179",
-        "event 180",
-        "event 181",
-        "event 182",
-        "event 183",
-        "event 184",
-        "event 185",
-        "event 186",
-        "event 187",
-        "event 188",
-        "event 189",
-        "event 190",
-        "event 191",
-        "event 192",
-        "event 193",
-        "event 194",
-        "event 195",
-        "event 196",
-        "event 197",
-        "event 198",
-        "event 199"
+      "log": [
+        {
+          "event": "event 0",
+          "satisfied": []
+        },
+        {
+          "event": "event 1",
+          "satisfied": []
+        },
+        {
+          "event": "event 2",
+          "satisfied": []
+        },
+        {
+          "event": "event 3",
+          "satisfied": []
+        },
+        {
+          "event": "event 4",
+          "satisfied": []
+        },
+        {
+          "event": "event 5",
+          "satisfied": []
+        },
+        {
+          "event": "event 6",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 7",
+          "satisfied": []
+        },
+        {
+          "event": "event 8",
+          "satisfied": []
+        },
+        {
+          "event": "event 9",
+          "satisfied": []
+        },
+        {
+          "event": "event 10",
+          "satisfied": []
+        },
+        {
+          "event": "event 11",
+          "satisfied": []
+        },
+        {
+          "event": "event 12",
+          "satisfied": []
+        },
+        {
+          "event": "event 13",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 14",
+          "satisfied": []
+        },
+        {
+          "event": "event 15",
+          "satisfied": []
+        },
+        {
+          "event": "event 16",
+          "satisfied": []
+        },
+        {
+          "event": "event 17",
+          "satisfied": []
+        },
+        {
+          "event": "event 18",
+          "satisfied": []
+        },
+        {
+          "event": "event 19",
+          "satisfied": []
+        },
+        {
+          "event": "event 20",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 21",
+          "satisfied": []
+        },
+        {
+          "event": "event 22",
+          "satisfied": []
+        },
+        {
+          "event": "event 23",
+          "satisfied": []
+        },
+        {
+          "event": "event 24",
+          "satisfied": []
+        },
+        {
+          "event": "event 25",
+          "satisfied": []
+        },
+        {
+          "event": "event 26",
+          "satisfied": []
+        },
+        {
+          "event": "event 27",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 28",
+          "satisfied": []
+        },
+        {
+          "event": "event 29",
+          "satisfied": []
+        },
+        {
+          "event": "event 30",
+          "satisfied": []
+        },
+        {
+          "event": "event 31",
+          "satisfied": []
+        },
+        {
+          "event": "event 32",
+          "satisfied": []
+        },
+        {
+          "event": "event 33",
+          "satisfied": []
+        },
+        {
+          "event": "event 34",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 35",
+          "satisfied": []
+        },
+        {
+          "event": "event 36",
+          "satisfied": []
+        },
+        {
+          "event": "event 37",
+          "satisfied": []
+        },
+        {
+          "event": "event 38",
+          "satisfied": []
+        },
+        {
+          "event": "event 39",
+          "satisfied": []
+        },
+        {
+          "event": "event 40",
+          "satisfied": []
+        },
+        {
+          "event": "event 41",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 42",
+          "satisfied": []
+        },
+        {
+          "event": "event 43",
+          "satisfied": []
+        },
+        {
+          "event": "event 44",
+          "satisfied": []
+        },
+        {
+          "event": "event 45",
+          "satisfied": []
+        },
+        {
+          "event": "event 46",
+          "satisfied": []
+        },
+        {
+          "event": "event 47",
+          "satisfied": []
+        },
+        {
+          "event": "event 48",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 49",
+          "satisfied": []
+        },
+        {
+          "event": "event 50",
+          "satisfied": []
+        },
+        {
+          "event": "event 51",
+          "satisfied": []
+        },
+        {
+          "event": "event 52",
+          "satisfied": []
+        },
+        {
+          "event": "event 53",
+          "satisfied": []
+        },
+        {
+          "event": "event 54",
+          "satisfied": []
+        },
+        {
+          "event": "event 55",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 56",
+          "satisfied": []
+        },
+        {
+          "event": "event 57",
+          "satisfied": []
+        },
+        {
+          "event": "event 58",
+          "satisfied": []
+        },
+        {
+          "event": "event 59",
+          "satisfied": []
+        },
+        {
+          "event": "event 60",
+          "satisfied": []
+        },
+        {
+          "event": "event 61",
+          "satisfied": []
+        },
+        {
+          "event": "event 62",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 63",
+          "satisfied": []
+        },
+        {
+          "event": "event 64",
+          "satisfied": []
+        },
+        {
+          "event": "event 65",
+          "satisfied": []
+        },
+        {
+          "event": "event 66",
+          "satisfied": []
+        },
+        {
+          "event": "event 67",
+          "satisfied": []
+        },
+        {
+          "event": "event 68",
+          "satisfied": []
+        },
+        {
+          "event": "event 69",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 70",
+          "satisfied": []
+        },
+        {
+          "event": "event 71",
+          "satisfied": []
+        },
+        {
+          "event": "event 72",
+          "satisfied": []
+        },
+        {
+          "event": "event 73",
+          "satisfied": []
+        },
+        {
+          "event": "event 74",
+          "satisfied": []
+        },
+        {
+          "event": "event 75",
+          "satisfied": []
+        },
+        {
+          "event": "event 76",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 77",
+          "satisfied": []
+        },
+        {
+          "event": "event 78",
+          "satisfied": []
+        },
+        {
+          "event": "event 79",
+          "satisfied": []
+        },
+        {
+          "event": "event 80",
+          "satisfied": []
+        },
+        {
+          "event": "event 81",
+          "satisfied": []
+        },
+        {
+          "event": "event 82",
+          "satisfied": []
+        },
+        {
+          "event": "event 83",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 84",
+          "satisfied": []
+        },
+        {
+          "event": "event 85",
+          "satisfied": []
+        },
+        {
+          "event": "event 86",
+          "satisfied": []
+        },
+        {
+          "event": "event 87",
+          "satisfied": []
+        },
+        {
+          "event": "event 88",
+          "satisfied": []
+        },
+        {
+          "event": "event 89",
+          "satisfied": []
+        },
+        {
+          "event": "event 90",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 91",
+          "satisfied": []
+        },
+        {
+          "event": "event 92",
+          "satisfied": []
+        },
+        {
+          "event": "event 93",
+          "satisfied": []
+        },
+        {
+          "event": "event 94",
+          "satisfied": []
+        },
+        {
+          "event": "event 95",
+          "satisfied": []
+        },
+        {
+          "event": "event 96",
+          "satisfied": []
+        },
+        {
+          "event": "event 97",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 98",
+          "satisfied": []
+        },
+        {
+          "event": "event 99",
+          "satisfied": []
+        },
+        {
+          "event": "event 100",
+          "satisfied": []
+        },
+        {
+          "event": "event 101",
+          "satisfied": []
+        },
+        {
+          "event": "event 102",
+          "satisfied": []
+        },
+        {
+          "event": "event 103",
+          "satisfied": []
+        },
+        {
+          "event": "event 104",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 105",
+          "satisfied": []
+        },
+        {
+          "event": "event 106",
+          "satisfied": []
+        },
+        {
+          "event": "event 107",
+          "satisfied": []
+        },
+        {
+          "event": "event 108",
+          "satisfied": []
+        },
+        {
+          "event": "event 109",
+          "satisfied": []
+        },
+        {
+          "event": "event 110",
+          "satisfied": []
+        },
+        {
+          "event": "event 111",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 112",
+          "satisfied": []
+        },
+        {
+          "event": "event 113",
+          "satisfied": []
+        },
+        {
+          "event": "event 114",
+          "satisfied": []
+        },
+        {
+          "event": "event 115",
+          "satisfied": []
+        },
+        {
+          "event": "event 116",
+          "satisfied": []
+        },
+        {
+          "event": "event 117",
+          "satisfied": []
+        },
+        {
+          "event": "event 118",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 119",
+          "satisfied": []
+        },
+        {
+          "event": "event 120",
+          "satisfied": []
+        },
+        {
+          "event": "event 121",
+          "satisfied": []
+        },
+        {
+          "event": "event 122",
+          "satisfied": []
+        },
+        {
+          "event": "event 123",
+          "satisfied": []
+        },
+        {
+          "event": "event 124",
+          "satisfied": []
+        },
+        {
+          "event": "event 125",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 126",
+          "satisfied": []
+        },
+        {
+          "event": "event 127",
+          "satisfied": []
+        },
+        {
+          "event": "event 128",
+          "satisfied": []
+        },
+        {
+          "event": "event 129",
+          "satisfied": []
+        },
+        {
+          "event": "event 130",
+          "satisfied": []
+        },
+        {
+          "event": "event 131",
+          "satisfied": []
+        },
+        {
+          "event": "event 132",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 133",
+          "satisfied": []
+        },
+        {
+          "event": "event 134",
+          "satisfied": []
+        },
+        {
+          "event": "event 135",
+          "satisfied": []
+        },
+        {
+          "event": "event 136",
+          "satisfied": []
+        },
+        {
+          "event": "event 137",
+          "satisfied": []
+        },
+        {
+          "event": "event 138",
+          "satisfied": []
+        },
+        {
+          "event": "event 139",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 140",
+          "satisfied": []
+        },
+        {
+          "event": "event 141",
+          "satisfied": []
+        },
+        {
+          "event": "event 142",
+          "satisfied": []
+        },
+        {
+          "event": "event 143",
+          "satisfied": []
+        },
+        {
+          "event": "event 144",
+          "satisfied": []
+        },
+        {
+          "event": "event 145",
+          "satisfied": []
+        },
+        {
+          "event": "event 146",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 147",
+          "satisfied": []
+        },
+        {
+          "event": "event 148",
+          "satisfied": []
+        },
+        {
+          "event": "event 149",
+          "satisfied": []
+        },
+        {
+          "event": "event 150",
+          "satisfied": []
+        },
+        {
+          "event": "event 151",
+          "satisfied": []
+        },
+        {
+          "event": "event 152",
+          "satisfied": []
+        },
+        {
+          "event": "event 153",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 154",
+          "satisfied": []
+        },
+        {
+          "event": "event 155",
+          "satisfied": []
+        },
+        {
+          "event": "event 156",
+          "satisfied": []
+        },
+        {
+          "event": "event 157",
+          "satisfied": []
+        },
+        {
+          "event": "event 158",
+          "satisfied": []
+        },
+        {
+          "event": "event 159",
+          "satisfied": []
+        },
+        {
+          "event": "event 160",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 161",
+          "satisfied": []
+        },
+        {
+          "event": "event 162",
+          "satisfied": []
+        },
+        {
+          "event": "event 163",
+          "satisfied": []
+        },
+        {
+          "event": "event 164",
+          "satisfied": []
+        },
+        {
+          "event": "event 165",
+          "satisfied": []
+        },
+        {
+          "event": "event 166",
+          "satisfied": []
+        },
+        {
+          "event": "event 167",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 168",
+          "satisfied": []
+        },
+        {
+          "event": "event 169",
+          "satisfied": []
+        },
+        {
+          "event": "event 170",
+          "satisfied": []
+        },
+        {
+          "event": "event 171",
+          "satisfied": []
+        },
+        {
+          "event": "event 172",
+          "satisfied": []
+        },
+        {
+          "event": "event 173",
+          "satisfied": []
+        },
+        {
+          "event": "event 174",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 175",
+          "satisfied": []
+        },
+        {
+          "event": "event 176",
+          "satisfied": []
+        },
+        {
+          "event": "event 177",
+          "satisfied": []
+        },
+        {
+          "event": "event 178",
+          "satisfied": []
+        },
+        {
+          "event": "event 179",
+          "satisfied": []
+        },
+        {
+          "event": "event 180",
+          "satisfied": []
+        },
+        {
+          "event": "event 181",
+          "satisfied": [
+            "connect"
+          ]
+        },
+        {
+          "event": "event 182",
+          "satisfied": []
+        },
+        {
+          "event": "event 183",
+          "satisfied": []
+        },
+        {
+          "event": "event 184",
+          "satisfied": []
+        },
+        {
+          "event": "event 185",
+          "satisfied": []
+        },
+        {
+          "event": "event 186",
+          "satisfied": []
+        },
+        {
+          "event": "event 187",
+          "satisfied": []
+        },
+        {
+          "event": "event 188",
+          "satisfied": [
+            "simplify"
+          ]
+        },
+        {
+          "event": "event 189",
+          "satisfied": []
+        },
+        {
+          "event": "event 190",
+          "satisfied": []
+        },
+        {
+          "event": "event 191",
+          "satisfied": []
+        },
+        {
+          "event": "event 192",
+          "satisfied": []
+        },
+        {
+          "event": "event 193",
+          "satisfied": []
+        },
+        {
+          "event": "event 194",
+          "satisfied": []
+        },
+        {
+          "event": "event 195",
+          "satisfied": [
+            "play"
+          ]
+        },
+        {
+          "event": "event 196",
+          "satisfied": []
+        },
+        {
+          "event": "event 197",
+          "satisfied": []
+        },
+        {
+          "event": "event 198",
+          "satisfied": []
+        },
+        {
+          "event": "event 199",
+          "satisfied": []
+        }
       ],
-      "chain": "46947e557a09fe8e379a9990471c748b8a33101e9c617c6a59f01d98ce8abbfe",
-      "drift": {
-        "warmth": -5,
-        "directness": -7,
-        "assertiveness": -16,
-        "skepticism": 13,
-        "abstraction": -1,
-        "tempo": -5,
-        "orderliness": -5,
-        "novelty": -10,
-        "expansiveness": -1,
-        "playfulness": -1
+      "state": {
+        "id": "exo_9e2347d9b99887a6",
+        "events": 200,
+        "chain": "e6e0ccce07ddc12fba7384c4f72439afd7f1738da0f7785c346b33e51b9c0ef7",
+        "drift": {
+          "warmth": 6,
+          "directness": -3,
+          "assertiveness": 4,
+          "skepticism": 10,
+          "abstraction": 18,
+          "tempo": -10,
+          "novelty": 4,
+          "expansiveness": 1,
+          "orderliness": 1,
+          "playfulness": 1
+        },
+        "tension": {
+          "play": 160,
+          "connect": 863,
+          "simplify": 690
+        }
       },
       "phenotype": {
-        "exoself": "0.1",
+        "exoself": "0.2",
         "id": "exo_9e2347d9b99887a6",
         "handle": "Mizar-Corhal",
         "scores": {
-          "warmth": 367,
-          "playfulness": 347,
-          "directness": 705,
-          "assertiveness": 529,
-          "skepticism": 416,
-          "orderliness": 751,
-          "novelty": 234,
-          "abstraction": 334,
-          "expansiveness": 136,
-          "tempo": 378
+          "warmth": 378,
+          "playfulness": 349,
+          "directness": 709,
+          "assertiveness": 549,
+          "skepticism": 413,
+          "orderliness": 757,
+          "novelty": 248,
+          "abstraction": 353,
+          "expansiveness": 138,
+          "tempo": 373
         },
         "salient": [
           {
@@ -877,19 +1765,19 @@
             "band": "very_low"
           },
           {
-            "dimension": "novelty",
-            "band": "low"
-          },
-          {
             "dimension": "orderliness",
             "band": "high"
+          },
+          {
+            "dimension": "novelty",
+            "band": "low"
           },
           {
             "dimension": "directness",
             "band": "high"
           },
           {
-            "dimension": "abstraction",
+            "dimension": "playfulness",
             "band": "low"
           }
         ],
@@ -910,7 +1798,25 @@
           "next-step",
           "checks-twice",
           "units"
-        ]
+        ],
+        "drives": [
+          {
+            "drive": "play",
+            "tension": 160,
+            "state": "sated"
+          },
+          {
+            "drive": "connect",
+            "tension": 863,
+            "state": "hungry"
+          },
+          {
+            "drive": "simplify",
+            "tension": 690,
+            "state": "hungry"
+          }
+        ],
+        "fixation": "migration"
       }
     }
   ]

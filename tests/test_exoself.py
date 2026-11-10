@@ -21,7 +21,7 @@ def test_conformance_vectors():
     assert vectors["registry_sha256"] == REG_HASH
     assert len(vectors["vectors"]) >= 8
     for v in vectors["vectors"]:
-        assert core.phenotype(bytes.fromhex(v["seed"]), REG, v.get("drift")) == v["phenotype"]
+        assert core.phenotype(bytes.fromhex(v["seed"]), REG, v.get("state")) == v["phenotype"]
 
 
 def test_deterministic_and_seed_sensitive():
@@ -84,6 +84,7 @@ def test_rendering_rules():
             body = text.replace(p["id"], "").replace(p["exoself"], "")
             assert not any(ch.isdigit() for ch in body), "numbers leaked into expression"
             assert render.PRECEDENCE in text and render.RESTRAINT in text
+            assert render.APPETITE in text
             assert "—" not in text
 
 
@@ -96,20 +97,21 @@ def test_registry_validation_rejects_bad_loadings():
 
 def test_development_is_bounded_and_chained():
     seed = seeds(1)[0]
-    state = core.new_state(seed)
+    state = core.new_state(seed, REG)
     for i in range(5000):
-        state = core.develop(state, b"event %d" % i, REG)
+        state = core.develop(seed, state, b"event %d" % i, REG)
     assert state["events"] == 5000
     assert all(abs(v) <= core.DRIFT_LIMIT for v in state["drift"].values())
     # Same events in a different order give a different chain.
-    a = core.develop(core.develop(core.new_state(seed), b"x", REG), b"y", REG)
-    b = core.develop(core.develop(core.new_state(seed), b"y", REG), b"x", REG)
+    new = core.new_state(seed, REG)
+    a = core.develop(seed, core.develop(seed, new, b"x", REG), b"y", REG)
+    b = core.develop(seed, core.develop(seed, new, b"y", REG), b"x", REG)
     assert a["chain"] != b["chain"]
     # Drift moves the phenotype but never past the envelope.
-    g, p = core.phenotype(seed, REG), core.phenotype(seed, REG, state["drift"])
+    g, p = core.phenotype(seed, REG), core.phenotype(seed, REG, state)
     assert all(abs(p["scores"][k] - g["scores"][k]) <= core.DRIFT_LIMIT for k in g["scores"])
     # Hostile drift values are clamped.
-    wild = core.phenotype(seed, REG, {"warmth": 9999})
+    wild = core.phenotype(seed, REG, {"drift": {"warmth": 9999}})
     assert wild["scores"]["warmth"] - g["scores"]["warmth"] <= core.DRIFT_LIMIT
 
 
@@ -142,5 +144,103 @@ def test_cli_born_refuses_reroll(tmp_path, capsys):
     assert main(["show", out, "--format", "soul"]) == 0
     state = str(tmp_path / "state.json")
     assert main(["develop", out, state, "--event", "first session"]) == 0
+    held = json.loads(pathlib.Path(state).read_text())["tension"]
+    assert main(["develop", out, state, "--event", "s", "--satisfied", next(iter(held))]) == 0
+    assert main(["develop", out, state, "--event", "s", "--satisfied", "power"]) == 1
     assert main(["show", out, "--state", state, "--format", "json"]) == 0
     assert main(["conformance", str(ROOT / "spec" / "vectors.json")]) == 0
+
+
+# ---------------------------------------------------------------- desire
+
+def test_registry_upgrade_keeps_everyone_who_they_were():
+    """core@0.2 adds desire. It must not change a single existing trait."""
+    old, _ = core.load_registry(str(ROOT / "src/exoself/registry/core-0.1.json"))
+    for s in seeds(100):
+        a, b = core.phenotype(s, old), core.phenotype(s, REG)
+        for k in ("id", "handle", "scores", "salient", "picks", "quirks"):
+            assert a[k] == b[k]
+        assert a["drives"] == [] and a["fixation"] is None
+        assert "Wants" not in render.render_soul(a, old)
+
+
+def test_drives_are_held_for_life():
+    seed = seeds(1)[0]
+    held = core.derive_drives(seed, REG)
+    assert len(held) == REG["drives"]["count"] == len(set(held))
+    state = core.new_state(seed, REG)
+    for i in range(300):
+        state = core.develop(seed, state, b"%d" % i, REG, held[:1] if i % 5 == 0 else [])
+    assert [d["drive"] for d in core.phenotype(seed, REG, state)["drives"]] == held
+    counts = {}
+    for s in seeds(3000):
+        for d in core.derive_drives(s, REG):
+            counts[d] = counts.get(d, 0) + 1
+    assert len(counts) == len(REG["drives"]["items"])
+    assert max(counts.values()) < 1.25 * min(counts.values())
+
+
+def test_tension_grows_with_deprivation_and_falls_with_satisfaction():
+    seed = seeds(1)[0]
+    held = core.derive_drives(seed, REG)
+    state = core.new_state(seed, REG)
+    assert all(0 <= t <= core.TENSION_HUNGRY for t in state["tension"].values())
+    for i in range(200):
+        prev = state
+        state = core.develop(seed, state, b"%d" % i, REG)
+        assert all(state["tension"][d] >= prev["tension"][d] for d in held)
+    assert all(t == core.TENSION_MAX for t in state["tension"].values())
+    assert all(d["state"] == "hungry" for d in core.phenotype(seed, REG, state)["drives"])
+    fed = core.develop(seed, state, b"x", REG, [held[0]])
+    assert fed["tension"][held[0]] == core.TENSION_MAX // 4
+    assert fed["tension"][held[1]] == core.TENSION_MAX
+    # Satisfaction is part of history: it changes the chain.
+    assert fed["chain"] != core.develop(seed, state, b"x", REG)["chain"]
+    # A drive the agent does not hold cannot be fed, and leaves no trace.
+    other = next(i["id"] for i in REG["drives"]["items"] if i["id"] not in held)
+    assert core.develop(seed, state, b"x", REG, [other]) == core.develop(seed, state, b"x", REG)
+    # Hostile state is clamped.
+    wild = core.phenotype(seed, REG, {"tension": {held[0]: 10**9, held[1]: -5}})
+    assert [d["tension"] for d in wild["drives"]][:2] == [core.TENSION_MAX, 0]
+
+
+def test_wants_are_silent_when_sated():
+    seed = seeds(1)[0]
+    held = core.derive_drives(seed, REG)
+    drives = {i["id"]: i for i in REG["drives"]["items"]}
+    sated = core.phenotype(seed, REG, {"tension": {d: 0 for d in held}})
+    hungry = core.phenotype(seed, REG, {"tension": {d: 1000 for d in held}})
+    for d in held:
+        assert drives[d]["want"] not in render.render_prompt(sated, REG)
+        assert drives[d]["hungry"] not in render.render_prompt(sated, REG)
+        assert drives[d]["hungry"] in render.render_prompt(hungry, REG)
+
+
+def test_fixation_rotates_and_never_repeats_back_to_back():
+    interests = {i["id"] for i in REG["picks"]["interests"]["items"]}
+    for seed in seeds(4):
+        seq = [core.fixation(seed, REG, n) for n in range(0, 3000)]
+        assert set(seq) <= interests
+        runs = [seq[0]] + [b for a, b in zip(seq, seq[1:]) if a != b]
+        assert len(runs) >= 3000 // 120
+        assert all(a != b for a, b in zip(runs, runs[1:]))
+        lengths = [len([1 for x in seq[:1500] if x == r]) for r in set(runs[:5])]
+        assert min(lengths) >= 20
+
+
+def test_cli_honours_the_pinned_registry(tmp_path, capsys):
+    """A certificate born under core@0.1 keeps working, and can be moved up on purpose."""
+    old, old_hash = core.load_registry(name="core@0.1")
+    cert = core.born(old_hash, "core@0.1", seed=seeds(1)[0])
+    cert["exoself"] = "0.1"
+    path = tmp_path / "old.json"
+    path.write_text(json.dumps(cert))
+    assert main(["verify", str(path)]) == 0
+    capsys.readouterr()
+    assert main(["show", str(path), "--format", "json"]) == 0
+    assert json.loads(capsys.readouterr().out)["drives"] == []
+    new = str(ROOT / "src/exoself/registry/core-0.2.json")
+    assert main(["--registry", new, "show", str(path), "--format", "json"]) == 0
+    assert len(json.loads(capsys.readouterr().out)["drives"]) == 3
+    path.write_text(json.dumps({**cert, "registry": "../../etc/passwd"}))
+    assert main(["show", str(path)]) == 1

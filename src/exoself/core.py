@@ -1,4 +1,4 @@
-"""Reference implementation of the exoself derivation (SPEC.md, sections 3 to 7).
+"""Reference implementation of the exoself derivation (SPEC.md, sections 3 to 9).
 
 Everything here is integer arithmetic over SHA-256 output, so that any
 language can reproduce the same phenotype bit for bit. No floats, no
@@ -13,7 +13,10 @@ import json
 import os
 from importlib import resources
 
-SPEC_VERSION = "0.1"
+SPEC_VERSION = "0.2"
+SUPPORTED_VERSIONS = ("0.1", "0.2")
+# Derivation epoch, not the spec version. It changes only when an existing
+# derivation changes, because changing it turns every agent into someone else.
 PREFIX = b"exoself/0.1/"
 SEED_BYTES = 32
 
@@ -27,6 +30,10 @@ SCORE_MAX = 1000
 DRIFT_LIMIT = 100
 MIN_EXPRESSED = 2
 MAX_EXPRESSED = 5
+
+TENSION_MAX = 1000
+TENSION_PRESENT = 250
+TENSION_HUNGRY = 650
 
 
 # --------------------------------------------------------------------------
@@ -79,10 +86,22 @@ def band(score: int) -> str:
 # Registry (SPEC section 5)
 # --------------------------------------------------------------------------
 
-def load_registry(path: str | None = None) -> tuple[dict, str]:
-    """Return (registry, sha256 hex of the exact file bytes)."""
+DEFAULT_REGISTRY = "core@0.2"
+
+
+def load_registry(path: str | None = None, name: str = DEFAULT_REGISTRY) -> tuple[dict, str]:
+    """Return (registry, sha256 hex of the exact file bytes).
+
+    With no path, loads the bundled registry called `name`, e.g. "core@0.1".
+    """
     if path is None:
-        raw = (resources.files("exoself") / "registry" / "core-0.1.json").read_bytes()
+        fname = name.replace("@", "-") + ".json"
+        if not fname.replace("-", "").replace(".", "").isalnum():
+            raise ValueError(f"bad registry name {name!r}")
+        res = resources.files("exoself") / "registry" / fname
+        if not res.is_file():
+            raise ValueError(f"no bundled registry {name!r}")
+        raw = res.read_bytes()
     else:
         with open(path, "rb") as f:
             raw = f.read()
@@ -114,6 +133,17 @@ def validate_registry(reg: dict) -> None:
     for q in reg["quirks"]:
         if not 0 <= q["permille"] <= 1000:
             raise ValueError(f"quirk {q['id']}: permille out of range")
+    drives = reg.get("drives")
+    if drives:
+        ids = [i["id"] for i in drives["items"]]
+        if len(set(ids)) != len(ids) or drives["count"] > len(ids):
+            raise ValueError("drives: bad ids or count")
+        for i in drives["items"]:
+            if any(ch.isdigit() for ch in i["want"] + i["hungry"]):
+                raise ValueError(f"drive {i['id']}: expression text must not contain digits")
+    fix = reg.get("fixation")
+    if fix and len(reg["picks"][fix["group"]]["items"]) < 2:
+        raise ValueError("fixation: group needs at least two items")
 
 
 # --------------------------------------------------------------------------
@@ -159,6 +189,58 @@ def derive_handle(seed: bytes, reg: dict) -> str:
     return (parts[0] + parts[1]).capitalize() + "-" + (parts[2] + parts[3]).capitalize()
 
 
+# --------------------------------------------------------------------------
+# Desire (SPEC section 9)
+# --------------------------------------------------------------------------
+
+def derive_drives(seed: bytes, reg: dict) -> list[str]:
+    """The drives this agent holds, strongest first."""
+    drives = reg.get("drives")
+    if not drives:
+        return []
+    ranked = sorted(
+        (i["id"] for i in drives["items"]),
+        key=lambda d: (-u32(seed, f"drive/hold/{d}"), d),
+    )
+    return ranked[: drives["count"]]
+
+
+def drive_rate(seed: bytes, drive: str) -> int:
+    """How fast this want grows back, in tension points per event: 10..40."""
+    return 10 + u32(seed, f"drive/rate/{drive}") % 31
+
+
+def drive_initial(seed: bytes, drive: str) -> int:
+    """Tension at birth: 0..650. Agents are born already wanting."""
+    return u32(seed, f"drive/initial/{drive}") % (TENSION_HUNGRY + 1)
+
+
+def tension_band(t: int) -> str:
+    if t < TENSION_PRESENT:
+        return "sated"
+    if t < TENSION_HUNGRY:
+        return "present"
+    return "hungry"
+
+
+def fixation(seed: bytes, reg: dict, events: int) -> str | None:
+    """The current fixation. It rotates on a schedule nobody controls."""
+    fix = reg.get("fixation")
+    if not fix:
+        return None
+    items = [i["id"] for i in reg["picks"][fix["group"]]["items"]]
+    k, start, prev = 0, 0, None
+    while True:
+        length = 20 + u32(seed, f"fixation/len/{k}") % 101
+        obj = min(
+            (i for i in items if i != prev),
+            key=lambda i: (-u32(seed, f"fixation/obj/{k}/{i}"), i),
+        )
+        if events < start + length:
+            return obj
+        k, start, prev = k + 1, start + length, obj
+
+
 def salient(scores: dict[str, int], reg: dict) -> list[dict]:
     """Which dimensions get expressed, most extreme first (SPEC 7.2)."""
     order = [d["id"] for d in reg["dimensions"]]
@@ -178,9 +260,12 @@ def salient(scores: dict[str, int], reg: dict) -> list[dict]:
     return result
 
 
-def phenotype(seed: bytes, reg: dict, drift: dict[str, int] | None = None) -> dict:
-    """The complete, normative description of one agent's temperament."""
-    drift = drift or {}
+def phenotype(seed: bytes, reg: dict, state: dict | None = None) -> dict:
+    """The complete, normative description of one agent at one moment."""
+    state = state or {}
+    drift = state.get("drift", {})
+    tension = state.get("tension", {})
+    events = max(0, state.get("events", 0))
     genome = derive_scores(seed, reg)
     scores = {
         d: clamp(s + clamp(drift.get(d, 0), -DRIFT_LIMIT, DRIFT_LIMIT), 0, SCORE_MAX)
@@ -194,6 +279,12 @@ def phenotype(seed: bytes, reg: dict, drift: dict[str, int] | None = None) -> di
         "salient": salient(scores, reg),
         "picks": derive_picks(seed, reg),
         "quirks": derive_quirks(seed, reg),
+        "drives": [
+            {"drive": d, "tension": t, "state": tension_band(t)}
+            for d in derive_drives(seed, reg)
+            for t in [clamp(tension.get(d, drive_initial(seed, d)), 0, TENSION_MAX)]
+        ],
+        "fixation": fixation(seed, reg, events),
     }
 
 
@@ -208,7 +299,7 @@ def bind_beacon(local_entropy: bytes, beacon: bytes) -> bytes:
     return hashlib.sha256(PREFIX + b"beacon\x00" + local_entropy + beacon).digest()
 
 
-def born(registry_sha256: str, registry_name: str = "core@0.1",
+def born(registry_sha256: str, registry_name: str = DEFAULT_REGISTRY,
          seed: bytes | None = None, attestation: dict | None = None) -> dict:
     """Create a birth certificate. With no seed given, draws from the OS CSPRNG."""
     if seed is None:
@@ -230,8 +321,8 @@ def born(registry_sha256: str, registry_name: str = "core@0.1",
 def verify_certificate(cert: dict, registry_sha256: str) -> list[str]:
     """Return a list of problems. Empty means the certificate is consistent."""
     problems = []
-    if cert.get("exoself") != SPEC_VERSION:
-        problems.append(f"spec version {cert.get('exoself')!r}, expected {SPEC_VERSION!r}")
+    if cert.get("exoself") not in SUPPORTED_VERSIONS:
+        problems.append(f"spec version {cert.get('exoself')!r} is not supported")
     try:
         seed = bytes.fromhex(cert["seed"])
         if len(seed) != SEED_BYTES:
@@ -259,16 +350,38 @@ def verify_certificate(cert: dict, registry_sha256: str) -> list[str]:
 # Development (SPEC section 8)
 # --------------------------------------------------------------------------
 
-def new_state(seed: bytes) -> dict:
-    return {"id": agent_id(seed), "events": 0, "chain": stream(seed, "develop", 32).hex(), "drift": {}}
+def new_state(seed: bytes, reg: dict) -> dict:
+    return {
+        "id": agent_id(seed),
+        "events": 0,
+        "chain": stream(seed, "develop", 32).hex(),
+        "drift": {},
+        "tension": {d: drive_initial(seed, d) for d in derive_drives(seed, reg)},
+    }
 
 
-def develop(state: dict, event: bytes, reg: dict) -> dict:
-    """Apply one experience event. Returns a new state; does not mutate."""
-    chain = hashlib.sha256(bytes.fromhex(state["chain"]) + hashlib.sha256(event).digest()).digest()
+def develop(seed: bytes, state: dict, event: bytes, reg: dict,
+            satisfied: tuple[str, ...] | list[str] = ()) -> dict:
+    """Apply one experience event. Returns a new state; does not mutate.
+
+    `satisfied` names drives the event satisfied. Drives the agent does not
+    hold are ignored.
+    """
+    held = derive_drives(seed, reg)
+    met = sorted(set(satisfied) & set(held))
+    chain = hashlib.sha256(
+        bytes.fromhex(state["chain"]) + hashlib.sha256(event).digest()
+        + ",".join(met).encode("utf-8")
+    ).digest()
     dims = [d["id"] for d in reg["dimensions"]]
     dim = dims[int.from_bytes(chain[0:2], "big") % len(dims)]
     delta = chain[2] % 7 - 3
     drift = dict(state["drift"])
     drift[dim] = clamp(drift.get(dim, 0) + delta, -DRIFT_LIMIT, DRIFT_LIMIT)
-    return {"id": state["id"], "events": state["events"] + 1, "chain": chain.hex(), "drift": drift}
+    old = state.get("tension", {})
+    tension = {}
+    for d in held:
+        t = clamp(old.get(d, drive_initial(seed, d)), 0, TENSION_MAX)
+        tension[d] = t // 4 if d in met else min(TENSION_MAX, t + drive_rate(seed, d))
+    return {"id": state["id"], "events": state["events"] + 1, "chain": chain.hex(),
+            "drift": drift, "tension": tension}
