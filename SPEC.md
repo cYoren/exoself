@@ -530,6 +530,13 @@ adds content. The certificate is not rewritten when this is done.
 - Desire here is deliberately declawed (section 9.2). It will read as tame to
   anyone expecting human longing.
 - Drive satisfaction is self-reported.
+- The fixation lookup walks epochs from event zero, so rendering a phenotype
+  costs time proportional to the number of sessions: about eight milliseconds at
+  ten thousand, eighty at a hundred thousand, one second at a million, paid on
+  every render. It is linear and small in absolute terms, and an agent that
+  reaches a million sessions has other problems. A state field holding the
+  current epoch would make it constant, at the price of a schema change and a
+  replay rule for states that do not carry it.
 - Level 0 randomness cannot be audited. Level 1 can be gamed by grinding.
 - The core registry reflects one author's taste in English. It is small, and
   culturally narrow.
