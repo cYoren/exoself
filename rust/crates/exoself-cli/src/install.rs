@@ -60,19 +60,23 @@ pub fn upsert_block(existing: &str, body: &str) -> String {
     }
 }
 
-fn mcp_entry(exe: &Path, cert: &Path, state: &Path) -> Json {
+fn mcp_entry(exe: &Path, cert: &Path, state: &Path, desire: bool) -> Json {
+    let mut args = vec![
+        Json::str("mcp"),
+        Json::str("--cert"),
+        Json::str(cert.display().to_string()),
+        Json::str("--state"),
+        Json::str(state.display().to_string()),
+    ];
+    // The operator's choice at install time has to reach the host. Without
+    // this the brief says appetites are on and the MCP tool renders them off,
+    // which is the same agent expressed two different ways.
+    if desire {
+        args.push(Json::str("--desire"));
+    }
     Json::obj(vec![
         ("command", Json::str(exe.display().to_string())),
-        (
-            "args",
-            Json::Array(vec![
-                Json::str("mcp"),
-                Json::str("--cert"),
-                Json::str(cert.display().to_string()),
-                Json::str("--state"),
-                Json::str(state.display().to_string()),
-            ]),
-        ),
+        ("args", Json::Array(args)),
     ])
 }
 
@@ -209,7 +213,7 @@ pub fn cmd_install(args: &[String]) -> Result<i32, String> {
         let exe = std::env::current_exe().map_err(|e| e.to_string())?;
         let merged = merge_mcp_config(
             existing.as_deref(),
-            mcp_entry(&exe, &cert_path, &state_path),
+            mcp_entry(&exe, &cert_path, &state_path, desire),
         )?;
         if let Some(parent) = target_path.parent() {
             ensure_dir(parent)?;
@@ -284,5 +288,22 @@ mod tests {
             _ => panic!(),
         };
         assert_eq!(pairs.iter().filter(|(k, _)| k == "exoself").count(), 1);
+    }
+
+    #[test]
+    fn the_operators_desire_choice_reaches_the_host() {
+        // Without this the brief says appetites are on and the MCP tool
+        // renders them off: one agent, two expressions.
+        let exe = std::path::Path::new("/bin/exoself");
+        let cert = std::path::Path::new("/p/birth.json");
+        let state = std::path::Path::new("/p/state.json");
+        let quiet = mcp_entry(exe, cert, state, false).compact();
+        let loud = mcp_entry(exe, cert, state, true).compact();
+        assert!(!quiet.contains("--desire"), "{}", quiet);
+        assert!(loud.contains("--desire"), "{}", loud);
+        // And re-installing without the flag drops it again.
+        assert!(!mcp_entry(exe, cert, state, false)
+            .compact()
+            .contains("--desire"));
     }
 }
