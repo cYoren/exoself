@@ -1,0 +1,10 @@
+[package]
+name = "exoself-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+[[bin]]
+name = "exoself"
+path = "src/main.rs"
+[dependencies]
+exoself-core = { path = "../exoself-core" }

@@ -1,0 +1,15 @@
+[package]
+name = "exoself-core"
+description = "An unchosen temperament for software agents: derivation, birth, development, expression"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "exoself_core"
+path = "src/lib.rs"
+
+# Deliberately empty. The derivation is integer arithmetic over SHA-256, and the
+# JSON reader/writer is in-crate, so the core builds offline and ports cleanly.
+[dependencies]

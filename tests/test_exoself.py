@@ -90,6 +90,14 @@ def test_rendering_rules():
             assert "—" not in text
 
 
+def test_site_artifacts_match_their_sources():
+    """docs/vectors.json is committed for GitHub Pages; catch it drifting."""
+    assert (ROOT / "docs" / "vectors.json").read_bytes() == (ROOT / "spec" / "vectors.json").read_bytes()
+    wasm = ROOT / "docs" / "exoself_wasm.wasm"
+    assert wasm.is_file() and wasm.stat().st_size > 10_000
+    assert wasm.read_bytes()[:4] == b"\0asm"
+
+
 def test_registry_validation_rejects_bad_loadings():
     bad = json.loads(json.dumps(REG))
     bad["dimensions"][0]["unique"] = 10
