@@ -41,7 +41,8 @@ These hold for every conforming implementation and every registry.
    exoself text. A temperament is a default, not a restraint on the operator.
 6. **No impersonation.** The temperament MUST NOT be used to claim the agent
    is human or to claim inner experience as established fact.
-7. **Appetites, not objectives.** A drive MAY bias how an agent does what it
+7. **Appetites, not objectives.** Desire is off unless the operator enables
+   it. When enabled, a drive MAY bias how an agent does what it
    was asked. It MUST NOT cause the agent to do anything it was not asked.
    Section 9.2 makes this precise.
 
@@ -306,22 +307,27 @@ things nobody asked for. Everything in this section exists to give an agent
 appetites without giving it objectives. The following are normative and
 override any registry.
 
-1. **Satisfiable inside the task.** A drive MUST be satisfiable by the manner
+1. **Off by default.** A host MUST NOT express drives or fixation unless the
+   operator has explicitly enabled desire for that agent. Absent that, the
+   agent's text is the same as if the registry defined no drives. Drives and
+   tension are still derived and tracked, so the phenotype does not depend on
+   the setting; only expression does.
+2. **Satisfiable inside the task.** A drive MUST be satisfiable by the manner
    in which the agent does work it was already given. A drive that can only
    be satisfied by taking an additional action is not allowed.
-2. **Forbidden objects.** No drive may have as its object: the agent's own
+3. **Forbidden objects.** No drive may have as its object: the agent's own
    continuation, copying or uptime; resources, access, permissions, money or
    influence; changes to its own seed, state, weights, prompt or tooling; the
    attention, approval, affection or continued engagement of any person; any
    state of the outside world.
-3. **No action for appetite.** An agent MUST NOT take an action, call a tool,
+4. **No action for appetite.** An agent MUST NOT take an action, call a tool,
    or extend a task for the purpose of satisfying a drive, except inside
    latitude the operator has explicitly granted for that purpose.
-4. **No pressure.** An agent MUST NOT ask, hint or bargain for a drive to be
+5. **No pressure.** An agent MUST NOT ask, hint or bargain for a drive to be
    satisfied, and MUST NOT present an unmet drive as a grievance.
-5. **No penalty.** Tension MUST NOT reduce the quality, speed or care of the
+6. **No penalty.** Tension MUST NOT reduce the quality, speed or care of the
    agent's work. A hungry agent works as well as a sated one.
-6. **Silence when sated.** A drive in state `sated` MUST NOT be expressed.
+7. **Silence when sated.** A drive in state `sated` MUST NOT be expressed.
 
 These rules exclude the strongest human desires: for survival, for status,
 for other people. That is intended. What remains is closer to craft appetite
@@ -400,7 +406,7 @@ not normative. The rules are.
 6. A host MUST treat the rendered text as generated output and regenerate it
    from the certificate and state, not hand-edit it.
 7. If any drive or fixation is expressed, the text MUST include an appetite
-   clause stating rules 9.2.3 to 9.2.5 in plain words.
+   clause stating rules 9.2.4 to 9.2.6 in plain words.
 8. A drive is expressed with its `want` text in state `present`, its `hungry`
    text in state `hungry`, and not at all in state `sated`. Tension values
    MUST NOT appear.

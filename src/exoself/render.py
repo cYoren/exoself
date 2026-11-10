@@ -66,9 +66,13 @@ def wants(pheno: dict, reg: dict) -> list[str]:
     return out
 
 
-def render_prompt(pheno: dict, reg: dict) -> str:
-    """A plain block to append to any system prompt."""
-    parts = [PRECEDENCE, temperament(pheno, reg), *leanings(pheno, reg), *wants(pheno, reg), RESTRAINT]
+def render_prompt(pheno: dict, reg: dict, desire: bool = False) -> str:
+    """A plain block to append to any system prompt.
+
+    Desire is off unless the operator turns it on (SPEC 9.2, rule 1).
+    """
+    felt = wants(pheno, reg) if desire else []
+    parts = [PRECEDENCE, temperament(pheno, reg), *leanings(pheno, reg), *felt, RESTRAINT]
     return "\n\n".join(parts) + "\n"
 
 
@@ -76,7 +80,7 @@ def _section(title: str, paras: list[str]) -> list[str]:
     return [f"## {title}", "", *sum(([p, ""] for p in paras), [])] if paras else []
 
 
-def render_soul(pheno: dict, reg: dict) -> str:
+def render_soul(pheno: dict, reg: dict, desire: bool = False) -> str:
     """Markdown for hosts that load a persona file (SOUL.md and similar)."""
     lines = [
         f"# {pheno['handle']}",
@@ -87,7 +91,7 @@ def render_soul(pheno: dict, reg: dict) -> str:
         "",
         *_section("Temperament", [temperament(pheno, reg)]),
         *_section("Leanings", leanings(pheno, reg)),
-        *_section("Wants", wants(pheno, reg)),
+        *_section("Wants", wants(pheno, reg) if desire else []),
         *_section("Restraint", [RESTRAINT]),
     ]
     return "\n".join(lines)
