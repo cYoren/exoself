@@ -48,8 +48,10 @@ def state_lock(state_path: str):
     try:
         yield
     finally:
+        # Only remove a lock that is still ours; it may have been stolen.
         with contextlib.suppress(FileNotFoundError):
-            os.unlink(lock)
+            if open(lock).read().strip() == str(os.getpid()):
+                os.unlink(lock)
 
 
 def _read(path: str) -> dict:

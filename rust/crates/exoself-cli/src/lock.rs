@@ -21,6 +21,7 @@ const POLL: Duration = Duration::from_millis(10);
 
 pub struct StateLock {
     path: PathBuf,
+    pid: String,
 }
 
 impl StateLock {
@@ -35,8 +36,9 @@ impl StateLock {
                 .open(&path)
             {
                 Ok(mut f) => {
-                    let _ = writeln!(f, "{}", std::process::id());
-                    return Ok(StateLock { path });
+                    let pid = std::process::id().to_string();
+                    let _ = writeln!(f, "{}", pid);
+                    return Ok(StateLock { path, pid });
                 }
                 Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => {
                     if is_stale(&path) {
@@ -71,7 +73,14 @@ fn is_stale(path: &Path) -> bool {
 
 impl Drop for StateLock {
     fn drop(&mut self) {
-        let _ = std::fs::remove_file(&self.path);
+        // Only remove a lock that is still ours. If it was stolen while we held
+        // it past STALE, deleting it would release someone else's lock.
+        if std::fs::read_to_string(&self.path)
+            .map(|s| s.trim() == self.pid)
+            .unwrap_or(false)
+        {
+            let _ = std::fs::remove_file(&self.path);
+        }
     }
 }
 
