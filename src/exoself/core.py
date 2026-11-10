@@ -128,6 +128,21 @@ GRIEVANCE = (
 )
 
 
+def version_at_least(version: str, want: tuple[int, ...]) -> bool:
+    """Compare registry versions numerically, not as strings.
+
+    "0.10" is later than "0.3"; a string comparison says otherwise, which would
+    quietly switch the 9.2.5 grievance check off at the tenth minor version.
+    """
+    parts = []
+    for piece in str(version).split("."):
+        digits = "".join(ch for ch in piece if ch.isdigit())
+        if not digits:
+            break
+        parts.append(int(digits))
+    return tuple(parts) >= want
+
+
 def grievance_words(text: str) -> list[str]:
     low = text.lower()
     return [w for w in GRIEVANCE if w in low]
@@ -164,7 +179,7 @@ def validate_registry(reg: dict) -> None:
         for i in drives["items"]:
             if any(ch.isdigit() for ch in i["want"] + i["hungry"]):
                 raise ValueError(f"drive {i['id']}: expression text must not contain digits")
-    if reg.get("version", "0.0") >= "0.3":
+    if drives and version_at_least(reg.get("version", "0.0"), (0, 3)):
         # SPEC 9.2.5: an unmet desire is not a grievance. 0.2 registries fail
         # this on purpose, because that is the bug this rule fixes.
         for i in drives["items"]:
