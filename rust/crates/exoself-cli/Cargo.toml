@@ -1,10 +1,18 @@
 [package]
-name = "exoself-cli"
+name = "exoself"
+description = "Command line for exoself: draw a seed once, render the temperament, record a session, wire a host"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
+rust-version = "1.70"
+readme = "../../../README.md"
+keywords = ["agent", "personality", "temperament", "deterministic", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+
 [[bin]]
 name = "exoself"
 path = "src/main.rs"
+
 [dependencies]
-exoself-core = { path = "../exoself-core" }
+exoself-core = { path = "../exoself-core", version = "0.3.0" }
