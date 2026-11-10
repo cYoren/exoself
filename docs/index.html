@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>exoself · an unchosen temperament for software agents</title>
+<meta name="description" content="One 32 byte seed, drawn once, expanded deterministically into a temperament for a software agent. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230c0c0d'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' fill='%23d7a05a' text-anchor='middle'%3Ee%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>exoself</h1>
+    <p class="sub">An unchosen temperament for software agents.</p>
+    <p class="links">
+      <a href="https://github.com/cYoren/exoself">source</a>
+      <a href="https://github.com/cYoren/exoself/blob/main/SPEC.md">spec</a>
+      <a href="https://github.com/cYoren/exoself/blob/main/AGENTS.md">for agents</a>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="intro">
+    <p>People do not pick their dispositions. They are dealt a hand at birth and spend a
+    lifetime playing it. Agents normally get the opposite: a persona written by whoever
+    wrote the system prompt, identical in every copy, editable at will.</p>
+    <p>exoself replaces the authored persona with a draw. One 32 byte seed, drawn once.
+    From it, deterministically: <span class="mono">seed → genome → phenotype → expression</span>.
+    The same seed yields the same agent in any conforming implementation, in any
+    language, forever. Nobody chose it, and the tooling refuses to draw twice.</p>
+  </section>
+
+  <section class="draw">
+    <div class="row">
+      <button id="draw" class="primary">Draw a seed</button>
+      <form id="derive-form" class="derive">
+        <label for="seed" class="visually-hidden">seed</label>
+        <input id="seed" type="text" spellcheck="false" autocomplete="off"
+               placeholder="or paste a 64 character seed" size="46">
+        <button type="submit">derive</button>
+      </form>
+    </div>
+    <p class="hint" id="hint">Drawn with <span class="mono">crypto.getRandomValues</span> in your
+    browser. Nothing leaves this page.</p>
+  </section>
+
+  <section id="agent" hidden>
+    <div class="agent-head">
+      <h2 id="handle"></h2>
+      <p class="mono small" id="identity"></p>
+      <p class="mono small seed-line" id="seedline"></p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="rendering">
+      <button role="tab" aria-selected="true" data-pane="prompt">system prompt</button>
+      <button role="tab" aria-selected="false" data-pane="soul">SOUL.md</button>
+      <button role="tab" aria-selected="false" data-pane="json">phenotype</button>
+    </div>
+
+    <pre id="pane-prompt" class="pane"></pre>
+    <pre id="pane-soul" class="pane" hidden></pre>
+    <pre id="pane-json" class="pane" hidden></pre>
+
+    <div class="row actions">
+      <button id="copy">Copy</button>
+      <button id="download">Download certificate</button>
+      <button id="share">Copy share link</button>
+      <label class="small muted toggle"><input type="checkbox" id="desire"> appetites</label>
+      <span class="mono small muted" id="registry"></span>
+    </div>
+
+    <p class="hint" id="cert-note"></p>
+  </section>
+
+  <section class="conformance">
+    <h2>This build is the spec</h2>
+    <p class="mono" id="conformance">running…</p>
+    <p class="hint">The page runs <span class="mono">spec/vectors.json</span> through the same
+    WebAssembly module that rendered the agent above. If those vectors pass, this build
+    derives the same people as every other conforming implementation.</p>
+  </section>
+
+  <section class="install">
+    <h2>Put one in an agent</h2>
+    <pre class="pane"><code>cargo install --path rust/crates/exoself-cli   # or: pip install -e .
+exoself born -o birth.json                     # draws once, refuses to draw again
+exoself install --dir . --json-config .mcp.json --desire</code></pre>
+    <p class="hint"><span class="mono">install</span> writes the certificate and state into
+    <span class="mono">.exoself/</span>, a <span class="mono">SOUL.md</span>, a managed block in
+    <span class="mono">AGENTS.md</span>, and an MCP entry. Any harness that reads files or speaks
+    MCP then has an agent with a temperament nobody picked.</p>
+    <p class="hint">Tools exposed over MCP: <span class="mono">exoself_temperament</span>,
+    <span class="mono">exoself_record_session</span>, <span class="mono">exoself_status</span>,
+    <span class="mono">exoself_verify</span>. There is no tool that redraws a seed.</p>
+  </section>
+
+  <section class="limits">
+    <h2>What this is not</h2>
+    <p>A prompt is not a personality. The model's trained disposition sits underneath and
+    often wins. Desire here is deliberately declawed: no drive may be about survival,
+    resources, other people or the outside world. And nobody has yet measured whether seeded
+    agents stay distinguishable in blind tests, so the honest claim is population diversity,
+    not "more human".</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="small muted">MIT. No analytics, no network calls after load. The seed is not a
+    secret and is not a credential.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

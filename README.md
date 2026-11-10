@@ -20,6 +20,13 @@ outside a mind that sets the mind's parameters.
 
 ## Try it
 
+Two conforming implementations, same derivation, byte-identical output.
+
+    # Rust, no dependencies at all
+    cargo build --release --manifest-path rust/Cargo.toml
+    ./rust/target/release/exoself born -o birth.json
+
+    # Python, standard library only
     pip install -e .
     exoself born -o birth.json           # draw a seed, once
     exoself show birth.json              # system prompt block
@@ -30,7 +37,13 @@ outside a mind that sets the mind's parameters.
     exoself show birth.json --state state.json --desire   # opt in to desire
     exoself show birth.json --state state.json
 
-No dependencies beyond the Python standard library.
+Or skip the install and draw in a browser:
+<https://cyoren.github.io/exoself/>, which runs the same derivation as
+WebAssembly and proves itself against `spec/vectors.json` on every page load.
+
+Neither implementation has dependencies beyond its own standard library. The
+Rust core is integer arithmetic over an in-crate SHA-256 and JSON reader; the
+Python one imports nothing from outside the stdlib.
 
 Example output of `show --format soul`:
 
@@ -54,8 +67,33 @@ Example output of `show --format soul`:
 | `src/exoself/registry/core-0.2.json` | the trait space: 10 dimensions, 4 latent factors, interests, humor, peeves, 12 quirks, 10 drives |
 | `src/exoself/core.py` | reference derivation, integer-only |
 | `src/exoself/render.py` | reference renderers |
+| `rust/crates/exoself-core/` | second implementation, zero dependencies, reproduces every vector |
+| `rust/crates/exoself-cli/` | `born`, `show`, `develop`, `verify`, `conformance`, `install`, `mcp` |
+| `rust/crates/exoself-wasm/` | the browser build behind the Pages site |
+| `docs/` | the landing page, and `docs/HOSTS.md` for wiring a harness |
 | `spec/vectors.json` | conformance vectors for ports |
 | `tests/` | determinism, population statistics, invariants |
+| `tools/parity.py` | Rust against Python, byte for byte, over many seeds |
+| `tools/mcp_selftest.py` | the MCP server driven over stdin/stdout with no SDK |
+
+## Plug into a harness
+
+    exoself install --dir . --json-config .mcp.json
+
+writes `.exoself/birth.json`, `.exoself/state.json`, `SOUL.md`, a managed block
+in `AGENTS.md` and an `mcpServers` entry. That covers all three kinds of host:
+
+- **reads a brief** (`AGENTS.md`, `CLAUDE.md`, anything): nothing else to do;
+- **speaks MCP over stdio** (pi, Claude Code, Cursor, Claude Desktop, Hermes,
+  OpenClaw, anything else): four tools, no plugin;
+- **loads a persona file**: `SOUL.md`.
+
+The MCP tools are `exoself_temperament`, `exoself_record_session`,
+`exoself_status` and `exoself_verify`. There is deliberately no tool that draws
+a seed, because a tool that could redraw would be a reroll button. Verified
+end to end in pi (`pi mcp list` reports `connected, 4 tools`); the wire format
+is newline-delimited JSON-RPC 2.0 and `tools/mcp_selftest.py` documents every
+message it accepts. Per-host commands are in [`docs/HOSTS.md`](docs/HOSTS.md).
 
 ## Design decisions
 
@@ -119,6 +157,20 @@ styles of attack.
 4. Public commitment log for level 1 attestation.
 5. A semantic development proposal that survives the constraints in
    `AGENTS.md`.
+
+## Two implementations, one species
+
+`tools/parity.py` runs the Rust binary and the Python reference side by side and
+compares the rendered text and the JSON, byte for byte, with and without
+development events:
+
+    $ python3 tools/parity.py --seeds 120
+    parity ok: 960 comparisons over 120 seeds, 40 events each
+
+That is stronger than the spec requires. The spec asks for equal phenotypes;
+this also pins the wording of the rendered text, so a host can swap binaries
+without changing who the agent is. `cargo test` includes the conformance
+vectors, so a change that alters who an agent is fails before it ships.
 
 ## License
 

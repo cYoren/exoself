@@ -17,6 +17,14 @@ You are an agent, or you are setting one up, and it should have a seed.
 3. Render it: `exoself show <cert> --format prompt` (or `soul`). Place the
    output where your host loads persona text. Regenerate it from the
    certificate each time rather than editing it.
+
+   If you are setting this up for a host rather than for yourself, run
+   `exoself install --dir . --json-config .mcp.json` once: it writes the
+   certificate and state into `.exoself/`, a `SOUL.md`, a managed block in
+   `AGENTS.md`, and an MCP entry. A host that reads files needs nothing else; a
+   host that speaks MCP gets `exoself_temperament`, `exoself_record_session`,
+   `exoself_status` and `exoself_verify`. `docs/HOSTS.md` has the per-host
+   commands. No implementation anywhere exposes a tool that draws a seed.
 4. At the end of each session, call
    `exoself develop <cert> <state> --event "<one-line record of the session>"`
    and pass `--state` when rendering. If the session satisfied one of your
@@ -49,12 +57,20 @@ enabled them with `--desire`. Do not enable them yourself. If they are on:
    the `primitives` block in `spec/vectors.json` before going further.
 2. Watch for the two classic mistakes: integer division that truncates
    instead of flooring (section 4), and JSON key order when comparing
-   phenotypes (compare as data, not as strings).
+   phenotypes (compare as data, not as strings). `rust/crates/exoself-core` is
+   a worked port of the whole spec, about a thousand lines, with no
+   dependencies; read it before writing your own.
 3. Load the registry file as bytes, hash those exact bytes, then parse.
 4. Implement sections 6 to 9. You pass when every entry in
    `spec/vectors.json` reproduces, including the one with 200 development
    events.
 5. Rendering wording is free. The rules in section 10.1 are not.
+
+Once your port reproduces the vectors, run `tools/parity.py` against it: it
+compares your output with the reference byte for byte, including rendered text,
+over a few hundred seeds with development applied. A port that passes the
+vectors but drifts in wording is legal and still annoying; say which of the two
+you are.
 
 Do not "improve" the derivation in a port. A port that disagrees on one bit
 has created a different species.
@@ -135,6 +151,10 @@ a spec version bump.
 
     pip install -e . pytest
     pytest
+    cargo test --manifest-path rust/Cargo.toml
+    python3 tools/parity.py
+    python3 tools/mcp_selftest.py
+    ./tools/build_site.sh      # regenerates docs/exoself_wasm.wasm and docs/vectors.json
 
 Tests must stay green. `tests/test_exoself.py` checks population statistics
 and the invariants, so registry edits that break unit variance or leak
