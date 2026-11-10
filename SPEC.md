@@ -79,11 +79,11 @@ A JSON object. It is immutable once written.
 
 | field | meaning |
 |---|---|
-| `exoself` | spec version at birth, `"0.1"` or `"0.2"` |
+| `exoself` | spec version at birth, `"0.1"`, `"0.2"` or `"0.3"` |
 | `id` | `"exo_"` followed by the hex of `stream(seed, "id", 8)` |
 | `seed` | 64 hex characters |
 | `born_at` | UTC timestamp, ISO 8601 |
-| `registry` | registry name and version, for example `core@0.2` |
+| `registry` | registry name and version, for example `core@0.3` |
 | `registry_sha256` | SHA-256 of the exact registry file bytes |
 | `attestation` | object with `level` and level-specific fields |
 
@@ -119,8 +119,10 @@ never changes the value of any existing trait.
 
 ## 5. Trait registry
 
-A registry is a JSON file that defines the trait space. `core@0.2` ships with
-the reference implementation at `src/exoself/registry/core-0.2.json`. Other
+A registry is a JSON file that defines the trait space. `core@0.3` is the
+current one and ships with the reference implementation at
+`src/exoself/registry/core-0.3.json`; `core@0.1` and `core@0.2` stay bundled so
+that old certificates keep working. Other
 registries MAY be published. A certificate pins its registry by hash.
 
 ### 5.1 Structure
@@ -247,7 +249,7 @@ A personality is its outliers. Only salient dimensions are expressed:
 ### 7.3 Phenotype object
 
     {
-      "exoself": "0.2",
+      "exoself": "0.3",
       "id": "exo_...",
       "handle": "...",
       "scores":  { dimension id: final score, in registry order },
