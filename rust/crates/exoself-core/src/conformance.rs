@@ -79,8 +79,7 @@ pub fn run(vectors_text: &str, reg: &Registry, check_primitives: bool) -> Result
     if check_primitives {
         if let Some(p) = doc.get("primitives") {
             let seed = seed_from(p, "primitives")?;
-            let checks: Vec<(String, String, String)> = Vec::new();
-            let mut checks = checks;
+            let mut checks: Vec<(String, String, String)> = Vec::new();
             if let Some(h) = p.get("stream('id', 40)").and_then(|x| x.as_str()) {
                 checks.push((
                     "stream('id', 40)".into(),

@@ -61,13 +61,6 @@ impl Json {
         }
     }
 
-    /// Total order over JSON values, used where the spec says "ties broken by
-    /// ascending id". Python compares strings by code point; `str` ordering in
-    /// Rust is byte order, which agrees for ASCII ids.
-    pub fn as_u8_span(&self) -> Option<&str> {
-        self.as_str()
-    }
-
     pub fn pretty(&self) -> String {
         let mut out = String::new();
         write_value(&mut out, self, 0, true);
@@ -99,9 +92,6 @@ fn write_value(out: &mut String, v: &Json, depth: usize, pretty: bool) {
             for (i, item) in items.iter().enumerate() {
                 if i > 0 {
                     out.push(',');
-                    if !pretty {
-                        // no space, matching json.dumps(separators=(",", ":"))
-                    }
                 }
                 if pretty {
                     out.push('\n');

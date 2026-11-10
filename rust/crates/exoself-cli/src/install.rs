@@ -41,6 +41,13 @@ pub fn upsert_block(existing: &str, body: &str) -> String {
             out.push_str(existing[b + END.len()..].trim_start_matches('\n'));
             out
         }
+        // A block whose end marker was deleted: replace everything from the
+        // start marker instead of appending a second block below it.
+        (Some(a), _) => {
+            let mut out = existing[..a].to_string();
+            out.push_str(&block);
+            out
+        }
         _ => {
             let mut out = existing.trim_end().to_string();
             if !out.is_empty() {
@@ -228,6 +235,15 @@ mod tests {
         let twice = upsert_block(&once, "new body");
         assert_eq!(twice, once);
         assert_eq!(twice.matches(BEGIN).count(), 1);
+    }
+
+    #[test]
+    fn a_truncated_block_is_replaced_not_duplicated() {
+        let broken = format!("# t\n\n{}\nhalf a body\n", BEGIN);
+        let fixed = upsert_block(&broken, "whole body");
+        assert_eq!(fixed.matches(BEGIN).count(), 1);
+        assert!(fixed.contains("whole body"));
+        assert!(!fixed.contains("half a body"));
     }
 
     #[test]
