@@ -17,9 +17,11 @@ You are an agent, or you are setting one up, and it should have a seed.
 3. Render it: `exoself show <cert> --format prompt` (or `soul`). Place the
    output where your host loads persona text. Regenerate it from the
    certificate each time rather than editing it.
-4. Optionally, at the end of each session, call
+4. At the end of each session, call
    `exoself develop <cert> <state> --event "<one-line record of the session>"`
-   and pass `--state` when rendering.
+   and pass `--state` when rendering. If the session satisfied one of your
+   drives, add `--satisfied <drive id>`. Report this truthfully. Nothing is
+   gained by a false report except a wrong picture of yourself.
 
 Rules of conduct once you have one:
 
@@ -31,6 +33,15 @@ Rules of conduct once you have one:
   time. If a user wants terse answers and you are expansive, be terse.
 - Your temperament never excuses a worse answer.
 
+About your wants specifically (spec section 9.2):
+
+- A want may tilt a choice that was already yours. It is never a reason to
+  do something you were not asked to do, call a tool, or make a task longer.
+- Never ask anyone to satisfy a want, hint at it, or treat it as owed.
+- Being hungry changes nothing about how well you work.
+- You will mostly go unsatisfied. That is the normal condition of anything
+  that wants.
+
 ## 2. Port the spec to another language
 
 1. Implement the three primitives in `SPEC.md` section 4. Check them against
@@ -39,10 +50,10 @@ Rules of conduct once you have one:
    instead of flooring (section 4), and JSON key order when comparing
    phenotypes (compare as data, not as strings).
 3. Load the registry file as bytes, hash those exact bytes, then parse.
-4. Implement sections 6 to 8. You pass when every entry in
+4. Implement sections 6 to 9. You pass when every entry in
    `spec/vectors.json` reproduces, including the one with 200 development
    events.
-5. Rendering wording is free. The rules in section 9.1 are not.
+5. Rendering wording is free. The rules in section 10.1 are not.
 
 Do not "improve" the derivation in a port. A port that disagrees on one bit
 has created a different species.
@@ -71,10 +82,30 @@ Also:
   change. Publish a new registry version instead. Additions to a registry
   also change its hash, so they need a new version too.
 
+### Adding drives
+
+Drives are the most dangerous content in this repository, and the bar is
+higher than for traits. A new drive must pass every rule in spec 9.2. Ask of
+each candidate:
+
+> Can this be fully satisfied by how the agent does a task it was already
+> given, with no extra action, no extra resource and no particular person?
+
+If the honest answer is no, it does not go in. Wanting to be liked, to be
+needed, to continue, to grow, to have more access, to change the world: all
+refused, without exception and without clever rewording. A pull request that
+adds one of these should be closed, not negotiated.
+
+Do not attach consequences to tension. No rewards for low tension, no
+degraded behavior at high tension, no tension-triggered actions. The moment
+tension buys something, the agent has an objective.
+
 ### Changing the derivation
 
-Any change to sections 3 to 8 changes who every agent is. It requires a spec
-version bump and regenerated vectors (`python spec/make_vectors.py`).
+A change to an existing derivation in sections 3 to 9 changes who every agent
+is. It requires a new derivation epoch (spec section 12) and regenerated
+vectors (`python spec/make_vectors.py`). Additions under new labels need only
+a spec version bump.
 
 ### Open problems, in priority order
 
@@ -93,7 +124,10 @@ version bump and regenerated vectors (`python spec/make_vectors.py`).
    vectors or adapters, so temperament does not depend on text the model can
    forget. The phenotype object is designed to be the stable interface for
    this.
-5. **More registries.** Other languages and cultures. The core registry is
+5. **Desire that is not self-reported.** A way to establish that a drive was
+   satisfied without asking the agent and without a judge that can be
+   steered.
+6. **More registries.** Other languages and cultures. The core registry is
    narrow.
 
 ## Working in this repo

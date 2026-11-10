@@ -19,17 +19,21 @@ seeds += [hashlib.sha256(b"exoself vector %d" % i).digest() for i in range(9)]
 
 vectors = [{"seed": s.hex(), "phenotype": core.phenotype(s, reg)} for s in seeds]
 
-# One vector with development applied, to pin the drift rules.
+# One vector with development applied, to pin the drift and tension rules.
 s = seeds[3]
-state = core.new_state(s)
+state = core.new_state(s, reg)
+held = core.derive_drives(s, reg)
+log = []
 for i in range(200):
-    state = core.develop(state, b"event %d" % i, reg)
+    # Every seventh event satisfies one held drive, in rotation.
+    met = [held[(i // 7) % len(held)]] if i % 7 == 6 else []
+    log.append({"event": "event %d" % i, "satisfied": met})
+    state = core.develop(s, state, b"event %d" % i, reg, met)
 vectors.append({
     "seed": s.hex(),
-    "events": ["event %d" % i for i in range(200)],
-    "chain": state["chain"],
-    "drift": state["drift"],
-    "phenotype": core.phenotype(s, reg, state["drift"]),
+    "log": log,
+    "state": state,
+    "phenotype": core.phenotype(s, reg, state),
 })
 
 # Primitive checkpoints, so a port can be debugged from the bottom up.
@@ -40,12 +44,15 @@ primitives = {
     "u32('quirk/units')": core.u32(z, "quirk/units"),
     "gauss('factor/rigor')": core.gauss(z, "factor/rigor"),
     "gauss('unique/warmth')": core.gauss(z, "unique/warmth"),
+    "drive_rate('teach')": core.drive_rate(z, "teach"),
+    "drive_initial('teach')": core.drive_initial(z, "teach"),
+    "fixation at events 0, 100, 1000": [core.fixation(z, reg, n) for n in (0, 100, 1000)],
 }
 
 out = pathlib.Path(__file__).with_name("vectors.json")
 out.write_text(json.dumps({
     "exoself": core.SPEC_VERSION,
-    "registry": "core@0.1",
+    "registry": "core@0.2",
     "registry_sha256": reg_hash,
     "primitives": primitives,
     "vectors": vectors,

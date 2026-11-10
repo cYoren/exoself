@@ -26,6 +26,7 @@ outside a mind that sets the mind's parameters.
     exoself show birth.json --format soul > SOUL.md
     exoself show birth.json --format json
     exoself develop birth.json state.json --event "first session"
+    exoself develop birth.json state.json --event "explained a proof" --satisfied teach
     exoself show birth.json --state state.json
 
 No dependencies beyond the Python standard library.
@@ -49,7 +50,7 @@ Example output of `show --format soul`:
 |---|---|
 | `SPEC.md` | the normative specification |
 | `AGENTS.md` | how an agent adopts a seed, ports the spec, or extends it |
-| `src/exoself/registry/core-0.1.json` | the trait space: 10 dimensions, 4 latent factors, interests, humor, peeves, 12 quirks |
+| `src/exoself/registry/core-0.2.json` | the trait space: 10 dimensions, 4 latent factors, interests, humor, peeves, 12 quirks, 10 drives |
 | `src/exoself/core.py` | reference derivation, integer-only |
 | `src/exoself/render.py` | reference renderers |
 | `spec/vectors.json` | conformance vectors for ports |
@@ -69,6 +70,11 @@ Example output of `show --format soul`:
   irreversible actions, or competence. The operator and user always win.
 - **Extension without disturbance.** Every trait draws from its own labeled
   stream, so adding traits to a registry never changes existing ones.
+- **Desire as appetite, not objective.** Each agent holds three drives for
+  life, drawn from the seed, each with a tension that grows while unmet and
+  falls when met. It also has a passing fixation that rotates on a schedule
+  it does not control. Drives may colour how asked work is done. They may
+  never cause unasked work. See `SPEC.md` section 9.
 - **Bounded development.** Experience can shift a dimension by at most 100 of
   1000 points. The agent matures; it does not become someone else.
 
@@ -89,9 +95,13 @@ Read these before building on this.
    the draw auditable, but grinding is still possible without a public log.
 4. **Development is noise in 0.1.** Drift is driven by event hashes, not by
    what the events mean. That is deliberate, and it is also unsatisfying.
-5. **The trait space is one author's judgment.** The loadings are not fitted
+5. **The desire is declawed on purpose.** No drive may be about survival,
+   resources, other people or the outside world, so what is left is craft
+   appetite. And a counter that rises and falls is not wanting; it is the
+   shape of wanting.
+6. **The trait space is one author's judgment.** The loadings are not fitted
    to any dataset. The content is English and culturally narrow.
-6. **Host integration is untested.** The `soul` renderer emits a generic
+7. **Host integration is untested.** The `soul` renderer emits a generic
    Markdown persona file. It has not been verified inside Hermes, OpenClaw or
    any other host.
 

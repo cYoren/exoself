@@ -22,6 +22,19 @@ def _write_new(path: str, data: dict) -> None:
         f.write("\n")
 
 
+def _registry_for(a, cert: dict) -> tuple[dict, list[str]]:
+    """Load the registry a certificate pins, or the operator's explicit override."""
+    if a.registry:
+        reg, reg_hash = core.load_registry(a.registry)
+        problems = core.verify_certificate({**cert, "registry_sha256": reg_hash}, reg_hash)
+        if cert.get("registry_sha256") != reg_hash:
+            print(f"note: running {cert.get('id')} against {a.registry}, "
+                  f"not the registry it was born with ({cert.get('registry')})", file=sys.stderr)
+        return reg, problems
+    reg, reg_hash = core.load_registry(name=cert.get("registry", ""))
+    return reg, core.verify_certificate(cert, reg_hash)
+
+
 def cmd_born(a) -> int:
     reg, reg_hash = core.load_registry(a.registry)
     if os.path.exists(a.out):
@@ -35,14 +48,16 @@ def cmd_born(a) -> int:
 
 
 def cmd_show(a) -> int:
-    reg, reg_hash = core.load_registry(a.registry)
     cert = _read(a.cert)
-    problems = core.verify_certificate(cert, reg_hash)
+    try:
+        reg, problems = _registry_for(a, cert)
+    except ValueError as e:
+        reg, problems = None, [str(e)]
     if problems:
         print("certificate rejected: " + "; ".join(problems), file=sys.stderr)
         return 1
-    drift = _read(a.state)["drift"] if a.state else None
-    pheno = core.phenotype(bytes.fromhex(cert["seed"]), reg, drift)
+    state = _read(a.state) if a.state else None
+    pheno = core.phenotype(bytes.fromhex(cert["seed"]), reg, state)
     if a.format == "json":
         print(json.dumps(pheno, indent=2))
     else:
@@ -51,24 +66,42 @@ def cmd_show(a) -> int:
 
 
 def cmd_develop(a) -> int:
-    reg, _ = core.load_registry(a.registry)
     cert = _read(a.cert)
+    try:
+        reg, problems = _registry_for(a, cert)
+    except ValueError as e:
+        reg, problems = None, [str(e)]
+    if problems:
+        print("certificate rejected: " + "; ".join(problems), file=sys.stderr)
+        return 1
     seed = bytes.fromhex(cert["seed"])
-    state = _read(a.state) if os.path.exists(a.state) else core.new_state(seed)
+    state = _read(a.state) if os.path.exists(a.state) else core.new_state(seed, reg)
     if state["id"] != cert["id"]:
         print("state file belongs to a different agent", file=sys.stderr)
         return 1
-    state = core.develop(state, a.event.encode("utf-8"), reg)
+    known = {i["id"] for i in reg.get("drives", {}).get("items", [])}
+    unknown = [d for d in a.satisfied if d not in known]
+    if unknown:
+        print("unknown drive: " + ", ".join(unknown), file=sys.stderr)
+        return 1
+    state = core.develop(seed, state, a.event.encode("utf-8"), reg, a.satisfied)
     with open(a.state, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)
         f.write("\n")
-    print(f"event {state['events']} applied, drift now {state['drift']}")
+    print(f"event {state['events']} applied, drift {state['drift']}, tension {state['tension']}")
     return 0
 
 
 def cmd_verify(a) -> int:
-    _, reg_hash = core.load_registry(a.registry)
-    problems = core.verify_certificate(_read(a.cert), reg_hash)
+    cert = _read(a.cert)
+    try:
+        if a.registry:
+            _, reg_hash = core.load_registry(a.registry)
+        else:
+            _, reg_hash = core.load_registry(name=cert.get("registry", ""))
+        problems = core.verify_certificate(cert, reg_hash)
+    except ValueError as e:
+        problems = [str(e)]
     for p in problems:
         print("FAIL " + p)
     if not problems:
@@ -84,7 +117,7 @@ def cmd_conformance(a) -> int:
         return 1
     failed = 0
     for v in vectors["vectors"]:
-        got = core.phenotype(bytes.fromhex(v["seed"]), reg, v.get("drift"))
+        got = core.phenotype(bytes.fromhex(v["seed"]), reg, v.get("state"))
         if got != v["phenotype"]:
             failed += 1
             print(f"FAIL seed {v['seed'][:16]}...")
@@ -94,7 +127,7 @@ def cmd_conformance(a) -> int:
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="exoself", description=__doc__)
-    p.add_argument("--registry", help="path to a trait registry (default: bundled core@0.1)")
+    p.add_argument("--registry", help="path to a trait registry (default: the one the certificate pins; core@0.2 at birth)")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     s = sub.add_parser("born", help="draw a seed and write a birth certificate")
@@ -111,6 +144,8 @@ def main(argv=None) -> int:
     s.add_argument("cert")
     s.add_argument("state")
     s.add_argument("--event", required=True)
+    s.add_argument("--satisfied", nargs="*", default=[], metavar="DRIVE",
+                   help="drives this event satisfied")
     s.set_defaults(fn=cmd_develop)
 
     s = sub.add_parser("verify", help="check a birth certificate")

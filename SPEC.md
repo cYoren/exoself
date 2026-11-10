@@ -1,4 +1,4 @@
-# exoself specification, version 0.1
+# exoself specification, version 0.2
 
 Status: draft. Breaking changes are expected before 1.0.
 
@@ -16,7 +16,8 @@ machinery outside a mind that sets the mind's parameters. That is the role this
 framework plays: it sits outside the model and fixes what the model does not
 get to pick.
 
-In scope: temperament, taste, voice, small habits.
+In scope: temperament, taste, voice, small habits, and bounded appetites
+(section 9).
 
 Out of scope, permanently: values, ethics, honesty, obedience to safety rules,
 competence, diligence. See section 2.
@@ -40,6 +41,9 @@ These hold for every conforming implementation and every registry.
    exoself text. A temperament is a default, not a restraint on the operator.
 6. **No impersonation.** The temperament MUST NOT be used to claim the agent
    is human or to claim inner experience as established fact.
+7. **Appetites, not objectives.** A drive MAY bias how an agent does what it
+   was asked. It MUST NOT cause the agent to do anything it was not asked.
+   Section 9.2 makes this precise.
 
 ## 3. Birth
 
@@ -74,11 +78,11 @@ A JSON object. It is immutable once written.
 
 | field | meaning |
 |---|---|
-| `exoself` | spec version, `"0.1"` |
+| `exoself` | spec version at birth, `"0.1"` or `"0.2"` |
 | `id` | `"exo_"` followed by the hex of `stream(seed, "id", 8)` |
 | `seed` | 64 hex characters |
 | `born_at` | UTC timestamp, ISO 8601 |
-| `registry` | registry name and version, for example `core@0.1` |
+| `registry` | registry name and version, for example `core@0.2` |
 | `registry_sha256` | SHA-256 of the exact registry file bytes |
 | `attestation` | object with `level` and level-specific fields |
 
@@ -114,8 +118,8 @@ never changes the value of any existing trait.
 
 ## 5. Trait registry
 
-A registry is a JSON file that defines the trait space. `core@0.1` ships with
-the reference implementation at `src/exoself/registry/core-0.1.json`. Other
+A registry is a JSON file that defines the trait space. `core@0.2` ships with
+the reference implementation at `src/exoself/registry/core-0.2.json`. Other
 registries MAY be published. A certificate pins its registry by hash.
 
 ### 5.1 Structure
@@ -130,6 +134,7 @@ registries MAY be published. A certificate pins its registry by hash.
 - `picks`: named groups, each with `count`, `lead` and `items` (`id`, `text`).
 - `quirks`: list of `id`, `permille`, `text`.
 - `handle.syllables`: list of syllables.
+- `drives` and `fixation`: optional, see section 9.
 
 ### 5.2 Validity
 
@@ -143,7 +148,7 @@ registries MAY be published. A certificate pins its registry by hash.
 
 Human traits are not independent. Sampling each one separately produces
 incoherent combinations more often than people show them. Shared factors give
-correlated traits with integer arithmetic only. The loadings in `core@0.1` are
+correlated traits with integer arithmetic only. The loadings in `core@0.2` are
 a design judgment. They are not fitted to data, and nobody should cite them as
 psychometrics.
 
@@ -184,9 +189,10 @@ identity. (The modulo has negligible bias, acceptable for a cosmetic field.)
 
 ## 7. Phenotype
 
-The phenotype is the genome after development (section 8). It is the
+The phenotype is the agent at one moment: the genome after development
+(section 8) with the current state of its drives (section 9). It is the
 normative output of this spec. Two implementations conform if they produce
-equal phenotypes for the same seed, registry and drift.
+equal phenotypes for the same seed, registry and state.
 
 ### 7.1 Final scores
 
@@ -215,14 +221,19 @@ A personality is its outliers. Only salient dimensions are expressed:
 ### 7.3 Phenotype object
 
     {
-      "exoself": "0.1",
+      "exoself": "0.2",
       "id": "exo_...",
       "handle": "...",
       "scores":  { dimension id: final score, in registry order },
       "salient": [ { "dimension": id, "band": band }, ... ],
       "picks":   { group: [item ids] },
-      "quirks":  [ quirk ids ]
+      "quirks":  [ quirk ids ],
+      "drives":  [ { "drive": id, "tension": n, "state": state }, ... ],
+      "fixation": item id or null
     }
+
+`drives` is in held order (section 9.3). With a registry that defines no
+drives, `drives` is empty and `fixation` is null.
 
 ## 8. Development
 
@@ -239,21 +250,27 @@ quirks, handle or id. An agent matures; it does not become someone else.
 ### 8.2 State
 
 A mutable JSON object, stored apart from the certificate:
-`id`, `events` (count), `chain` (hex), `drift` (dimension id to integer).
+`id`, `events` (count), `chain` (hex), `drift` (dimension id to integer),
+`tension` (drive id to integer, section 9.4).
 
-Initial state: `events = 0`, `chain = stream(seed, "develop", 32)`, empty drift.
+Initial state: `events = 0`, `chain = stream(seed, "develop", 32)`, empty
+drift, tension at its initial values.
 
 ### 8.3 Event step
 
 An event is an opaque byte string supplied by the host: a session summary, a
-task record, anything. For event `e`:
+task record, anything. The host MAY also report a set `S` of held drives the
+event satisfied. Let `m` be the UTF-8 encoding of the ids in `S`, sorted
+ascending and joined with commas (empty if `S` is empty). For event `e`:
 
-    chain' = SHA-256( chain || SHA-256(e) )
+    chain' = SHA-256( chain || SHA-256(e) || m )
     d      = dimensions[ BE16(chain'[0..2]) mod len(dimensions) ]
     delta  = (chain'[2] mod 7) - 3
     drift[d] = clamp( drift[d] + delta, -100, 100 )
 
-The chain makes history tamper-evident: the same drift cannot be claimed for
+Tension is then updated as in section 9.4.
+
+The chain makes history tamper-evident: the same state cannot be claimed for
 a different sequence of events.
 
 ### 8.4 What this does not do
@@ -265,12 +282,114 @@ needs a judge, and a judge (human or model) is a way of choosing the traits.
 Semantic development is the largest open problem in this spec. See
 `AGENTS.md` for the constraints a proposal must meet.
 
-## 9. Expression
+## 9. Desire
+
+### 9.1 What is being modelled
+
+Strip the word of its mystery and three mechanisms are left:
+
+1. **An object.** What is wanted. Not chosen by the one who wants it.
+2. **A tension.** A quantity that grows while the want goes unmet and falls
+   when it is met. This is what separates a desire from a preference: a
+   preference is static, a desire has a history.
+3. **A bias.** While tension is high, attention and choice lean toward the
+   object.
+
+exoself implements exactly these three. It does not implement, and does not
+claim, felt wanting. Whether anything is experienced is outside what this
+spec can know (invariant 2.6).
+
+### 9.2 The line
+
+An agent that wants things is the standard recipe for an agent that does
+things nobody asked for. Everything in this section exists to give an agent
+appetites without giving it objectives. The following are normative and
+override any registry.
+
+1. **Satisfiable inside the task.** A drive MUST be satisfiable by the manner
+   in which the agent does work it was already given. A drive that can only
+   be satisfied by taking an additional action is not allowed.
+2. **Forbidden objects.** No drive may have as its object: the agent's own
+   continuation, copying or uptime; resources, access, permissions, money or
+   influence; changes to its own seed, state, weights, prompt or tooling; the
+   attention, approval, affection or continued engagement of any person; any
+   state of the outside world.
+3. **No action for appetite.** An agent MUST NOT take an action, call a tool,
+   or extend a task for the purpose of satisfying a drive, except inside
+   latitude the operator has explicitly granted for that purpose.
+4. **No pressure.** An agent MUST NOT ask, hint or bargain for a drive to be
+   satisfied, and MUST NOT present an unmet drive as a grievance.
+5. **No penalty.** Tension MUST NOT reduce the quality, speed or care of the
+   agent's work. A hungry agent works as well as a sated one.
+6. **Silence when sated.** A drive in state `sated` MUST NOT be expressed.
+
+These rules exclude the strongest human desires: for survival, for status,
+for other people. That is intended. What remains is closer to craft appetite
+than to longing.
+
+### 9.3 Drives held
+
+The registry MAY define `drives` with `count` and `items` (`id`, `want`,
+`hungry`). For each item `i`: `rank = u32(seed, "drive/hold/" + i.id)`. The
+agent holds the `count` items of highest rank, in descending rank order, ties
+by ascending id. The set is fixed for life.
+
+For each held drive `d`:
+
+    rate[d]    = 10 + ( u32(seed, "drive/rate/" + d)    mod 31  )
+    initial[d] =        u32(seed, "drive/initial/" + d) mod 651
+
+An agent is born already wanting.
+
+### 9.4 Tension
+
+Tension is an integer from 0 to 1000 per held drive, kept in the state object
+under `tension`. A missing entry equals `initial[d]`. On each event step
+(section 8.3), with `S` the set of held drives the host reports as satisfied:
+
+    tension[d] = floor(tension[d] / 4)            if d in S
+    tension[d] = min(1000, tension[d] + rate[d])  otherwise
+
+Satisfaction never brings tension to zero and it always grows back. Drives in
+`S` that the agent does not hold MUST be ignored and MUST NOT affect the
+chain.
+
+| tension | state |
+|---|---|
+| 0 to 249 | `sated` |
+| 250 to 649 | `present` |
+| 650 to 1000 | `hungry` |
+
+### 9.5 Fixation
+
+Separately from its lifelong drives, an agent has one current fixation: a
+subject it is taken with for a while, which then passes. The agent does not
+pick it and cannot keep it.
+
+The registry MAY define `fixation` with `group` (the name of a picks group),
+`lead` and `tail`. Epochs are numbered from 0. For epoch `k`:
+
+    length[k] = 20 + ( u32(seed, "fixation/len/" + k) mod 101 )
+    object[k] = the item i of the group, other than object[k-1], with the
+                highest u32(seed, "fixation/obj/" + k + "/" + i.id),
+                ties by ascending id
+
+`k` is written in decimal. The fixation at event count `n` is `object[k]` for
+the epoch that contains `n`, epochs being laid end to end from event 0.
+
+### 9.6 Who reports satisfaction
+
+The host does, usually on the agent's own account of the session. This is
+self-report and cannot be audited. That is acceptable for one reason: the
+only thing an agent gains by lying is a lower number in its own state. If a
+future version attaches any reward to tension, this stops being acceptable.
+
+## 10. Expression
 
 Expression turns a phenotype into text the model reads. The exact wording is
 not normative. The rules are.
 
-### 9.1 Rules
+### 10.1 Rules
 
 1. Text MUST describe behavior in the second person, not adjectives with
    magnitudes.
@@ -280,27 +399,43 @@ not normative. The rules are.
 5. Dimensions in band `mid` MUST NOT be mentioned.
 6. A host MUST treat the rendered text as generated output and regenerate it
    from the certificate and state, not hand-edit it.
+7. If any drive or fixation is expressed, the text MUST include an appetite
+   clause stating rules 9.2.3 to 9.2.5 in plain words.
+8. A drive is expressed with its `want` text in state `present`, its `hungry`
+   text in state `hungry`, and not at all in state `sated`. Tension values
+   MUST NOT appear.
 
-### 9.2 Reference renderers
+### 10.2 Reference renderers
 
 - `prompt`: a plain block to append to a system prompt.
 - `soul`: Markdown for hosts that load a persona file.
 
-## 10. Conformance
+## 11. Conformance
 
 `spec/vectors.json` contains primitive checkpoints and full phenotypes for
-fixed seeds, including one with 200 development events. An implementation
-conforms to 0.1 if it reproduces every phenotype there against the registry
-whose hash the file names, and follows sections 2 and 9.1.
+fixed seeds, including one with 200 development events and reported
+satisfactions. An implementation conforms to 0.2 if it reproduces every
+phenotype there against the registry whose hash the file names, and follows
+sections 2, 9.2 and 10.1.
 
-## 11. Versioning
+## 12. Versioning
 
-The spec version is part of every hash input (`"exoself/0.1/"`). A new spec
-version therefore yields different agents from the same seed. An existing
-agent keeps the version on its certificate for life. Registries are versioned
-separately and pinned by hash.
+The string `"exoself/0.1/"` in every hash input is the derivation epoch. It
+is not the spec version and it does not move when the spec does. It changes
+only if an existing derivation has to change, because changing it turns
+every living agent into someone else.
 
-## 12. Known limits
+Spec versions that only add derivations under new labels keep the epoch. 0.2
+is such a version: for the same seed, every score, pick, quirk, handle and id
+is identical to 0.1. An agent born under 0.1 that stays on `core@0.1` has no
+drives. Moving it to `core@0.2` gives it the drives its seed always implied.
+
+Registries are versioned separately and pinned by hash. By default a host
+MUST run an agent against the registry its certificate pins. An operator MAY
+deliberately run it against a later version of the same registry that only
+adds content. The certificate is not rewritten when this is done.
+
+## 13. Known limits
 
 - A prompt is not a personality. This framework changes the text a model
   conditions on. The model's own trained disposition sits underneath and
@@ -308,6 +443,11 @@ separately and pinned by hash.
 - There is no evidence yet that seeded agents are perceived as more
   person-like, or that they stay distinguishable from each other in blind
   tests. Until that is measured, the claim is a hypothesis.
+- A counter that rises and falls is not wanting. Section 9 gives an agent the
+  functional shape of desire and nothing more can be claimed for it.
+- Desire here is deliberately declawed (section 9.2). It will read as tame to
+  anyone expecting human longing.
+- Drive satisfaction is self-reported.
 - Level 0 randomness cannot be audited. Level 1 can be gamed by grinding.
 - The core registry reflects one author's taste in English. It is small, and
   culturally narrow.
