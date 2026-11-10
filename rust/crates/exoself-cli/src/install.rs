@@ -102,6 +102,15 @@ fn merge_mcp_config(existing: Option<&str>, entry: Json) -> Result<Json, String>
 
 pub fn cmd_install(args: &[String]) -> Result<i32, String> {
     let f = crate::Flags::parse(args, &["dir", "file", "soul", "json-config", "registry"])?;
+    f.reject_unknown(
+        &["dir", "file", "soul", "json-config", "registry"],
+        &["desire"],
+        0,
+    )?;
+    if f.help() {
+        print!("{}", crate::USAGE);
+        return Ok(0);
+    }
     let dir = PathBuf::from(f.value("dir").unwrap_or("."));
     ensure_dir(&dir)?;
     // Absolute paths: an MCP host may launch the server from any working
