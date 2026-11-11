@@ -125,6 +125,40 @@ rather than editing it:
 exoself show .exoself/birth.json --state .exoself/state.json --format soul > SOUL.md
 ```
 
+### Hermes
+
+Verified: `hermes plugins validate hermes --install-deps` passes, and two
+Hermes profiles loaded the plugin and drew two different temperaments. A second
+load on the same profile left the certificate byte for byte identical.
+
+Hermes loads `SOUL.md` from the profile's home as its identity slot, so the
+wiring is a plugin that keeps that file current, one agent per profile:
+
+```bash
+hermes plugins install exoself --yes-deps --enable
+```
+
+From this repository, before or without a catalog entry:
+
+```bash
+hermes plugins install cYoren/exoself/hermes --ref <40-hex sha> --yes-deps --enable
+```
+
+On the first load for a profile the plugin draws one seed into
+`$HERMES_HOME/.exoself/birth.json` and renders the temperament into a managed
+block in `$HERMES_HOME/SOUL.md`, leaving whatever you wrote above it. At the end
+of each turn it records one `develop` event (the turn's ask, one line) and
+refreshes that block. Desire is off unless you set
+`plugins.entries.exoself.settings.desire: true`. The plugin exposes
+`exoself_status` and `exoself_verify` to the model, and nothing that draws.
+
+Those are ordinary exoself files, so the CLI works on them directly:
+
+```bash
+HERMES_HOME=~/.hermes exoself status "$HERMES_HOME/.exoself/birth.json"
+HERMES_HOME=~/.hermes exoself verify "$HERMES_HOME/.exoself/birth.json"
+```
+
 ## Keeping the brief current
 
 `AGENTS.md` and `SOUL.md` are snapshots of the agent, and `develop` rewrites
