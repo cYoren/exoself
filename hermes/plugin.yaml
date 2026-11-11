@@ -1,0 +1,29 @@
+name: exoself
+version: 1.0.0
+manifest_version: 2
+api_version: 1
+description: >-
+  An unchosen temperament for every Hermes profile: one seed drawn at birth, rendered into
+  SOUL.md, and developed one event per turn. Two profiles get two different agents; a second
+  load never redraws.
+author: Gustavo Cesar Marcelino
+license: MIT
+homepage: https://github.com/cYoren/exoself
+tags: [persona, temperament, identity, soul, exoself]
+requires_hermes: ">=0.21.6"
+python_dependencies:
+  - "exoself>=0.3,<0.4"
+provides_tools:
+  - exoself_status
+  - exoself_verify
+provides_hooks:
+  - pre_llm_call
+  - on_session_start
+  - on_session_end
+config_schema:
+  desire:
+    type: bool
+    default: false
+    description: >-
+      Express appetites (SPEC 9.2). Off unless you turn it on; the rendered block says so
+      and nothing else changes.
