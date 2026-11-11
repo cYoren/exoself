@@ -96,6 +96,10 @@ in `AGENTS.md` and an `mcpServers` entry. That covers all three kinds of host:
   OpenClaw, anything else): four tools, no plugin;
 - **loads a persona file**: `SOUL.md`.
 
+Hermes has a plugin besides: `hermes plugins install exoself` draws one seed per
+profile, keeps that profile's `SOUL.md` current, and records a session event per
+turn. See `hermes/README.md`.
+
 The MCP tools are `exoself_temperament`, `exoself_record_session`,
 `exoself_status` and `exoself_verify`. There is deliberately no tool that draws
 a seed, because a tool that could redraw would be a reroll button. Verified
@@ -170,12 +174,14 @@ Read these before building on this.
    and the rule is enforced when the registry loads.
 6. **The trait space is one author's judgment.** The loadings are not fitted
    to any dataset. The content is English and culturally narrow.
-7. **Host integration is verified in one host, protocol-level elsewhere.** The
+7. **Host integration is verified in two hosts, protocol-level elsewhere.** The
    MCP server was driven end to end inside pi (`pi mcp list` reports
    `connected, 4 tools`) and by `tools/mcp_selftest.py`, which speaks the wire
-   protocol with no SDK. Hermes and OpenClaw have not been run against it here;
-   they get the same stdio JSON-RPC, so a failure there is their config, not the
-   temperament.
+   protocol with no SDK. Hermes was run end to end as a plugin: `hermes plugins
+   validate hermes --install-deps` passes, two profiles drew two different
+   temperaments, and a second load changed nothing. OpenClaw has not been run
+   against it here; it gets the same stdio JSON-RPC, so a failure there is its
+   config, not the temperament.
 
 The most defensible use today is not "a more human assistant". It is
 population diversity: many agents working on the same problem with decorrelated
