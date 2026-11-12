@@ -1,12 +1,16 @@
-"""In-process entry points for hosts that already run Python.
+"""In-process entry points for the plugin.
 
-The CLI is for people and shell scripts. A host process must not spawn it: the
-child would inherit the host's environment (every provider key included), put
-its arguments where any local user can read them with ``ps``, and race the
-host's own load timeout. These functions do exactly what ``born``, ``show``,
-``develop``, ``status`` and ``verify`` do, in this process.
+The CLI is for people and shell scripts. The plugin must not spawn it: the
+child would inherit Hermes' environment (every provider key included), put its
+arguments where any local user can read them with ``ps``, and race the plugin
+loader's own timeout. These functions do what ``born``, ``show``, ``develop``,
+``status`` and ``verify`` do, in this process.
 
-Nothing here derives anything new; every derivation stays in :mod:`exoself.core`.
+They live in the plugin rather than in the ``exoself`` package because the
+package the catalog installs is 0.3.0, and adding a module to it would need a
+release before this plugin could load at all. Nothing here derives anything:
+every derivation stays in :mod:`exoself.core`, and the block is still written by
+``exoself.install``.
 """
 
 from __future__ import annotations
@@ -17,7 +21,7 @@ import os
 import time
 from pathlib import Path
 
-from . import core, render
+from exoself import core, render
 
 LOCK_WAIT = 10.0
 LOCK_STALE = 60.0
@@ -166,7 +170,7 @@ def develop(
     # The brief and the persona are snapshots of the agent. Without this they
     # describe the agent as it was born. A failure here must not lose the
     # session that was just recorded.
-    from .install import refresh_generated
+    from exoself.install import refresh_generated
 
     with contextlib.suppress(OSError, ValueError):
         pheno = core.phenotype(seed, reg, state)
@@ -176,7 +180,7 @@ def develop(
 
 def status(cert_path: str | os.PathLike, state_path: str | os.PathLike | None = None) -> str:
     """Who this agent is. Read-only: never draws, never develops."""
-    from .mcp import status_text
+    from exoself.mcp import status_text
 
     cert = _read(cert_path)
     reg, reg_hash = _registry_for(cert)
