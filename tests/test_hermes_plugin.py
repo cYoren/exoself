@@ -42,10 +42,9 @@ def plugin(monkeypatch, tmp_path):
     host = types.ModuleType("hermes_constants")
     host.get_hermes_home = lambda: tmp_path
     monkeypatch.setitem(sys.modules, "hermes_constants", host)
-    # The plugin shells out to the CLI; run this checkout's, not whatever is installed.
+    # The plugin calls the library in-process; point the import at this checkout.
     monkeypatch.setenv("PYTHONPATH", str(ROOT / "src"))
     module = _load_plugin()
-    monkeypatch.setattr(module.profile, "cli", lambda: [sys.executable, "-m", "exoself.cli"])
     return module
 
 
@@ -120,6 +119,24 @@ def test_no_tool_draws_a_seed(plugin, tmp_path):
     plugin._status_tool({})
     plugin._verify_tool({})
     assert not (tmp_path / ".exoself" / "birth.json").exists()
+
+
+def test_the_plugin_never_spawns_a_process(plugin, tmp_path, monkeypatch):
+    """A child would inherit the host's environment and expose the ask on argv."""
+    import subprocess
+
+    def explode(*args, **kwargs):
+        raise AssertionError("the plugin must not spawn a process")
+
+    monkeypatch.setattr(subprocess, "run", explode)
+    monkeypatch.setattr(subprocess, "Popen", explode)
+    monkeypatch.setattr(subprocess, "call", explode)
+
+    plugin.profile.ensure(tmp_path)
+    plugin.profile.develop(tmp_path, "a turn that must stay in this process")
+    assert plugin.profile.status(tmp_path)
+    ok, detail = plugin.profile.verify(tmp_path)
+    assert ok, detail
 
 
 def test_the_event_is_one_line(plugin):
