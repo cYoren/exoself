@@ -71,7 +71,7 @@ never justify an extra action, and the plugin never reports on them.
 
 `exoself>=0.3,<0.4` (declared in `plugin.yaml`, installed by Hermes). No other
 dependency; the package is standard library only. The plugin calls the library
-in-process (`exoself.hermes_api`), never a child process, and reuses
+in-process (`hermes/engine.py`), never a child process, and reuses
 `exoself.install`'s managed-block helpers, so a block written here is refreshed
 by `exoself develop` and vice versa.
 

@@ -2,7 +2,7 @@
 
 Nothing in this file derives anything. The seed, the phenotype and the text are
 `exoself.born`, `exoself.render_soul` and `exoself.develop` (see
-:mod:`exoself.hermes_api`), and the managed block is
+:mod:`.engine`), and the managed block is
 `exoself.install.upsert_block`, the same function `exoself install` and
 `exoself develop` use, so a block written here is refreshed by them and vice
 versa.
@@ -26,13 +26,13 @@ import tempfile
 from contextlib import suppress
 from pathlib import Path
 
-from exoself import hermes_api
+from . import engine
 
 CERT_REL = Path(".exoself") / "birth.json"
 STATE_REL = Path(".exoself") / "state.json"
 SOUL_NAME = "SOUL.md"
 
-ExoselfError = hermes_api.ExoselfError
+ExoselfError = engine.ExoselfError
 
 
 def hermes_home() -> Path:
@@ -69,7 +69,7 @@ def _atomic_write(path: Path, text: str) -> None:
 def render_soul(home: Path, desire: bool = False) -> str:
     """The rendered temperament, with the state when there is one."""
     cert, state, _ = paths(home)
-    return hermes_api.render_soul(cert, state if state.exists() else None, desire)
+    return engine.render_soul(cert, state if state.exists() else None, desire)
 
 
 def write_block(home: Path, desire: bool = False) -> bool:
@@ -104,9 +104,9 @@ def ensure(home: Path, desire: bool = False) -> dict:
     if not cert.exists():
         cert.parent.mkdir(parents=True, exist_ok=True)
         try:
-            hermes_api.born(cert)
+            engine.born(cert)
             drawn = True
-        except hermes_api.ExoselfError:
+        except engine.ExoselfError:
             if not cert.exists():          # a real failure, not a lost race
                 raise
     return {"drawn": drawn, "soul": write_block(home, desire), "certificate": str(cert)}
@@ -115,7 +115,7 @@ def ensure(home: Path, desire: bool = False) -> dict:
 def develop(home: Path, event: str) -> str:
     """One experience event. Creates the state file on the first call."""
     cert, state, _ = paths(home)
-    new_state = hermes_api.develop(cert, state, event)
+    new_state = engine.develop(cert, state, event)
     drift = ", ".join(f"{k}:{v:+d}" for k, v in new_state["drift"].items())
     tension = ", ".join(f"{k}:{v}" for k, v in new_state["tension"].items())
     return f"event {new_state['events']} applied, drift [{drift}], tension [{tension}]"
@@ -127,7 +127,7 @@ def status(home: Path) -> str:
     if not cert.exists():
         return ("This profile has no certificate yet. The plugin draws one when it loads; "
                 "if this persists, exoself is not installed where Hermes can run it.")
-    return hermes_api.status(cert, state if state.exists() else None)
+    return engine.status(cert, state if state.exists() else None)
 
 
 def verify(home: Path) -> tuple[bool, str]:
@@ -135,4 +135,4 @@ def verify(home: Path) -> tuple[bool, str]:
     cert, _, _ = paths(home)
     if not cert.exists():
         return False, "No certificate yet, so there is nothing to verify."
-    return hermes_api.verify(cert)
+    return engine.verify(cert)
