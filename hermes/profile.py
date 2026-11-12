@@ -1,10 +1,16 @@
-"""The profile-level half of the Hermes plugin: files, and calls to the CLI.
+"""The profile-level half of the Hermes plugin: files, and calls into exoself.
 
 Nothing in this file derives anything. The seed, the phenotype and the text are
-`exoself born`, `exoself show` and `exoself develop`; the managed block is
+`exoself.born`, `exoself.render_soul` and `exoself.develop` (see
+:mod:`exoself.hermes_api`), and the managed block is
 `exoself.install.upsert_block`, the same function `exoself install` and
 `exoself develop` use, so a block written here is refreshed by them and vice
 versa.
+
+Everything is called **in this process**. The plugin must never spawn a child:
+a child would inherit the host's environment (every provider key included),
+put the turn's words on a command line where `ps` can read them, and race the
+plugin loader's own timeout.
 
 Layout, inside the Hermes profile's home:
 
@@ -16,25 +22,17 @@ Layout, inside the Hermes profile's home:
 from __future__ import annotations
 
 import os
-import shutil
-import subprocess
-import sys
 import tempfile
 from contextlib import suppress
 from pathlib import Path
 
+from exoself import hermes_api
+
 CERT_REL = Path(".exoself") / "birth.json"
 STATE_REL = Path(".exoself") / "state.json"
 SOUL_NAME = "SOUL.md"
-TIMEOUT = 30
-# Hermes abandons a plugin whose register() overruns plugins.load_timeout_seconds
-# (10s by default), so the load path gives up well before that instead of being
-# killed mid-write.
-LOAD_TIMEOUT = 8
 
-
-class ExoselfError(RuntimeError):
-    """A CLI call failed; the message is the CLI's own, so it stays truthful."""
+ExoselfError = hermes_api.ExoselfError
 
 
 def hermes_home() -> Path:
@@ -50,23 +48,6 @@ def hermes_home() -> Path:
 
 def paths(home: Path) -> tuple[Path, Path, Path]:
     return home / CERT_REL, home / STATE_REL, home / SOUL_NAME
-
-
-def cli() -> list[str]:
-    """How to run this implementation: the console script, else the module."""
-    exe = shutil.which("exoself")
-    return [exe] if exe else [sys.executable, "-m", "exoself.cli"]
-
-
-def _run(args: list[str], *, timeout: int = TIMEOUT) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        cli() + args, capture_output=True, text=True, timeout=timeout, check=False,
-    )
-
-
-def _failure(proc: subprocess.CompletedProcess, what: str) -> ExoselfError:
-    detail = (proc.stderr or "").strip() or (proc.stdout or "").strip()
-    return ExoselfError(f"{what} failed" + (f": {detail}" if detail else ""))
 
 
 def _atomic_write(path: Path, text: str) -> None:
@@ -85,22 +66,13 @@ def _atomic_write(path: Path, text: str) -> None:
         raise
 
 
-def render_soul(home: Path, desire: bool = False, timeout: int = TIMEOUT) -> str:
-    """`exoself show --format soul`, with the state when there is one."""
+def render_soul(home: Path, desire: bool = False) -> str:
+    """The rendered temperament, with the state when there is one."""
     cert, state, _ = paths(home)
-    args = ["show", str(cert)]
-    if state.exists():
-        args += ["--state", str(state)]
-    if desire:
-        args += ["--desire"]
-    args += ["--format", "soul"]
-    proc = _run(args, timeout=timeout)
-    if proc.returncode != 0:
-        raise _failure(proc, "exoself show")
-    return proc.stdout
+    return hermes_api.render_soul(cert, state if state.exists() else None, desire)
 
 
-def write_block(home: Path, desire: bool = False, timeout: int = TIMEOUT) -> bool:
+def write_block(home: Path, desire: bool = False) -> bool:
     """Put the rendered temperament in SOUL.md's managed block, keeping the rest.
 
     Returns whether the file changed. `upsert_block` is idempotent: one block,
@@ -113,14 +85,14 @@ def write_block(home: Path, desire: bool = False, timeout: int = TIMEOUT) -> boo
     existing = ""
     if soul_path.exists():
         existing = soul_path.read_text(encoding="utf-8")
-    updated = install.upsert_block(existing, render_soul(home, desire, timeout))
+    updated = install.upsert_block(existing, render_soul(home, desire))
     if updated == existing:
         return False
     _atomic_write(soul_path, updated)
     return True
 
 
-def ensure(home: Path, desire: bool = False, timeout: int = TIMEOUT) -> dict:
+def ensure(home: Path, desire: bool = False) -> dict:
     """Draw once, then keep the block current. Safe to call on every load.
 
     `born` writes with mode "x" and refuses an existing certificate, so two
@@ -131,22 +103,22 @@ def ensure(home: Path, desire: bool = False, timeout: int = TIMEOUT) -> dict:
     drawn = False
     if not cert.exists():
         cert.parent.mkdir(parents=True, exist_ok=True)
-        proc = _run(["born", "-o", str(cert)], timeout=timeout)
-        if proc.returncode != 0:
-            if not cert.exists():          # a real failure, not a lost race
-                raise _failure(proc, "exoself born")
-        else:
+        try:
+            hermes_api.born(cert)
             drawn = True
-    return {"drawn": drawn, "soul": write_block(home, desire, timeout), "certificate": str(cert)}
+        except hermes_api.ExoselfError:
+            if not cert.exists():          # a real failure, not a lost race
+                raise
+    return {"drawn": drawn, "soul": write_block(home, desire), "certificate": str(cert)}
 
 
 def develop(home: Path, event: str) -> str:
     """One experience event. Creates the state file on the first call."""
     cert, state, _ = paths(home)
-    proc = _run(["develop", str(cert), str(state), "--event", event])
-    if proc.returncode != 0:
-        raise _failure(proc, "exoself develop")
-    return (proc.stdout or "").strip()
+    new_state = hermes_api.develop(cert, state, event)
+    drift = ", ".join(f"{k}:{v:+d}" for k, v in new_state["drift"].items())
+    tension = ", ".join(f"{k}:{v}" for k, v in new_state["tension"].items())
+    return f"event {new_state['events']} applied, drift [{drift}], tension [{tension}]"
 
 
 def status(home: Path) -> str:
@@ -155,13 +127,7 @@ def status(home: Path) -> str:
     if not cert.exists():
         return ("This profile has no certificate yet. The plugin draws one when it loads; "
                 "if this persists, exoself is not installed where Hermes can run it.")
-    args = ["status", str(cert)]
-    if state.exists():
-        args += ["--state", str(state)]
-    proc = _run(args)
-    if proc.returncode != 0:
-        raise _failure(proc, "exoself status")
-    return (proc.stdout or "").strip()
+    return hermes_api.status(cert, state if state.exists() else None)
 
 
 def verify(home: Path) -> tuple[bool, str]:
@@ -169,5 +135,4 @@ def verify(home: Path) -> tuple[bool, str]:
     cert, _, _ = paths(home)
     if not cert.exists():
         return False, "No certificate yet, so there is nothing to verify."
-    proc = _run(["verify", str(cert)])
-    return proc.returncode == 0, ((proc.stdout or "") + (proc.stderr or "")).strip()
+    return hermes_api.verify(cert)

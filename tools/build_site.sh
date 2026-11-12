@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 # Build the GitHub Pages site into docs/.
 #
-# Pages serves this repository from /docs, and there is no CI here on purpose
-# (Actions minutes are not free), so the two generated files are committed:
+# The wasm is NOT committed: `.github/workflows/site.yml` runs this script on
+# every change to the derivation, attests the resulting binary with
+# `actions/attest-build-provenance`, and publishes docs/ as the Pages artifact.
+# Run it locally to preview the site; `docs/exoself_wasm.wasm` is gitignored.
 #
-#   docs/exoself_wasm.wasm   the browser build of exoself-core
+#   docs/exoself_wasm.wasm   the browser build of exoself-core (gitignored)
 #   docs/vectors.json        a copy of spec/vectors.json, so the page can prove
-#                            itself against the conformance vectors
-#
-# Run this after any change to the derivation, the registry or the wasm crate,
-# and commit the result. `cargo test` passing is not enough: the page is what
-# most people will meet first.
+#                            itself against the conformance vectors (committed)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

@@ -89,7 +89,7 @@ def _desire_of(ctx) -> bool:
 
 def _ensure_quietly(desire: bool) -> None:
     try:
-        profile.ensure(profile.hermes_home(), desire, timeout=profile.LOAD_TIMEOUT)
+        profile.ensure(profile.hermes_home(), desire)
     except Exception as exc:
         logger.warning("exoself: could not draw or refresh the temperament: %s", exc)
 

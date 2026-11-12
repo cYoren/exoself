@@ -1,0 +1,70 @@
+name: site
+
+# The site at /docs loads a WebAssembly build of exoself-core. That binary used
+# to be committed, which meant anyone installing the tree carried a compiled
+# artifact no one could trace back to a build. It is now built here, attested,
+# and published as the Pages artifact; it never enters the git tree.
+#
+# Pages must serve this workflow's artifact: Settings -> Pages -> Source:
+# "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "rust/**"
+      - "spec/**"
+      - "tools/build_site.sh"
+      - "docs/**"
+      - ".github/workflows/site.yml"
+  pull_request:
+    paths:
+      - "rust/**"
+      - "spec/**"
+      - "tools/build_site.sh"
+      - "docs/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Build the site
+        run: ./tools/build_site.sh
+
+      - name: Attest the WebAssembly build
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: docs/exoself_wasm.wasm
+
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

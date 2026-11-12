@@ -8,3 +8,6 @@ state.json
 
 # Rust
 rust/target/
+
+# Built by .github/workflows/site.yml, attested there, never committed
+docs/*.wasm
