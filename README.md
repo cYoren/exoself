@@ -218,3 +218,8 @@ vectors, so a change that alters who an agent is fails before it ships.
 ## License
 
 MIT.
+
+## Licence and name
+
+MIT, see [LICENSE](LICENSE). The name, the logo, the app icon and the store listings are not part of
+that grant: a fork ships under its own name.
